@@ -1,0 +1,49 @@
+
+body {
+  background: #fff;
+}
+p, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+.flex {
+  display: flex;
+}
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+.flex_1 {
+  flex: 1;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-center-y {
+  display: flex;
+  align-items: center;
+}
+.flex-center-x {
+  display: flex;
+  justify-content: space-between;
+}
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+input {
+  border: 0;
+}
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.turntable {
+  background: rgba(0, 0, 0, .4)
+}
+.van-tabs__content {
+  min-height: 80vh;
+}
