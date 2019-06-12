@@ -1,0 +1,236 @@
+@import "@/assets/css/mixin.scss";
+
+header {
+  .van-swipe {
+    width: 100%;
+    height: 341px;
+
+    .van-swipe-item {
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  /deep/ .van-swipe__indicators {
+    left: 619px;
+    bottom: 45px;
+  }
+
+  /deep/ .van-search {
+    position: absolute;
+    top: 16px;
+    width: 100%;
+
+    .van-cell {
+      background: rgba(255, 255, 255, 1);
+      opacity: 0.8;
+      border-radius: 32px;
+    }
+  }
+}
+
+nav {
+  position: absolute;
+  overflow: hidden;
+  left: 50%;
+  transform: translate(-50%, -41px);
+  width: 688px;
+  height: 280px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+
+  .item {
+    width: 50%;
+    box-sizing: border-box;
+    padding: 0 30px;
+    background-color: yellow;
+
+    p {
+      font-size: 22px;
+      font-family: SourceHanSansCN-Regular;
+      font-weight: 400;
+      width: 310px;
+      color: rgba(145, 147, 157, 1);
+    }
+
+    .icon {
+      display: inline-block;
+      width: 39px;
+      height: 41px;
+      background: linear-gradient(142deg,
+          rgba(247, 150, 93, 1),
+          rgba(255, 195, 123, 1));
+      box-shadow: 0px 2px 4px 0px rgba(248, 153, 95, 0.4);
+    }
+
+    .title {
+      margin: 25px 0 5px 0;
+      text-align: left;
+      font-size: 32px;
+      font-family: SourceHanSansCN-Bold;
+      font-weight: bold;
+      color: rgba(0, 0, 0, 1);
+    }
+  }
+}
+
+main {
+  padding: 0 31px;
+}
+
+.menu {
+  padding: 240px 36px 0;
+  @include fj("center");
+  flex-wrap: wrap;
+
+  .item {
+    @include fj(center);
+    flex-direction: column;
+    align-items: center;
+    @include wh(25%, 200px);
+
+    img {
+      width: 102px;
+      height: 76px;
+    }
+
+    p {
+      @include sc(22px, rgba(73, 73, 73, 1));
+      margin-top: 9px;
+    }
+  }
+}
+
+.banner {
+  @include wh(688px, auto);
+  margin: 20px auto 0;
+
+  img {
+    @include wh(100%, 100%);
+  }
+}
+
+.happly-go {
+  @include wh(688px, 457px);
+  position: relative;
+  background: linear-gradient(90deg,
+      rgba(233, 79, 71, 1),
+      rgba(235, 101, 94, 1));
+  box-shadow: 0 11px 10px rgba(233, 79, 71, 0.1);
+  margin: 40px auto 0;
+  border-radius: 20px;
+
+  .top {
+    height: 84px;
+    @include fj(space-between);
+    padding: 0 30px;
+    align-items: center;
+  }
+
+  .van-swipe {
+    width: 100%;
+    height: 370px;
+
+    .van-swipe-item {
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
+
+.hserve {
+  .content {
+    @include fj();
+    flex-wrap: wrap;
+
+    .item {
+      @include wh(336px, 160px);
+      background-color: red;
+      margin-top: 15px;
+    }
+  }
+}
+
+.community {
+  .content {
+    .item {
+      display: flex;
+      position: relative;
+      align-items: center;
+      width: 688px;
+      height: 140px;
+      background-color: #ffffff;
+      box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.05);
+      border-radius: 9px;
+      box-sizing: border-box;
+      margin-bottom: 31px;
+      padding: 0 30px;
+
+      img {
+        width: 100px;
+        height: 100px;
+        background-color: #ff4c23;
+      }
+
+      div {
+
+        p {
+          font-size: 34px;
+          font-weight: 500;
+          color: rgba(76, 76, 77, 1);
+          padding-left: 25px;
+          margin-bottom: 15px;
+        }
+
+        span {
+          padding-left: 25px;
+          line-height: 24px;
+          letter-spacing: 0px;
+          color: #9c9c9c;
+          font-size: 26px;
+        }
+      }
+
+      button {
+        position: absolute;
+        right: 30px;
+        width: 180px;
+        height: 60px;
+        color: #fff;
+        border: none;
+        background-image: linear-gradient(90deg,
+            #21cce6 0%,
+            #2194e6 100%),
+          linear-gradient(#f3bf10,
+            #f3bf10);
+        background-blend-mode: normal,
+          normal;
+        box-shadow: 0px 5px 10px 0px rgba(33, 203, 230, 0.4);
+        border-radius: 30px;
+      }
+    }
+  }
+}
+
+.pharmacy {
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+
+    .left {
+      font-size: 34px;
+      font-weight: bold;
+
+      span {
+        color: rgba(75, 157, 243, 1);
+      }
+    }
+  }
+}
