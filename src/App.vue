@@ -14,7 +14,7 @@ export default {
   components: {
     'van-loading': Loading
   },
-  created() {
+  created () {
     // console.log(this.$store.state.loading)
   }
 }

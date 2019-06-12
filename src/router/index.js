@@ -5,14 +5,16 @@ import index from '@/components/index'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
+    path: '/',
+    component: index,
+    meta: {
+      title: '华云生命'
+    },
+    children: [{
       path: '/',
       name: 'index',
-      component: index,
-      meta: {
-        title: '华云生命'
-      }
-    }
-  ]
+      component: () => import('../components/home/index')
+    }]
+  }]
 })

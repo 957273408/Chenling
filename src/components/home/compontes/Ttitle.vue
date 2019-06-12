@@ -13,7 +13,7 @@ export default {
       type: String,
     }
   },
-  data() {
+  data () {
     return {
       first: this.title.substr(0, 2),
       last: this.title.substr(2)
@@ -27,6 +27,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 100px;
   .left {
     font-size: 34px;
     font-weight: bold;
