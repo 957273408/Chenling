@@ -3,10 +3,14 @@
     <header>
       <van-swipe :autoplay="3000"
                  indicator-color="white">
-        <van-swipe-item>1</van-swipe-item>
-        <van-swipe-item>2</van-swipe-item>
-        <van-swipe-item>3</van-swipe-item>
-        <van-swipe-item>4</van-swipe-item>
+        <van-swipe-item>
+          <img src="../assets/images/banner.png"
+               alt="">
+        </van-swipe-item>
+        <van-swipe-item> <img src="../assets/images/banner.png"
+               alt=""></van-swipe-item>
+        <van-swipe-item> <img src="../assets/images/banner.png"
+               alt=""></van-swipe-item>
       </van-swipe>
       <van-search style="background: none;"
                   placeholder="搜索亿长寿精选好物"
@@ -49,67 +53,101 @@
       </nav>
       <section class="menu">
         <div class="item">
-          <img src=""
+          <img src="../assets/images/图层553.png"
                alt="">
           <p>中西药品</p>
         </div>
         <div class="item">
-          <img src=""
+          <img src="../assets/images/图层111.png"
                alt="">
-          <p>中西药品</p>
+          <p>营养保健</p>
         </div>
         <div class="item">
-          <img src=""
+          <img src="../assets/images/图层555.png"
                alt="">
-          <p>中西药品</p>
+          <p>医疗器械</p>
         </div>
         <div class="item">
-          <img src=""
+          <img src="../assets/images/图层552.png"
                alt="">
-          <p>中西药品</p>
+          <p>减脂健身</p>
         </div>
         <div class="item">
-          <img src=""
+          <img src="../assets/images/滋补养生.png"
                alt="">
-          <p>中西药品</p>
+          <p>滋补养生</p>
         </div>
         <div class="item">
-          <img src=""
+          <img src="../assets/images/图层555.png"
                alt="">
-          <p>中西药品</p>
+          <p>美妆个护</p>
         </div>
         <div class="item">
-          <img src=""
+          <img src="../assets/images/图层554.png"
                alt="">
-          <p>中西药品</p>
+          <p>居家百货</p>
         </div>
         <div class="item">
-          <img src=""
+          <img src="../assets/images/健康食品.png"
                alt="">
-          <p>中西药品</p>
+          <p>健康食品</p>
         </div>
       </section>
       <router-link class="banner"
                    tag="div"
                    to="">
-        <img src=""
+        <img src="../assets/images/活动圆.png"
              alt="">
       </router-link>
+      <section class="happly-go">
+        <div class="top">
+          <h2>正在乐拼</h2>
+          <span>查看全部</span>
+        </div>
+        <van-swipe indicator-color="white">
+          <van-swipe-item>
+            <div class="item">
+              <img src=""
+                   alt="">
+              <p></p>
+              <div class="pice">
+                <span>¥99</span>
+                <del>¥199</del>
+              </div>
+            </div>
+          </van-swipe-item>
+          <van-swipe-item>2</van-swipe-item>
+          <van-swipe-item>3</van-swipe-item>
+          <van-swipe-item>4</van-swipe-item>
+        </van-swipe>
+      </section>
+
+      <section class="hserve">
+        <t-title title='医疗服务'></t-title>
+        <div class="content">
+          <div class="item">
+
+          </div>
+        </div>
+      </section>
+      <section class="banner">
+        <img src="../assets/images/商品海报1.png"
+             alt="">
+      </section>
     </main>
-    <section class="happly-go">
-      
-    </section>
+
   </div>
 </template>
 
 <script>
-import { Swipe, SwipeItem, Search } from 'vant';
+import TTitle from './home/compontes/Ttitle'
+import { Swipe, SwipeItem, Search, } from 'vant';
 export default {
   components: {
     'van-swipe': Swipe,
     'van-swipe-item': SwipeItem,
     'van-search': Search,
-
+    TTitle,
   }
 
 
@@ -122,22 +160,27 @@ header {
   .van-swipe {
     width: 100%;
     height: 341px;
-    background-color: red;
+    .van-swipe-item {
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
-}
-/deep/ .van-swipe__indicators {
-  left: 619px;
-  bottom: 45px;
-}
-/deep/ .van-search {
-  position: absolute;
-  top: 16px;
-  .van-cell {
-    width: 688px;
-    height: 64px;
-    background: rgba(255, 255, 255, 1);
-    opacity: 0.8;
-    border-radius: 32px;
+  /deep/ .van-swipe__indicators {
+    left: 619px;
+    bottom: 45px;
+  }
+  /deep/ .van-search {
+    position: absolute;
+    top: 16px;
+    .van-cell {
+      width: 688px;
+      height: 64px;
+      background: rgba(255, 255, 255, 1);
+      opacity: 0.8;
+      border-radius: 32px;
+    }
   }
 }
 
@@ -184,25 +227,61 @@ nav {
     }
   }
 }
+main {
+  padding: 0 31px;
+}
 .menu {
   padding: 240px 36px 0;
   @include fj("center");
   flex-wrap: wrap;
-  background-color: green;
   .item {
     @include fj(center);
+    flex-direction: column;
     align-items: center;
     @include wh(25%, 200px);
-    background-color: red;
+    img {
+      width: 102px;
+      height: 76px;
+    }
     p {
       @include sc(22px, rgba(73, 73, 73, 1));
+      margin-top: 9px;
     }
   }
 }
 .banner {
-  @include wh(688px, 184px);
-  background-color: blue;
-  @include cl();
+  @include wh(688px, auto);
+  margin: auto;
+  img {
+    @include wh(100%, 100%);
+  }
 }
-
+.happly-go {
+  @include wh(688px, 457px);
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    rgba(233, 79, 71, 1),
+    rgba(235, 101, 94, 1)
+  );
+  box-shadow: 0 11px 10px rgba(233, 79, 71, 0.1);
+  margin: 40px auto 0;
+  border-radius: 20px;
+  .top {
+    height: 84px;
+    @include fj(space-between);
+    padding: 0 30px;
+    align-items: center;
+  }
+  .van-swipe {
+    width: 100%;
+    height: 370px;
+    .van-swipe-item {
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
 </style>

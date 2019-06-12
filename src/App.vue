@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <router-view/>
-    <van-loading type="spinner" color="white" v-show="$store.state.loading"/>
+    <router-view />
+    <van-loading type="spinner"
+                 color="white"
+                 v-show="$store.state.loading" />
   </div>
 </template>
 
@@ -19,21 +21,19 @@ export default {
 </script>
 
 <style>
-@import './assets/css/index.css';
+@import "./assets/css/index.css";
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #fff;
 }
 #app .van-nav-bar .van-icon {
-  color: #fff
 }
 #app .van-nav-bar {
   height: 100px;
   line-height: 100px;
   background-color: #15181d;
-  letter-spacing: 2px
+  letter-spacing: 2px;
 }
 #app .van-loading {
   position: fixed;
