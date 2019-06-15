@@ -2,25 +2,25 @@
   <div>
     <router-view style='paddingBottom:50px'></router-view>
     <van-tabbar v-model="active">
-      <van-tabbar-item to="">
+      <van-tabbar-item to="/">
         <span>首页</span>
         <img slot="icon"
              slot-scope="props"
              :src="props.active ? home.active : home.normal">
       </van-tabbar-item>
-      <van-tabbar-item to="">
+      <van-tabbar-item to="/encyclopaedia">
         <span>健康百科</span>
         <img slot="icon"
              slot-scope="props"
              :src="props.active ? cyclopedia.active : cyclopedia.normal">
       </van-tabbar-item>
-      <van-tabbar-item to="">
+      <van-tabbar-item to="/addvip">
         <span>加入会员</span>
         <img slot="icon"
              slot-scope="props"
              :src="props.active ? addvip.active : addvip.normal">
       </van-tabbar-item>
-      <van-tabbar-item to="">
+      <van-tabbar-item to="/cart">
         <span>购物车</span>
         <img slot="icon"
              slot-scope="props"
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { Tabbar, TabbarItem } from 'vant';
+import { Tabbar, TabbarItem, CellGroup } from 'vant';
 import home from '@/assets/images/homepage.png'
 import home1 from '@/assets/images/homepage_fill.png'
 import cyclopedia from '@/assets/images/activity.png'
@@ -49,7 +49,7 @@ import cart from '@/assets/images/shop.png'
 import cart1 from '@/assets/images/shop_fill.png'
 import myzore from '@/assets/images/mine.png'
 import myzore1 from '@/assets/images/mine_fill.png'
-
+import { login } from '@/axios/getData'
 export default {
   components: {
     'vanTabbar': Tabbar,
@@ -83,6 +83,7 @@ export default {
   },
   created() {
     this.change(this.$route.name)
+    
   },
   methods: {
     change(name) {

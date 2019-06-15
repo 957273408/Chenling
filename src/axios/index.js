@@ -1,109 +1,80 @@
 import Vue from 'vue'
 import axios from 'axios'
 import { Toast } from 'vant'
+import store from '../store/store'
 
+let config = {
+  timeout: 60 * 1000, // Timeout
+  withCredentials: true // Check cross-site Access-Control
+}
+if (process.env.NODE_ENV == 'development') {
+  // config.baseURL = '//elm.cangdu.org';
+  config.baseURL = '/api/'
+} else if (process.env.NODE_ENV == 'production') {
+  config.baseURL = 'http://quhiclub.com/api/'
+}
+const _axios = axios.create(config)
 
-axios.defaults.baseURL = 'http://quhiclub.com/api/'
-// axios.defaults.baseURL = 'http://qh.thirmen.com/api/'
-// axios.defaults.baseURL = '/api/'
-Vue.prototype.axios = axios
-// axios.defaults.baseURL = Vue.prototype.HOST
-// axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8; '
-export function get (url, params = {}, loading = true) {
-  return new Promise((resolve, reject) => {
-    if (loading) {
-      this.$store.state.loading = true
+_axios.interceptors.request.use(
+  function(config) {
+    // Do something before request is sent
+    console.log(config)
+    config.headers['Authorization'] = store.state.userInfo
+      ? store.state.userInfo
+      : '22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm'
+    return config
+  },
+  function(error) {
+    // Do something with request error
+    return Promise.reject(error)
+  }
+)
+
+// Add a response interceptor
+_axios.interceptors.response.use(
+  function(response) {
+    store.state.loading = false
+    if (response.data.code == 200) {
+      return response.data
+    } else if (response.data.code == 401) {
+      this.$router.push({ path: '/login' })
+      // resolve(response.data)
+    } else if (response.data.code == 110) {
+      Toast('请先选择默认收货地址')
+      this.$router.push({ path: '/consignee' })
+      // resolve(response.data)
+    } else {
+      Toast(response.data.msg)
+      return Promise.reject(response.data)
     }
-    axios.get(url, {
-      params: params
-    }).then(response => {
-      this.$store.state.loading = false
-      if (response.data.code == 200) {
-        resolve(response.data)
-      } else if (response.data.code == 401) {
-        this.$router.push({path: '/login'})
-        // resolve(response.data)
-      } else if (response.data.code == 110) {
-        Toast('请先选择默认收货地址')
-        this.$router.push({path: '/consignee'})
-        // resolve(response.data)
-      } else {
-        Toast(response.data.msg)
-        reject(response.data)
+    return response
+  },
+  function(err) {
+    store.state.loading = false
+    Toast(err.msg)
+    return Promise.reject(err)
+  }
+)
+
+Plugin.install = function(Vue, options) {
+  Vue.axios = _axios
+  window.axios = _axios
+  Object.defineProperties(Vue.prototype, {
+    axios: {
+      get() {
+        return _axios
       }
-    }).catch(err => {
-      this.$store.state.loading = false
-      Toast(err.msg)
-      reject(err)
-    })
+    },
+    $axios: {
+      get() {
+        return _axios
+      }
+    }
   })
 }
 
-export function post (url, data = {}, headers = {}, loading = true) {
-  return new Promise((resolve, reject) => {
-    if (loading) {
-      this.$store.state.loading = true
-    }
-    headers['Content-Type'] = 'application/json; charset=UTF-8'
-    axios({
-      url: url,
-      method: 'post',
-      data: data,
-      headers: headers
-    }).then(response => {
-      this.$store.state.loading = false
-      if (response.data.code == 200) {
-        resolve(response.data)
-      } else if (response.data.code == 401) {
-        Toast('请先登录')
-        // this.$router.push({path: '/login'})
-        // resolve(response.data)
-      } else {
-        Toast(response.data.msg)
-        reject(response)
-      }
-    }, err => {
-      this.$store.state.loading = false
-      Toast(err.msg)
-      reject(err)
-    })
-  })
-}
+Vue.use(Plugin)
 
-export function upImg (data = {}, headers = {}, loading = true) {
-  return new Promise((resolve, reject) => {
-    if (loading) {
-      this.$store.state.loading = true
-    }
-    headers['Content-Type'] = 'multipart/form-data'
-    axios({
-      url: 'upload',
-      method: 'post',
-      data: data,
-      headers: headers
-    }).then(response => {
-      this.$store.state.loading = false
-      if (response.data.code == 200) {
-        resolve(response.data)
-      } else if (response.data.code == 408) {
-        // Toast('请先登录')
-        // this.$router.push({path: '/login'})
-        window.location.href = response.data.msg
+Vue.prototype.get = (url, params = {}, loading = true) => {}
 
-        // resolve(response.data)
-      } else {
-        Toast(response.data.msg)
-        reject(response)
-      }
-    }, err => {
-      this.$store.state.loading = false
-      Toast(err.msg)
-      reject(err)
-    })
-  })
-}
-
-Vue.prototype.$post = post
-Vue.prototype.$get = get
-Vue.prototype.$upImg = upImg
-export default {}
+export default _axios

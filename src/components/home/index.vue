@@ -357,10 +357,15 @@ export default {
   },
   data() {
     return {
-
+      
     }
+  },
+  created(){
+    this.$store.commit('userUpdate','123')
+    this.$axios.get('api/index/index').then(res=>{
+      console.log(res);
+    })
   }
-
 }
 </script>
 
