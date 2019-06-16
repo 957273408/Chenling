@@ -11,8 +11,22 @@
           <div class="address">广东省 深圳市 龙华新区 民治街道 塘水围二区53-1栋</div>
         </div>
         <div class="right flex-between">
-          <img src="../../assets/images/address_mdi.png" alt="">
-          <img src="../../assets/images/address_del.png" alt="">
+          <img src="@/assets/images/address_mdi.png" alt="">
+          <img src="@/assets/images/address_del.png" alt="">
+        </div>
+      </div>
+      <div class="item flex-between">
+        <div class="left flex_1">
+          <div class="column">
+            <span class="name">林小七</span>
+            <span class="phone">18888888888</span>
+            <span class="default" v-if="false">默认</span>
+          </div>
+          <div class="address">广东省 深圳市 龙华新区 民治街道 塘水围二区53-1栋</div>
+        </div>
+        <div class="right flex-between">
+          <img src="@/assets/images/address_mdi.png" alt="">
+          <img src="@/assets/images/address_del.png" alt="">
         </div>
       </div>
     </div>

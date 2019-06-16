@@ -2,11 +2,11 @@
   <div class="bindSettings">
     <div class="list">
       <div class="item flex-center-y">
-        <div class="img"><img src="../../assets/images/s_phone.png" alt=""></div>
+        <div class="img"><img src="@/assets/images/s_phone.png" alt=""></div>
         <input type="text" placeholder="请输入新的手机号码"/>
       </div>
       <div class="item flex-center-y">
-        <div class="img"><img src="../../assets/images/s_unlock.png" alt=""></div>
+        <div class="img"><img src="@/assets/images/s_unlock.png" alt=""></div>
         <input type="text" placeholder="请输入短信验证码"/>
         <div class="code flex-center">获取验证码</div>
       </div>
