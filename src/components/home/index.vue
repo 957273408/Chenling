@@ -187,19 +187,50 @@
         </div>
         <div class="content">
           <div class="item">
-            <div></div>
             <div>
-              <div></div>
-              <div></div>
+              <img src="../../assets/images/药房1.png"
+                   alt="">
+            </div>
+            <div>
+              <div>
+                <img src="../../assets/images/男性健康.png"
+                     alt="">
+              </div>
+              <div><img src="../../assets/images/男性健康.png"
+                     alt=""></div>
             </div>
           </div>
           <div class="item">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div>
+              <img src='../../assets/images/5.png'
+                   alt="">
+            </div>
+            <div>
+              <img src='../../assets/images/5.png'
+                   alt="">
+            </div>
+            <div>
+              <img src='../../assets/images/5.png'
+                   alt="">
+            </div>
+            <div>
+              <img src='../../assets/images/5.png'
+                   alt="">
+            </div>
+
           </div>
         </div>
+      </section>
+      <section class="banner">
+        <img src="@/assets/images/商品海报2.png"
+             alt="">
+      </section>
+      <section class="banner">
+        <img src="@/assets/images/商品海报2.png"
+             alt="">
+      </section>
+      <section class="shops">
+
       </section>
     </main>
 
@@ -215,8 +246,12 @@ export default {
     'van-swipe-item': SwipeItem,
     'van-search': Search,
     TTitle,
-  }
+  },
+  data() {
+    return {
 
+    }
+  }
 
 }
 </script>
@@ -224,3 +259,4 @@ export default {
 <style lang="scss" scoped>
 @import "./css/index.scss";
 </style>
+

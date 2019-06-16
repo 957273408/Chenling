@@ -1,8 +1,7 @@
 <template>
   <div>
     <router-view style='paddingBottom:50px'></router-view>
-    <van-tabbar @change="tabbarchange"
-                v-model="active">
+    <van-tabbar v-model="active">
       <van-tabbar-item to="">
         <span>首页</span>
         <img slot="icon"
@@ -57,7 +56,7 @@ export default {
     'vanTabbarItem': TabbarItem
 
   },
-  data () {
+  data() {
     return {
       active: 0,
       home: {
@@ -82,10 +81,26 @@ export default {
       },
     }
   },
+  created() {
+    this.change(this.$route.name)
+  },
   methods: {
-
-  }
-
+    change(name) {
+      let obj = {
+        home: 0,
+        cyclopedia: 1,
+        addvip: 2,
+        cart: 3,
+        myzore: 4
+      }
+      this.active = obj[name]
+    }
+  },
+  watch: {
+    $route(to, from) {
+      this.change(to.name)
+    }
+  },
 }
 </script>
 

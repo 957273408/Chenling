@@ -115,10 +115,8 @@ main {
 
 .happly-go {
   @include wh(688px, 457px);
+  @include bis('src/assets/images/正在乐拼.png');
   position: relative;
-  background: linear-gradient(90deg,
-      rgba(233, 79, 71, 1),
-      rgba(235, 101, 94, 1));
   box-shadow: 0 11px 10px rgba(233, 79, 71, 0.1);
   margin: 40px auto 0;
   border-radius: 20px;
@@ -126,6 +124,7 @@ main {
   .top {
     height: 84px;
     @include fj(space-between);
+    @include sc(34px,#fff);
     padding: 0 30px;
     align-items: center;
   }
@@ -227,9 +226,20 @@ main {
     .left {
       font-size: 34px;
       font-weight: bold;
-
       span {
         color: rgba(75, 157, 243, 1);
+        background-image: url();
+      }
+    }
+  }
+  .content{
+    .item{
+      @include fj();
+      img{
+        width: 100%;
+      }
+      &>div{
+        flex: 1;
       }
     }
   }
