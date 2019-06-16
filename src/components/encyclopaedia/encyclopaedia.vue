@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-tabs>
+    <van-tabs @change='tabsChange'>
       <van-tab v-for="(item, index) in tabs"
                :key="index"
                :title="item.name"></van-tab>
@@ -8,14 +8,15 @@
     <div class="container">
       <van-swipe indicator-color='#21A2E6'
                  :autoplay="3000">
-        <van-swipe-item v-for="(item, index) in banner" :key="index">
+        <van-swipe-item v-for="(item, index) in banner"
+                        :key="index">
           <img :src="item.ad_code"
                alt="">
         </van-swipe-item>
 
       </van-swipe>
       <div class="cart_list">
-        <router-link to=""
+        <router-link :to="'/news?id='+item.article_id"
                      tag="div"
                      class="item"
                      v-for="(item, index) in health_list"
@@ -59,11 +60,20 @@ export default {
       health_list: []
     }
   },
-  async created() {
-    let res = await getHealthy({ p: 0 })
-    this.banner = res.data.advert
-    this.tabs = res.data.cateArr
-    this.health_list = res.data.health_list
+  methods: {
+    tabsChange(a, b) {
+      let id = this.tabs[a].id
+      this.getdata(id)
+    },
+    async getdata(id = '', P = 1) {
+      let res = await getHealthy({ id, P })
+      this.banner = res.data.advert
+      this.tabs = res.data.cateArr
+      this.health_list = res.data.health_list
+    }
+  },
+  created() {
+    this.getdata()
   }
 }
 </script>

@@ -21,4 +21,13 @@ export const addToCart = data => post('api/cart/add', data)
 export const goodsinfo = data => post('api/goods/goodsinfo', data)
 
 // 健康百科
-export const getHealthy = data => get('api/healthy/index', data)
+export const getHealthy = data => post('api/healthy/index', data)
+
+//健康百科文章
+export const getHealthyinfo = data => post('api/healthy/healthInfo', data)
+
+// 加入会员
+export const addmember = data => get('api/member/index', data)
+
+// 社群展示
+export const jiankangInfo = data=> post('api/jiankang/index',data)

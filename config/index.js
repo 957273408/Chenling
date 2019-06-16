@@ -6,7 +6,6 @@ const path = require('path')
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
@@ -15,9 +14,9 @@ module.exports = {
         target: 'http://ycs.rujiezhineng.net/',
         changeOrigin: true,
         pathRewrite: {
-            '^/api': ''
+          '^/api': ''
         }
-      }
+      },
     },
 
     // Various Dev Server settings
@@ -28,7 +27,6 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
     /**
      * Source Maps
      */

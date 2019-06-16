@@ -10,16 +10,16 @@ export default {
     this.login()
   },
   methods: {
-    login() {
-      this.$store.commit('userUpdate', this.$route.query.code)
+    async login() {
+      let res = await this.$post('login/index', { code: this.$route.query.code })
+      Toast('登录成功')
+      this.$store.commit('userUpdate', res.data)
+      this.$router.push({
+        path: '/'
+      })
+      // this.$store.commit('userUpdate', this.$route.query.code)
       this.$router.push({ path: '/' })
-      // this.$post('login/index', {code: this.$route.query.code}).then((res) => {
-      //   Toast('登录成功')
-      //   this.$store.commit('userUpdate', res.data)
-      //   this.$router.push({
-      //     path: '/'
-      //   })
-      // })
+
     }
   },
   beforeCreate() {

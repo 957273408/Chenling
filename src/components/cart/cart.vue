@@ -3,9 +3,7 @@
     <div class="head flex-between">
       <p class="allNum">共2件商品</p>
       <div class="img">
-        <img src="../../assets/icon/删除@2x.png"
-             alt=""
-             @click="del">
+        <i class="iconfont icon-shanchu"></i>
       </div>
     </div>
 
@@ -74,6 +72,7 @@ export default {
   }
   .img {
     width: 56px;
+    text-align: center;
     box-shadow: 0 0 20px #aaa;
     background-color: #fff;
     border-radius: 50%;
