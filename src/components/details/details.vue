@@ -58,7 +58,8 @@
                    plain>满399减20</van-tag>
         </template>
       </van-cell>
-      <van-cell is-link>
+      <van-cell is-link
+                @click="openSku">
         <template slot="title">
           <span class="custom-text title">地址</span>
           <span class="text">广东省深圳市</span>
@@ -142,7 +143,8 @@
       <div class="coupons">
         <div class="head_title">
           优惠详情
-          <van-icon name="cross" @click="openCoupons"/>
+          <van-icon name="cross"
+                    @click="openCoupons" />
         </div>
         <div class="coupons_list">
           <div class="coupon_item">
@@ -169,16 +171,54 @@
                                  text="客服" />
       <van-goods-action-mini-btn icon="shop-o"
                                  text="购物车" />
-      <van-goods-action-big-btn text="加入购物车" />
+      <van-goods-action-big-btn @click="addCart"
+                                text="加入购物车" />
       <van-goods-action-big-btn primary
                                 text="参加乐拼" />
     </van-goods-action>
+
+    <!--选择规格-->
+    <van-popup v-model="showsku"
+               position="bottom">
+      <div class="popup">
+        <div class="wrap">
+          <div class="commodity flex">
+            <img alt>
+            <div class="middle flex flex_1">
+              <p class="title">123</p>
+              <div class="price">
+                <p class="new">￥33</p>
+                <p class="old">￥22</p>
+              </div>
+            </div>
+            <van-icon name="cross"
+                      class="cross"
+                      @click="openSku" />
+          </div>
+          <div class="specification">
+            <p class="title">332</p>
+            <div class="list flex-wrap">
+              <div class="item active">11</div>
+            </div>
+          </div>
+          <div class="num flex-between cart">
+            <p class="title">数量</p>
+            <van-stepper class="flex" />
+          </div>
+          <div class="count">
+            库存:720
+          </div>
+        </div>
+        <div class="button flex-center">确定</div>
+      </div>
+    </van-popup>
   </div>
 </template>
 <script>
 import {  Swipe, SwipeItem, Icon, Rate, Popup, Stepper, Toast, Cell, Tag, GoodsAction,
-  GoodsActionBigBtn,
+  GoodsActionBigBtn, Sku,
   GoodsActionMiniBtn} from "vant";
+import { ajaxComment, couponList, addToCart, goodsinfo } from '@/axios/getData'
 export default {
   components: {
     "van-icon": Icon,
@@ -192,18 +232,35 @@ export default {
     'vanGoodsAction': GoodsAction,
     'vanGoodsActionBigBtn': GoodsActionBigBtn,
     'vanGoodsActionMiniBtn': GoodsActionMiniBtn,
+    vanSku: Sku
 
   },
   data() {
     return {
       showCoupons: false,
+      showsku: false,
+      goods_num: 0,
     }
   },
   methods: {
     openCoupons() {
-      this.showCoupons =! this.showCoupons
+      this.showCoupons = !this.showCoupons
+    },
+    openSku() {
+      this.showsku = !this.showsku
+    },
+    async addCart() {
+      let res = addToCart({ goods_num })
     }
-  }
+  },
+  async created() {
+    let goods_id = this.$route.query.goods_id
+    let res = await ajaxComment({ goods_id, commentType: 'all' })
+    // let couponlist = await couponList()
+    let goodinfo = await goodsinfo({ goods_id })
+    console.log(goodinfo);
+  },
+
 }
 </script>
 <style lang="scss" scoped>

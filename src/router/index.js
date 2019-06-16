@@ -50,7 +50,15 @@ export default new Router({
           meta: {
             title: '购物车'
           }
-        }
+        },
+        {
+          path: '/user',
+          name: 'user',
+          component: () => import('../components/usercontent/usercontent'),
+          meta: {
+            title: '个人中心'
+          }
+        },
       ]
     },
     {
@@ -115,14 +123,6 @@ export default new Router({
       component: () => import('../components/community/community.vue'),
       meta: {
         title: '疑难杂症'
-      }
-    },
-    {
-      path: '/community2',
-      name: 'community2',
-      component: () => import('../components/community/community.vue'),
-      meta: {
-        title: '毛遂自荐'
       }
     },
     {

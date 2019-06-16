@@ -2,13 +2,14 @@ import Vue from 'vue'
 import axios from 'axios'
 import { Toast } from 'vant'
 import store from '../store/store'
+import { promises } from 'fs'
+import { resolve } from 'url'
 
 let config = {
   timeout: 60 * 1000, // Timeout
   withCredentials: true // Check cross-site Access-Control
 }
 if (process.env.NODE_ENV == 'development') {
-  // config.baseURL = '//elm.cangdu.org';
   config.baseURL = '/api/'
 } else if (process.env.NODE_ENV == 'production') {
   config.baseURL = 'http://quhiclub.com/api/'
@@ -18,10 +19,6 @@ const _axios = axios.create(config)
 _axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent
-    console.log(config)
-    config.headers['Authorization'] = store.state.userInfo
-      ? store.state.userInfo
-      : '22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm'
     return config
   },
   function(error) {
@@ -75,6 +72,17 @@ Plugin.install = function(Vue, options) {
 
 Vue.use(Plugin)
 
-Vue.prototype.get = (url, params = {}, loading = true) => {}
+export const get = (url = '', data = {}) => {
+  data.token = store.state.userInfo
+    ? store.state.userInfo
+    : '22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm'
+  return _axios.get(url, { params: data })
+}
+export const post = (url = '', data = {}) => {
+  data.token = store.state.userInfo
+    ? store.state.userInfo
+    : '22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm'
+  return _axios.post(url, data)
+}
 
 export default _axios
