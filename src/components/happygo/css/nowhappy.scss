@@ -1,0 +1,66 @@
+@import '../../../assets/css/mixin.scss';
+.banner{
+  width:750px;
+}
+.list{
+  margin-top: 30px;
+  padding: 0 35px;
+ 
+  .info {
+    padding: 30px 0;
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+    &:last-child {
+      border-bottom: 0;
+    }
+    img {
+      width: 185px;
+      height: 185px;
+      border-right: 20px;
+    }
+    .introduce {
+      padding: 0 25px;
+      overflow: hidden;
+      position: relative;
+      .title {
+        font-size: 34px;
+        margin-bottom: 8px;
+      }
+      .text {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+      }
+      button{
+        width:170px;
+        height:55px;
+        background:linear-gradient(90deg,rgba(255,70,45,1),rgba(255,158,63,1));
+        box-shadow:0px 5px 10px 0px rgba(255,112,54,0.4);
+        border-radius:28px;
+        font-size:26px;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+        line-height:25px;
+      }
+      .handle {
+        @include fj();
+        width: 445px;
+        padding-top: 10px;
+        position: absolute;
+        bottom: 20px;
+      }
+      .price {
+        font-size: 30px;
+        color: #dc2121;
+        span{
+          font-size:22px;
+          font-weight:400;
+          text-decoration:line-through;
+          color:rgba(170,170,170,1);
+          line-height:25px;
+        }
+      }
+    }
+  }
+}

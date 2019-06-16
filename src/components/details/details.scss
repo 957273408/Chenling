@@ -154,5 +154,70 @@
 }
 
 .van-goods-action{
-  
+  /deep/ .van-button--warning{
+    background:rgba(244,184,64,1);
+    color:rgba(255,255,255,1);
+  }
+  /deep/ .van-button--danger{
+    background:rgba(249,39,12,1);
+    color:rgba(255,255,255,1);
+  }
+}
+.van-popup{
+  border-radius:30px 30px 0px 0px;
+}
+.coupons{
+  height:815px;
+  background:rgba(255,255,255,1);
+  .head_title{
+    height: 100px;
+    text-align: center;
+    font-size: 34px;
+    color: #454545;
+    line-height: 100px;
+    .van-icon{
+      float: right;
+      right: 49px;
+      top: 50%;
+      transform: translate(0,-50%);
+    }
+  }
+  .coupons_list{
+    height: 567px;
+    padding:  0 31px;
+    overflow: auto;
+    .coupon_item{
+      @include wh(688px,154px);
+      padding: 27px;
+      @include fj();
+      align-items: center;
+      .price{
+        .num{
+          font-weight:bold;
+          font-size: 45px;
+          color:rgba(237,45,16,1);
+        }
+        .countnum{
+          @include sc(22px,rgba(169, 169, 169, 1))
+        }
+      }
+      .content{
+        h3{
+          @include sc(28px,rgba(39, 39, 39, 1));
+          margin-bottom:26px;
+        }
+        p{
+          @include sc(20px,rgba(152, 152, 152, 1));
+        }
+      }
+      .btn{
+        width:118px;
+        height:49px;
+        background:rgba(249,39,12,1);
+        border-radius:25px;
+        color: #fff;
+        font-size: 24px;
+      }
+    }
+  }
 }

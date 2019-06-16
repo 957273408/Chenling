@@ -49,7 +49,8 @@
         <div class="text flex_1 ellipsis">广东省 深圳市</div>
         <van-icon name="arrow" class="arrow"/>
       </div>-->
-      <van-cell is-link>
+      <van-cell is-link
+                @click="openCoupons">
         <template slot="title">
           <span class="custom-text title"
                 style="margin-right:0.533333rem">领劵</span>
@@ -135,8 +136,32 @@
     <!-- 商品详情 -->
     <div class="shop_details"></div>
 
+    <!-- 优惠详细 -->
+    <van-popup position="bottom"
+               v-model="showCoupons">
+      <div class="coupons">
+        <div class="head_title">
+          优惠详情
+          <van-icon name="cross" @click="openCoupons"/>
+        </div>
+        <div class="coupons_list">
+          <div class="coupon_item">
+            <div class="price">
+              <div class="num">¥20</div>
+              <div class="countnum">满399可用</div>
+            </div>
+            <div class="content">
+              <h3>新用户首单优惠券</h3>
+              <p>部分特殊商品不可使用</p>
+            </div>
+            <button class="btn">领取</button>
+          </div>
+        </div>
+      </div>
+    </van-popup>
+
     <!-- 底部按钮 -->
-    <van-goods-action >
+    <van-goods-action>
       <van-goods-action-mini-btn icon="chat-o"
                                  text="收藏" />
       <van-goods-action-mini-btn info="5"
@@ -168,6 +193,16 @@ export default {
     'vanGoodsActionBigBtn': GoodsActionBigBtn,
     'vanGoodsActionMiniBtn': GoodsActionMiniBtn,
 
+  },
+  data() {
+    return {
+      showCoupons: false,
+    }
+  },
+  methods: {
+    openCoupons() {
+      this.showCoupons =! this.showCoupons
+    }
   }
 }
 </script>

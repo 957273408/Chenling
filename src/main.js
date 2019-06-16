@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import './axios/index'
 import router from './router'
 import 'lib-flexible'
 import store from './store/store'
@@ -11,23 +12,22 @@ import Es6Promise from 'es6-promise'
 require('es6-promise').polyfill()
 Es6Promise.polyfill()
 Vue.config.productionTip = false
-
 router.beforeEach((to, from, next) => {
   // if (to.query.authtoken && to.query.authuid) {
   //   localStorage.setItem('authtoken', to.query.authtoken)
   //   localStorage.setItem('authuid', to.query.authuid)
   // }
   // if (store.state.userInfo === null) {
-  //   if(to.path == '/login' || to.path == '/reset' || to.path == '/register'){ 
+  //   if(to.path == '/login' || to.path == '/reset' || to.path == '/register'){
   //     next()
   //   } else {
   //     next('/login')
   //   }
   // } else {
-    if (to.meta.title) {
-      document.title = to.meta.title
-    }
-    next()
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  next()
   // }
 })
 

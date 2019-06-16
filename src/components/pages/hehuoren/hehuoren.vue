@@ -4,13 +4,8 @@
 			<table></table>
 			<div class="top">
 				<ul class="zhongxian">
-					<li>2480.00</li>
-					<li>我的佣金</li>
-				</ul>
-				|
-				<ul>
-					<li>233.00</li>
-					<li>结算中佣金</li>
+					<li>申请合伙人</li>
+					<li>加入我们，迈出你人生成功的第一步</li>
 				</ul>
 			</div>
 		</div>
