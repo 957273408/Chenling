@@ -26,7 +26,7 @@
              slot-scope="props"
              :src="props.active ? cart.active : cart.normal">
       </van-tabbar-item>
-      <van-tabbar-item to="">
+      <van-tabbar-item to="/user">
         <span>个人中心</span>
         <img slot="icon"
              slot-scope="props"
@@ -49,7 +49,7 @@ import cart from '@/assets/images/shop.png'
 import cart1 from '@/assets/images/shop_fill.png'
 import myzore from '@/assets/images/mine.png'
 import myzore1 from '@/assets/images/mine_fill.png'
-import { login } from '@/axios/getData'
+
 export default {
   components: {
     'vanTabbar': Tabbar,
@@ -83,7 +83,7 @@ export default {
   },
   created() {
     this.change(this.$route.name)
-    
+
   },
   methods: {
     change(name) {

@@ -1,4 +1,82 @@
 @import "@/assets/css/mixin.scss"; 
+.popup {
+  min-height: 30vh;
+  max-height: 80vh;
+  .wrap {
+    padding: 35px;
+    .commodity {
+      img {
+        width: 185px;
+        height: 185px;
+        border-radius: 14px;
+      }
+      .middle {
+        padding: 0 30px;
+        height: 185px;
+        flex-direction: column;
+        justify-content: space-between;
+        .title {
+          font-size: 32px;
+          color: #333;
+        }
+        .price {
+          display: flex;
+          .new {
+            color: #e72036;
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 6px;
+          }
+          .old {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 20px;
+            padding: 15px  0 0 10px;
+          }
+        }
+      }
+      .cross {
+        font-size: 40px;
+        color: #616161;
+      }
+    }
+    .specification {
+      margin: 40px 0;
+      .title {
+        font-size: 36px;
+        margin-bottom: 10px;
+      }
+      .list {
+        .item {
+          padding: 6px 34px;
+          background: #f6f6f6;
+          color: #333;
+          border-radius: 25px;
+          margin-right: 25px;
+          margin-bottom: 25px;
+          box-sizing: border-box;
+          border: 2px solid #f6f6f6;
+        }
+        .active {
+          border: 2px solid #F9270C;
+          background: #F9270C;
+          color: #e1f3ff;
+        }
+      }
+    }
+    .num {
+      .title {
+        font-size: 36px;
+      }
+    }
+  }
+  .button {
+    height: 100px;
+    background: #F9270C;
+    font-size: 36px;
+    color: #fff;
+  }
+}
 .details_swipe{
   img {
     height: 750px;

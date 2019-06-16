@@ -2,102 +2,49 @@
   <div>
     <header>
       <van-swipe :autoplay="3000"
-                 indicator-color="white">
-        <van-swipe-item>
-          <img src="@/assets/images/banner.png"
+                 indicator-color="#21A2E6">
+        <van-swipe-item v-for="(item) in banner"
+                        :key="item.ad_id">
+          <img :src="item.ad_code"
                alt="">
         </van-swipe-item>
-        <van-swipe-item> <img src="@/assets/images/banner.png"
-               alt=""></van-swipe-item>
-        <van-swipe-item> <img src="@/assets/images/banner.png"
-               alt=""></van-swipe-item>
       </van-swipe>
-      <van-search shape='round'
-                  background='none'
-                  placeholder="搜索亿长寿精选好物"
-                  v-model="value" />
+      <router-link to="/search">
+        <van-search shape='round'
+                    background='none'
+                    placeholder="搜索亿长寿精选好物" />
+      </router-link>
     </header>
     <main>
       <nav class="flex-wrap">
-        <router-link to=""
+        <router-link v-for="(item, index) in yuyue"
+                     :key="index"
+                     to=""
                      tag="div"
                      class="item ">
           <div class="title">
-            <p class="icon guahao"></p>预约挂号
+            <img :src="item.logo"
+                 class="icon" />{{item.name}}
           </div>
-          <p>三甲医院/热门科室/专家号源</p>
-        </router-link>
-        <router-link to=""
-                     tag="div"
-                     class="item ">
-          <div class="title">
-            <p class="icon zhuanjia"></p>专家咨询
-          </div>
-          <p>在线/电话/快速咨询</p>
-        </router-link>
-        <router-link to=""
-                     tag="div"
-                     class="item ">
-          <div class="title">
-            <p class="icon peizheng"></p>陪诊服务
-          </div>
-          <p>全程陪诊一条龙服务</p>
-        </router-link>
-        <router-link to=""
-                     tag="div"
-                     class="item ">
-          <div class="title">
-            <p class="icon jiuyi"></p>就医协议
-          </div>
-          <p>代取寄送报告单/开药不排队</p>
+          <p>{{item.sub_name}}</p>
         </router-link>
       </nav>
       <section class="menu">
-        <div class="item">
-          <img src="@/assets/images/图层553.png"
+        <router-link :to="`/pharmacy?id=${item.id}`"
+                     tag="div"
+                     class="item"
+                     v-for="(item, index) in category_eight"
+                     :key="index">
+          <img :src="item.image"
                alt="">
-          <p>中西药品</p>
-        </div>
-        <div class="item">
-          <img src="@/assets/images/图层111.png"
-               alt="">
-          <p>营养保健</p>
-        </div>
-        <div class="item">
-          <img src="@/assets/images/图层555.png"
-               alt="">
-          <p>医疗器械</p>
-        </div>
-        <div class="item">
-          <img src="@/assets/images/图层552.png"
-               alt="">
-          <p>减脂健身</p>
-        </div>
-        <div class="item">
-          <img src="@/assets/images/滋补养生.png"
-               alt="">
-          <p>滋补养生</p>
-        </div>
-        <div class="item">
-          <img src="@/assets/images/图层555.png"
-               alt="">
-          <p>美妆个护</p>
-        </div>
-        <div class="item">
-          <img src="@/assets/images/图层554.png"
-               alt="">
-          <p>居家百货</p>
-        </div>
-        <div class="item">
-          <img src="@/assets/images/健康食品.png"
-               alt="">
-          <p>健康食品</p>
-        </div>
+          <p>{{item.name}}</p>
+        </router-link>
+
       </section>
       <router-link class="banner"
                    tag="div"
-                   to="">
-        <img src="@/assets/images/活动圆.png"
+                   to="/pharmacy">
+        <img :src="img[0].ad_code"
              alt="">
       </router-link>
       <section class="happly-go">
@@ -158,53 +105,33 @@
                        slot="right">更多</router-link>
         </t-title>
         <div class="content">
-          <div class="item">
-            <img src="@/assets/icon/医疗服务1@2x.png"
-                 alt="">
+          <div v-for="(item) in fuwu"
+               :key="item.id"
+               class="item">
+            <img :src="item.logo"
+                 :alt="item.name">
           </div>
-          <div class="item">
-            <img src="@/assets/icon/医疗服务2@2x.png"
-                 alt="">
-          </div>
-          <div class="item">
-            <img src="@/assets/icon/医疗服务3@2x.png"
-                 alt="">
-          </div>
-          <div class="item">
-            <img src="@/assets/icon/医疗服务4@2x.png"
-                 alt="">
-          </div>
-
         </div>
       </section>
       <section class="banner">
-        <img src="@/assets/images/商品海报1.png"
-             alt="">
+        <router-link to="/pharmacy">
+          <img :src="img[1].ad_code"
+               alt="">
+        </router-link>
       </section>
       <section class="community">
         <t-title title="健康社群"></t-title>
         <div class="content">
-
-          <div class="item">
-            <img src="@/assets/icon/组6@2x.png"
+          <div class="item"
+               v-for="(item, index) in healthy"
+               :key="index">
+            <img :src="item.logo"
                  alt="">
             <div>
-              <p>疑难杂症</p>
-              <span>146487人已加入</span>
+              <p>{{item.name}}</p>
+              <span>{{item.count}}人已加入</span>
             </div>
-            <router-link to=""
-                         tag="button">
-              进入社群
-            </router-link>
-          </div>
-          <div class="item">
-            <img src="@/assets/icon/组5@2x.png"
-                 alt="">
-            <div>
-              <p>毛遂自荐</p>
-              <span>64510人已加入</span>
-            </div>
-            <router-link to=""
+            <router-link :to="'/community?id='+item.id"
                          tag="button">
               进入社群
             </router-link>
@@ -257,17 +184,19 @@
         </div>
       </section>
       <section class="banner">
-        <img src="@/assets/images/招商海报.png"
+        <img :src="img[2].ad_code"
              alt="">
       </section>
       <section class="banner">
-        <img src="@/assets/images/商品海报2.png"
+        <img :src="img[3].ad_code"
              alt="">
       </section>
       <section class="hot_to">
         <div class="content">
           <div class="top">
+            <!-- <router-link to="" tag="li" v-for="(item, index) in category_eight.slice(0, 3)" :key="index">
 
+            </router-link> -->
             <li>
               <img src="@/assets/images/药丸.png"
                    alt="">
@@ -324,18 +253,22 @@
         </div>
       </section>
       <div class="banner">
-        <img src="@/assets/icon/商品海报3@2x.png"
+        <img :src="img[4].ad_code"
              alt="">
       </div>
       <div class="hot_buy">
         <t-title title="热卖好货"></t-title>
         <div class="content">
-          <router-link to="/details" class="item">
-            <img src="@/assets/icon/4拷贝2@2x.png" alt="">
+          <router-link :to="'/details?goods_id='+item.goods_id"
+                       v-for="(item, index) in hot_product"
+                       :key="index"
+                       class="item">
+            <img :src="item.good_img"
+                 alt="">
             <div class="t">汤臣倍健 褪黑素片 400mg/片*60</div>
             <div class="info">
-              <div class="pice">¥68</div>
-              <div class="del">¥199</div>
+              <div class="pice">{{item.shop_price}}</div>
+              <div class="del">{{item.market_price}}</div>
             </div>
           </router-link>
         </div>
@@ -348,6 +281,7 @@
 <script>
 import TTitle from './compontes/Ttitle'
 import { Swipe, SwipeItem, Search, } from 'vant';
+import { gethome } from '@/axios/getData'
 export default {
   components: {
     'van-swipe': Swipe,
@@ -357,14 +291,27 @@ export default {
   },
   data() {
     return {
-      
+      banner: [],
+      category_eight: [],
+      category_seven: [],
+      fuwu: [],
+      healthy: [],
+      hot_product: [],
+      img: [{ ad_code: '' }, { ad_code: '' }, { ad_code: '' }, { ad_code: '' }, { ad_code: '' }],
+      yuyue: [],
     }
   },
-  created(){
-    this.$store.commit('userUpdate','123')
-    this.$axios.get('api/index/index').then(res=>{
-      console.log(res);
-    })
+  async created() {
+    let res = await gethome()
+    console.log(res.data);
+    this.banner = res.data.banner
+    this.category_eight = res.data.category_eight
+    this.category_seven = res.data.category_seven
+    this.fuwu = res.data.fuwu
+    this.healthy = res.data.healthy
+    this.hot_product = res.data.hot_product
+    this.img = res.data.img
+    this.yuyue = res.data.yuyue
   }
 }
 </script>

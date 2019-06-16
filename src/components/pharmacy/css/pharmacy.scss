@@ -58,7 +58,6 @@ menu{
     flex-wrap: wrap;
     .item{
       width: 33.33%;
-      padding: 30px;
       box-sizing: border-box;
       img{
         width:180px;
@@ -75,13 +74,13 @@ menu{
         margin-top: 23px;
         .pice{
           color: rgba(231, 39, 66, 1);
-          font-size: 30px;
+          font-size: 22px;
           font-weight: bold;
           line-height:35px;
           margin-right: 13px;
         }
         .del{
-          font-size:20px;
+          font-size:12px;
           text-decoration:line-through;
           vertical-align: bottom;
           color:rgba(180,180,180,1);

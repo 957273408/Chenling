@@ -1,37 +1,37 @@
 <template>
   <div>
     <van-tabs>
-      <van-tab title="热门"></van-tab>
-      <van-tab title="现代医学"></van-tab>
-      <van-tab title="中医学"></van-tab>
-      <van-tab title="生物学"></van-tab>
-      <van-tab title="其他"></van-tab>
+      <van-tab v-for="(item, index) in tabs"
+               :key="index"
+               :title="item.name"></van-tab>
     </van-tabs>
     <div class="container">
       <van-swipe indicator-color='#21A2E6'
                  :autoplay="3000">
-        <van-swipe-item>
-          <img src="@/assets/images/banner.png"
+        <van-swipe-item v-for="(item, index) in banner" :key="index">
+          <img :src="item.ad_code"
                alt="">
         </van-swipe-item>
-        <van-swipe-item> <img src="@/assets/images/banner.png"
-               alt=""></van-swipe-item>
-        <van-swipe-item> <img src="@/assets/images/banner.png"
-               alt=""></van-swipe-item>
+
       </van-swipe>
       <div class="cart_list">
-        <div class="item">
+        <router-link to=""
+                     tag="div"
+                     class="item"
+                     v-for="(item, index) in health_list"
+                     :key="index">
           <div class="info">
-            <div class="t">孕晚期身上痒是什么原因引起的</div>
+            <div class="t">{{item.goods_name}}</div>
             <div class="time">
-              2019-02-24
+              {{item.update_time}}
               |
-              阅读：25481
+              阅读：{{item.reading_sum}}
             </div>
           </div>
-          <img src="@/assets/images/banner.png"
+          <img :src="item.original_img"
                alt="">
-        </div>
+        </router-link>
+
       </div>
     </div>
   </div>
@@ -39,12 +39,31 @@
 
 <script>
 import { Tab, Tabs, Swipe, SwipeItem } from 'vant';
+import { getHealthy } from '@/axios/getData.js'
 export default {
   components: {
     vanTab: Tab,
     vanTabs: Tabs,
     vanSwipe: Swipe,
     vanSwipeItem: SwipeItem
+  },
+  filters: {
+    tiem(val) {
+
+    }
+  },
+  data() {
+    return {
+      banner: [],
+      tabs: [],
+      health_list: []
+    }
+  },
+  async created() {
+    let res = await getHealthy({ p: 0 })
+    this.banner = res.data.advert
+    this.tabs = res.data.cateArr
+    this.health_list = res.data.health_list
   }
 }
 </script>
