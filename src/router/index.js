@@ -384,5 +384,17 @@ export default new Router({
         component: () =>
             import ('../components/pages/hehuoren/hehuoren.vue')
     },
+    {
+      path: '/choujiang',
+      name: 'choujiang',
+      component: () =>
+          import ('../components/pages/choujiang.vue')
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: () =>
+          import ('../components/pages/test.vue')
+    },
   ]
 })
