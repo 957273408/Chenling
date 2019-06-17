@@ -208,8 +208,8 @@ export default {
         text-align: center;
         &>span{
           color:#f00;
+        }
       }
-    }
           .button {
         padding: 0 10px;
         margin-top: 50px;

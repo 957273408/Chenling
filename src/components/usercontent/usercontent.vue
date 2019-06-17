@@ -169,7 +169,7 @@
                  alt="">
             <p>我的收藏</p>
           </router-link>
-          <router-link to="orderList"
+          <router-link to="/help"
                        class="item">
             <img src="@/assets/images/帮助中心.png"
                  alt="">
@@ -181,6 +181,63 @@
       <van-tab title="合伙人中心">
         <div slot="title">
           <i class="iconfont icon-tianchongxing-"></i> 合伙人中心
+        </div>
+        <div class="block flex-wrap column2" v-show="true">
+          <router-link to="orderList"
+                       class="item">
+            <img src="@/assets/images/乐拼.png"
+                 alt="">
+            <p>乐拼</p>
+          </router-link>
+          <router-link to="cellularState"
+                       class="item">
+            <img src="@/assets/images/订单查询.png"
+                 alt="">
+            <p>乐拼订单查询</p>
+          </router-link>
+          <router-link to="cellularState"
+                       class="item">
+            <img src="@/assets/images/我的朋友.png"
+                 alt="">
+            <p>会员管理</p>
+          </router-link>
+          <router-link to="cellularState"
+                       class="item">
+            <img src="@/assets/images/合伙人.png"
+                 alt="">
+            <p>合伙人管理</p>
+          </router-link>
+          <router-link to="cellularState"
+                       class="item">
+            <img src="@/assets/images/抽奖.png"
+                 alt="">
+            <p>抽奖活动</p>
+          </router-link>
+          <router-link to="cellularState"
+                       class="item">
+            <img src="@/assets/images/佣金.png"
+                 alt="">
+            <p>我的佣金</p>
+          </router-link>
+          <router-link to="cellularState"
+                       class="item">
+            <img src="@/assets/images/名片.png"
+                 alt="">
+            <p>我的名片</p>
+          </router-link>
+        </div>
+		<div v-show="true" class="flex_1">
+          <img src="@/assets/images/哭.png" alt=""/>
+          <p class="p1">抱歉，您还不是代理商</p>
+          <p><span>3个月</span>内累计实际消费满<span>8000元</span>，才可</p>
+          <p class="p2">申请成为代理商</p>
+        </div>
+		<div v-show="true" class="flex_2">
+          <img src="@/assets/images/笑.png" alt=""/>
+          <p class="p1">恭喜，您已满足条件</p>
+          <p>您已满足申请代理商的条件，</p>
+          <p class="p2">赶快去申请吧！</p>
+		  <button>马上申请</button>
         </div>
       </van-tab>
     </van-tabs>
@@ -380,5 +437,55 @@ p {
 div /deep/ .van-tab--active {
   font-weight: 500;
   color: #ff4c23 !important;
+}
+.flex_1{  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 600;
+  img{
+    width:50pt;
+    height:50pt;
+  }
+  p{
+	font-size: 13pt;
+  }
+  span{
+	  color:#f00;
+  }
+  .p1{
+    margin:15pt 0;
+    font-size: 15pt;
+  }
+  .p2{
+	margin:15pt 0;
+  }
+}
+.flex_2{  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 600;
+  img{
+    width:50pt;
+    height:50pt;
+  }
+  p{
+	font-size: 13pt;
+  }
+  .p1{
+    margin:15pt 0;
+    font-size: 15pt;
+  }
+  .p2{
+	margin:15pt 0;
+  }
+  button{
+	background:linear-gradient(to right,#FF462D,#FF9E3F);
+	display: inline-block;
+	width:50% !important;
+	height:50pt;
+	border-radius: 25pt !important;
+  }
 }
 </style>

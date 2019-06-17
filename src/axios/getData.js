@@ -21,7 +21,16 @@ export const addToCart = data => post('api/cart/add', data)
 export const goodsinfo = data => post('api/goods/goodsinfo', data)
 
 // 健康百科
-export const getHealthy = data => post('api/healthy/index', data)
+export const getHealthy = data => get('api/healthy/index', data)
+
+//收藏列表
+export const getshoucang = data => get('api/user/collect_list', data)
+
+//消息列表
+export const mymsg = data => post('api/user/messages', data)
+
+//添加地址
+export const add_address = data => post('api/user/receiving_address', data)
 
 //健康百科文章
 export const getHealthyinfo = data => post('api/healthy/healthInfo', data)
@@ -48,3 +57,12 @@ export const addjiankang = data=>post('api/jiankang/join',data)
 
 // 购物车列表
 export const cartList = data => post('api/cart/index',data)
+
+//地址列表
+export const shouhuodizhi = data => post('api/user/address_list', data)
+
+//编辑地址
+export const edit_address = data => get('api/user/edit_address', data)
+
+//删除地址
+export const del_address = data => get('api/user/del_address', data)

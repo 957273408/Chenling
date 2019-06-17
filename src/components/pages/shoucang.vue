@@ -23,10 +23,48 @@
 
 <script>
 import { List} from 'vant'
+import { getshoucang } from '@/axios/getData'
 export default {
   components: {
     'van-list': List
   },
+  data() {
+    return {
+      // banner: [],
+      // category_eight: [],
+      // category_seven: [],
+      // fuwu: [],
+      // healthy: [],
+      // hot_product: [],
+      // img: [{ ad_code: '' }, { ad_code: '' }, { ad_code: '' }, { ad_code: '' }, { ad_code: '' }],
+      // yuyue: [],
+    }
+  },
+  created(){
+
+  },
+  async getdata() {
+    // var id = this.$route.query.id;
+    var res =  await shouhuodizhi({id,p})
+    console.log(res.data);
+    var data_=res.data;
+    for(var i=0;i<data_.length;i++){
+      if(data_[i].is_default){
+        [data_[0],data_[i]]=[data_[i],data_[0]];
+      }
+    }
+    this.data=data_;
+  },
+
+    
+    // this.banner = res.data.banner
+    // this.category_eight = res.data.category_eight
+    // this.category_seven = res.data.category_seven
+    // this.fuwu = res.data.fuwu
+    // this.healthy = res.data.healthy
+    // this.hot_product = res.data.hot_product
+    // this.img = res.data.img
+    // this.yuyue = res.data.yuyue
 }
 //   data() {
 //     return {

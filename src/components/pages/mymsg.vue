@@ -20,10 +20,16 @@
 </template>
 <script>
 import { Button} from 'vant'
+import { mymsg } from '@/axios/getData'
+
 export default {
   components:{
     "van-button": Button
-  }
+	},
+	async created() {
+    let res = await mymsg()
+		console.log(res.data);
+	}
 }
 </script>
 <style lang="scss" scoped>

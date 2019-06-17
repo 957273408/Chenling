@@ -11,9 +11,9 @@
         </div>
         <div class="number">6222  ****  ****  0732</div>
       </div>
-      <router-link to="backCradInput" class="button flex-center">添加银行卡</router-link>
+      <router-link to="backCradInput" class="button flex-center">更换银行卡</router-link>
     </div>
-    <!-- <div class="wrap">
+    <div class="wrap">
       <div class="con disabled">
         <div class="flex-between">
           <div class="name">未添加银行卡</div>
@@ -21,7 +21,7 @@
         <div class="number">****  ****  ****  ****</div>
       </div>
       <router-link to="backCradInput" class="button flex-center">添加银行卡</router-link>
-    </div> -->
+    </div>
   </div>
 </template>
 

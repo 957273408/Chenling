@@ -9,7 +9,8 @@
 				</ul>
 			</div>
 		</div>
-        <div class="info">
+        <div v-show="false">
+            <div class="info">
             <div class="bottom">
                 <span>真实姓名<i style="color:red;">* </i></span>
                 <input type="text" placeholder="申请人真实姓名">
@@ -31,12 +32,33 @@
                 </div>
             </div>
             <div style="text-align:center;"><button>提交</button></div>
-        </div>
-        <div class="bottom">
+            </div>
+            <div class="bottom">
             <h3>申请须知</h3>
             <p>1、独立的法人实体, 具有完全民事权利能力和民事行为能力，能够独立承担民事责任;</p>
             <p>2、提供法人代表身份证复印件、组织机构代码证复印件、公司简介，并愿意接受亿长寿平台审核;</p>
             <p>3、交纳加盟金，主要目的就是为了调动代理商全部的工作积极性，增强风险意识，让代理商压力变动力，让代理商全力一搏。</p>
+            </div>
+        </div>
+        <div class="zhuangtai" v-show="false"> <!-- 不通过状态 -->
+            <img src="@/assets/images/成功拷贝@2x.png" alt="">
+            <p style="font-size:17pt;">审核不通过</p>
+            <p>不通过的原因如下：</p>
+            <p style="color:red;">1、手持身份证照片看不清身份证</p>
+            <p style="color:red;">2、营业执照照片不清晰</p>
+            <div>
+                <button style="background:#EEEEEE;">返回</button>
+                <button style="color:#fff">重新提交</button>
+            </div>
+        </div>
+         <div class="zhuangtai"> <!-- 已提交状态 -->
+            <img src="@/assets/images/成功23@2x.png" alt="">
+            <p style="font-size:17pt;">申请已提交</p>
+            <p>您的申请资料已经提交 请耐心等候</p>
+            <p>如有疑问可咨询客服</p>
+            <div>
+                <button style="background:#EEEEEE;">返回</button>
+            </div>
         </div>
     </div>
 </template>
@@ -132,6 +154,32 @@ export default {
        }
        &>p:nth-child(3){
            margin: 15px 0;
+       }
+   }
+   .zhuangtai{
+       margin:60px;
+       margin-top:-250px; 
+       border-top-left-radius: 30px;
+       border-top-right-radius: 30px;
+       background: #fff;
+       padding: 60px 60px 0 60px;
+       text-align: center;
+       p{
+           margin-bottom:15pt;
+           font-size: 12pt;
+       }
+       img{
+           width:75pt;
+           height:75pt;
+           margin: 10pt auto;
+       }
+       div{
+           display: flex;
+           flex-direction: row;
+           justify-content: center;  //居中
+           button{
+               width:40%;
+           }
        }
    }
 </style>

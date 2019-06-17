@@ -29,7 +29,7 @@
 
 <script>
 import {Cell,List} from 'vant';
-import util from '../utils/utils.js'
+import util from '../../utils/utils.js'
 export default {
   components: {
     "van-cell":Cell,
