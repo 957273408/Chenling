@@ -46,6 +46,8 @@
 
 <script>
 import { Icon, RadioGroup, Radio, Checkbox, Area, Popup, Toast } from 'vant';
+import { address } from '@/axios/getData'
+
 // import util from '../utils/utils.js'
 export default {
   components: {
@@ -74,7 +76,12 @@ export default {
       show: false
     }
   },
+  async created() {
+    let res = await address()
+		console.log(res.data);
+  }
 }
+
 //   created() {
 //     if (this.$route.query.id) {
 //       this.getData()

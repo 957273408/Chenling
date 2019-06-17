@@ -3,14 +3,14 @@
     <div class="list">
       <div class="item flex-between">
         <div class="flex-center-y">
-          <img src="../../assets/images/help_icon.png" alt="">
+          <img src="@/assets/images/help_icon.png" alt="">
           <p class="ellipsis">乐拼折扣多久可以出结果？</p>
         </div>
         <van-icon name="arrow" class="arrow" />
       </div>
     </div>
-    <div class="button flex-center-y">
-      <div class="flex-center flex_1"><img src="../../assets/images/help1.png" alt="">联系客服</div>
+    <div class="button flex-center-x">
+      <div class="flex-center flex_1"><img src="@/assets/images/help1.png" alt="">联系客服</div>
       <!-- <div class="flex-center flex_1" @click="$router.push({path: '/feedback'})"><img src="../../assets/images/help2.png" alt="">意见反馈</div> -->
     </div>
 
@@ -93,6 +93,7 @@ export default {
   font-size: 34px;
   img {
     width: 40px;
+    height: 40px;
     margin-right: 10px;
   }
   div:first-child {

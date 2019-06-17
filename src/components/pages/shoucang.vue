@@ -23,10 +23,35 @@
 
 <script>
 import { List} from 'vant'
+import { getshoucang } from '@/axios/getData'
 export default {
   components: {
     'van-list': List
   },
+  data() {
+    return {
+      // banner: [],
+      // category_eight: [],
+      // category_seven: [],
+      // fuwu: [],
+      // healthy: [],
+      // hot_product: [],
+      // img: [{ ad_code: '' }, { ad_code: '' }, { ad_code: '' }, { ad_code: '' }, { ad_code: '' }],
+      // yuyue: [],
+    }
+  },
+  async created() {
+    let res = await getshoucang()
+    console.log(res.data);
+    // this.banner = res.data.banner
+    // this.category_eight = res.data.category_eight
+    // this.category_seven = res.data.category_seven
+    // this.fuwu = res.data.fuwu
+    // this.healthy = res.data.healthy
+    // this.hot_product = res.data.hot_product
+    // this.img = res.data.img
+    // this.yuyue = res.data.yuyue
+  }
 }
 //   data() {
 //     return {

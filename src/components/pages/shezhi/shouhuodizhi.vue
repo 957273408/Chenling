@@ -20,7 +20,7 @@
           <div class="column">
             <span class="name">林小七</span>
             <span class="phone">18888888888</span>
-            <span class="default" v-if="false">默认</span>
+            <span class="default" v-if="true">默认</span>
           </div>
           <div class="address">广东省 深圳市 龙华新区 民治街道 塘水围二区53-1栋</div>
         </div>
