@@ -1,4 +1,6 @@
-
+*{
+  word-break: break-all;
+}
 body {
   background: #fff;
 }
@@ -15,6 +17,7 @@ li{
 .flex {
   display: flex;
 }
+
 .flex-wrap {
   display: flex;
   flex-wrap: wrap;

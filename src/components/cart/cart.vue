@@ -43,12 +43,27 @@
 
 <script>
 import { Checkbox, CheckboxGroup, Stepper, Dialog, Toast } from 'vant';
+import {cartList} from '@/axios/getData'
 export default {
   components: {
     vanCheckbox: Checkbox,
     vanCheckboxGroup: CheckboxGroup,
     vanStepper: Stepper,
-  }
+  },
+  data() {
+    return {
+      
+    }
+  },
+  methods:{
+    async getlist(){
+      let res= await cartList()
+      console.log(res);
+    }
+  },
+  created() {
+    this.getlist()
+  },
 }
 </script>
 

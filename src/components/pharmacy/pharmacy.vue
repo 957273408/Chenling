@@ -76,6 +76,7 @@ export default {
       cateArr: [],
       goods_list: [],
       next_page: [],
+      images:[]
     }
   },
   async created() {
