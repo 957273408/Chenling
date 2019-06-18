@@ -225,7 +225,8 @@ export default new Router({
     {
       path: '/myfirends',
       name: 'myfirends',
-      component: () => import('../components/pages/huodong/myfirends.vue')
+      component: () => import('../components/pages/huodong/myfirends.vue'),
+      meta: { title: '我的朋友' }
     },
     {
       path: '/shoucang',
@@ -333,7 +334,8 @@ export default new Router({
     {
       path: '/mingpian',
       name: 'mingpian',
-      component: () => import('../components/pages/huodong/mingpian.vue')
+      component: () => import('../components/pages/huodong/mingpian.vue'),
+      meta: { title: '名片' }
     },
     {
       path: '/jifenshangcheng',
@@ -344,7 +346,14 @@ export default new Router({
     {
       path: '/choujiang',
       name: 'choujiang',
-      component: () => import('../components/pages/choujiang.vue')
+      component: () => import('../components/pages/choujiang.vue'),
+      meta: { title: '抽奖' }
+    },
+    {
+      path: '/hehuoren',
+      name: 'hehuoren',
+      component: () => import('../components/pages/hehuoren/hehuoren.vue'),
+      meta: { title: '申请合伙人' }
     },
     {
       path: '/test',

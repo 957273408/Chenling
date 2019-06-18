@@ -15,10 +15,10 @@
             <div class="item">
               <div class="head flex-between">
                 <p class="number">订单号：2019113025481</p>
-                <p class="status"  style="color: #f8900a;">待付款</p>
-                <!-- <p class="status" v-if="item.order_type==2" style="color: #2277e2;">待发货</p>
-                <p class="status" v-if="item.order_type==3" style="color: #2277e2;">配送中</p>
-                <p class="status" v-if="item.order_type==4" style="color: #858585;">已完成</p> -->
+                <p class="status" v-if="index==1" style="color: #f8900a;">待付款</p>
+                <p class="status" v-if="index==2" style="color: #2277e2;">待发货</p>
+                <p class="status" v-if="index==3" style="color: #2277e2;">配送中</p>
+                <p class="status" v-if="index==4" style="color: #858585;">已完成</p>
               </div>
               <!-- <router-link :to="'/orderDetails?id='+item.order_id" class="info flex"> -->
 			  <router-link to="">
@@ -64,7 +64,11 @@ export default {
 	  return{
 		  index:0
 	  }
-  }
+  },
+  created(){
+    console.log(this.$route.query)
+    this.index=this.$route.query.index
+  },
 }
 //   data() {
 //     return {

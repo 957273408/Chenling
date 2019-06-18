@@ -1,20 +1,12 @@
 <template>
   <van-list>
     <div class="list">
-      <div class="item flex">
-        <img src="@/assets/images/yf7.png">
+      <div class="item flex" v-for="(item,index) in data" :key="index">
+        <img src="item.original_img" v-if="item.original_img">
         <div class="info flex_1">
-          <p class="title">善存 多维元素片100片/瓶</p>
-          <p class="price">￥105.00</p>
-          <div class="button flex-center">取消收藏</div>
-        </div>
-      </div>
-	  <div class="item flex">
-        <img src="@/assets/images/yf7.png">
-        <div class="info flex_1">
-          <p class="title">善存 多维元素片100片/瓶</p>
-          <p class="price">￥105.00</p>
-          <div class="button flex-center">取消收藏</div>
+          <p class="title">{{item.goods_name}}</p>
+          <p class="price">{{item.shop_price}}</p>
+          <div class="button flex-center" @click="del(item.collect_id,index)"  v-if="item.original_img">取消收藏</div>
         </div>
       </div>
     </div>
@@ -22,40 +14,55 @@
 </template>
 
 <script>
-import { List} from 'vant'
-import { getshoucang } from '@/axios/getData'
+import { List, Toast, Dialog} from 'vant'
+import { getshoucang,del_shoucang } from '@/axios/getData'
 export default {
   components: {
     'van-list': List
   },
   data() {
     return {
-      // banner: [],
-      // category_eight: [],
-      // category_seven: [],
-      // fuwu: [],
-      // healthy: [],
-      // hot_product: [],
-      // img: [{ ad_code: '' }, { ad_code: '' }, { ad_code: '' }, { ad_code: '' }, { ad_code: '' }],
-      // yuyue: [],
+      data:[
+        {
+          add_time: 1560843148,
+          cat_id: 34,
+          collect_id: 108,
+          goods_id: 237,
+          goods_name: "",
+          is_on_sale: 1,
+          is_virtual: 0,
+          original_img: "",
+          shop_price: "",
+          store_count: 65531
+        }
+      ]
     }
   },
   created(){
-
+    this.getdata();
   },
-  async getdata() {
-    // var id = this.$route.query.id;
-    var res =  await shouhuodizhi({id,p})
-    console.log(res.data);
-    var data_=res.data;
-    for(var i=0;i<data_.length;i++){
-      if(data_[i].is_default){
-        [data_[0],data_[i]]=[data_[i],data_[0]];
-      }
+  methods:{
+     async getdata() {
+      var id = this.$route.query.id;
+      var res = await getshoucang({id})
+      console.log(res);
+      this.data=res.data;
+      console.log(this.data)
+    },
+    del(id,index){
+      var user_id = this.$route.query.id;
+      Dialog.confirm({
+        title: '提示',
+        message: '删除地址后不可恢复！'
+      }).then(async()=>{
+        await del_shoucang({user_id,collect_id:id}).then((res)=>{
+        Toast("已取消收藏");
+        this.data.splice(index,1);
+        })
+      })
     }
-    this.data=data_;
-  },
-
+  }
+}
     
     // this.banner = res.data.banner
     // this.category_eight = res.data.category_eight
@@ -65,7 +72,6 @@ export default {
     // this.hot_product = res.data.hot_product
     // this.img = res.data.img
     // this.yuyue = res.data.yuyue
-}
 //   data() {
 //     return {
 //       list: [],

@@ -26,6 +26,9 @@ export const getHealthy = data => get('api/healthy/index', data)
 //收藏列表
 export const getshoucang = data => get('api/user/collect_list', data)
 
+//取消收藏
+export const del_shoucang = data => get('api/user/cancel_collect', data)
+
 //消息列表
 export const mymsg = data => post('api/user/messages', data)
 
@@ -65,14 +68,23 @@ export const edit_address = data => get('api/user/edit_address', data)
 //删除地址
 export const del_address = data => get('api/user/del_address', data)
 
-// 添加收藏
-export const add_collect = data => post('api/user/add_collect', data)
-
 // 领优惠卷
-export const get_coupon = data => post('api/user/get_coupon',data)
+export const get_coupon = data => post('api/user/get_coupon', data)
 
 // 删除购物车
-export const del_cart = data => post('api/cart/delete',data)
+export const del_cart = data => post('api/cart/delete', data)
+
+// 结算订单
+export const submit_order = data => post('api/cart/settlement', data)
 
 // 提交订单
-export const submit_order = data => post('api/cart/addOrder',data)
+// export const
+
+//添加收藏
+export const add_shoucang = data => get('api/user/add_collect', data)
+
+//设置默认收货地址
+export const set_default = data => get('api/user/set_default', data)
+
+//优惠券列表
+export const youhuiquan_list = data => get('api/user/coupon', data)

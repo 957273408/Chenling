@@ -41,32 +41,32 @@
         马上签到
       </router-link>
     </div>
-    <div class="block flex column1">
-      <router-link to="myTeam"
+    <div class="block flex column1"><!--跳转我的订单-->
+      <router-link :to="{path: '/wodedingdan',query:{index:1}}"
                    class="item">
         <img src="@/assets/images/待付款.png"
              alt="">
         <p>待付款</p>
       </router-link>
-      <router-link to="myOrder"
+      <router-link :to="{path: '/wodedingdan',query:{index:2}}"
                    class="item">
         <img src="@/assets/images/待发货.png"
              alt="">
         <p>待发货</p>
       </router-link>
-      <router-link to="myGold"
+      <router-link :to="{path: '/wodedingdan',query:{index:3}}"
                    class="item">
         <img src="@/assets/icon/已发货(1)@2x.png"
              alt="">
         <p>已发货</p>
       </router-link>
-      <router-link to="generalizeCode"
+      <router-link :to="{path: '/wodedingdan',query:{index:4}}"
                    class="item">
         <img src="@/assets/icon/已完成(1)@2x.png"
              alt="">
         <p>已完成</p>
       </router-link>
-      <router-link to="generalizeCode"
+      <router-link :to="{path: '/wodedingdan',query:{index:0}}"
                    class="item">
         <img src="@/assets/images/我的订单.png"
              alt="">
@@ -74,8 +74,7 @@
       </router-link>
     </div>
     <div class="banner">
-      <img src="@/assets/icon/海报1拷贝@2x.png"
-           alt="">
+      <router-link to="/news"><img src="@/assets/icon/海报1拷贝@2x.png" alt=""></router-link>
     </div>
     <van-tabs v-model="active"
               title-active-color='#FF4C23'
@@ -85,13 +84,13 @@
           <i class="iconfont icon-yonghu"></i> 会员中心
         </div>
         <div class="block flex-wrap column2">
-          <router-link to="orderList"
+          <router-link to="/nowhapply"
                        class="item">
             <img src="@/assets/images/乐拼.png"
                  alt="">
             <p>乐拼</p>
           </router-link>
-          <router-link to="cellularState"
+          <router-link to="/myfirends"
                        class="item">
             <img src="@/assets/images/我的朋友.png"
                  alt="">
@@ -103,31 +102,31 @@
                  alt="">
             <p>邀请朋友</p>
           </router-link>
-          <router-link to="cellularState"
+          <router-link to="/shujuzhongxin"
                        class="item">
             <img src="@/assets/images/数据中心.png"
                  alt="">
             <p>数据中心</p>
           </router-link>
-          <router-link to="cellularState"
+          <router-link to="/shouhuodizhi"
                        class="item">
             <img src="@/assets/images/地址管理.png"
                  alt="">
             <p>地址管理</p>
           </router-link>
-          <router-link to="cellularState"
+          <router-link to="/youhuiquan"
                        class="item">
             <img src="@/assets/images/我的优惠券.png"
                  alt="">
             <p>我的优惠券</p>
           </router-link>
-          <router-link to="cellularState"
+          <router-link to="/jiangyongjifen"
                        class="item">
             <img src="@/assets/images/奖金明细.png"
                  alt="">
             <p>奖金明细</p>
           </router-link>
-          <router-link to="cellularState"
+          <router-link to="/xiangmushu"
                        class="item">
             <img src="@/assets/images/项目书.png"
                  alt="">
@@ -135,23 +134,22 @@
           </router-link>
         </div>
         <div class="banner">
-          <img src="@/assets/icon/海报2拷贝@2x.png"
-               alt="">
+          <router-link to="/news"><img src="@/assets/icon/海报2拷贝@2x.png" alt=""></router-link>
         </div>
         <div class="block flex-wrap column2">
-          <router-link to="orderList"
+          <router-link to="/choujiang"
                        class="item">
             <img src="@/assets/images/抽奖活动.png"
                  alt="">
             <p>抽奖活动</p>
           </router-link>
-          <router-link to="orderList"
+          <router-link to="/jifenshangcheng"
                        class="item">
             <img src="@/assets/images/积分商城.png"
                  alt="">
             <p>积分商城</p>
           </router-link>
-          <router-link to="orderList"
+          <router-link to="/user_info"
                        class="item">
             <img src="@/assets/images/修改资料.png"
                  alt="">
@@ -163,7 +161,7 @@
                  alt="">
             <p>联系客服</p>
           </router-link>
-          <router-link to="orderList"
+          <router-link to="/shoucang"
                        class="item">
             <img src="@/assets/images/我的收藏.png"
                  alt="">
@@ -237,7 +235,7 @@
           <p class="p1">恭喜，您已满足条件</p>
           <p>您已满足申请代理商的条件，</p>
           <p class="p2">赶快去申请吧！</p>
-		  <button>马上申请</button>
+		  <button @click="$router.push({path:'/hehuoren'})">马上申请</button>
         </div>
       </van-tab>
     </van-tabs>

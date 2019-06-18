@@ -13,13 +13,13 @@
 				</div>
 			</div>
 		</div>
-		<div>
+		<!-- <div>
 			<h2>活动说明</h2>
 			<p>一、</p>
 			<p>二、</p>
 			<p>三、</p>
 			<p>四、</p>
-		</div>
+		</div> -->
     </div>
 </template>
 <script>

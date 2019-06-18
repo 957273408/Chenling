@@ -9,6 +9,7 @@ import store from './store/store'
 import axios from './axios/index'
 import 'babel-polyfill'
 import Es6Promise from 'es6-promise'
+import './assets/css/index.css'
 require('es6-promise').polyfill()
 Es6Promise.polyfill()
 Vue.config.productionTip = false

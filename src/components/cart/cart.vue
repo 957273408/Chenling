@@ -69,7 +69,16 @@ export default {
   },
   methods: {
     submit() {
-      this.$router.push('/uporder')
+       let ids = this.getids()
+      this.$router.push('/uporder?ids=' + ids)
+    },
+    getids() {
+      let arr = this.cartItem.filter((e, i) => {
+        return this.checked.includes(i)
+      })
+      return arr.map(e => {
+        return e.id
+      }).join(',')
     },
     delcart() {
       Dialog.confirm({
@@ -77,12 +86,8 @@ export default {
         message: '确认删除选中商品?'
       }).then(async () => {
         // on confirm
-        let arr = this.cartItem.filter((e, i) => {
-          return this.checked.includes(i)
-        })
-        let ids = arr.map(e => {
-          return e.id
-        }).join(',')
+        let ids = this.getids()
+
         let res = await del_cart({ cart_ids: ids })
         console.log(res);
         this.$toast(res.data)

@@ -234,7 +234,7 @@
 import {  Swipe, SwipeItem, Icon, Rate, Popup, Stepper, Toast, Cell, Tag, GoodsAction,
   GoodsActionBigBtn, Sku,
   GoodsActionMiniBtn} from "vant";
-import { ajaxComment, couponList, addToCart, goodsinfo, add_collect, get_coupon } from '@/axios/getData'
+import { ajaxComment, couponList, addToCart, goodsinfo, add_shoucang, get_coupon } from '@/axios/getData'
 export default {
   components: {
     "van-icon": Icon,
@@ -300,7 +300,7 @@ export default {
       this.$forceUpdate()
     },
     async addCollect() {
-      let res = await add_collect({ goods_id: Number(this.$route.query.goods_id), user_id: this.$store.state.userInfo.user_id })
+      let res = await add_shoucang({ goods_id: Number(this.$route.query.goods_id), user_id: this.$store.state.userInfo.user_id })
       this.iscollect = !this.iscollect
       this.$toast(res.data.msg)
     },

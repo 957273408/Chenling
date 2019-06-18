@@ -30,7 +30,7 @@
             <p class="title">{{item.goods_name}}</p>
             <span class="price">￥{{item.shop_price}}</span>
           </div>
-          <p class="text">肿瘤个体化化疗药物分子检测</p>
+          <!-- <p class="text">肿瘤个体化化疗药物分子检测</p> -->
           <p class="num">x{{item.goods_num}}</p>
         </div>
       </div>
@@ -44,17 +44,18 @@
         </div>
       </div>
       <div class="item flex-between">
-        <div class="title">使用{{data.user_money}}奖金抵扣{{data.user_money}}元</div>
-        <div class="right flex-center-y">
-          <van-switch v-model="user_money" />
-        </div>
-      </div>
-      <div class="item flex-between">
         <div class="title">使用{{data.pay_points?data.pay_points:0}}积分抵扣{{data.pay_points?data.pay_points:0}}元</div>
         <div class="right flex-center-y">
           <van-switch v-model="pay_points" />
         </div>
       </div>
+      <div class="item flex-between">
+        <div class="title">使用{{data.user_money}}元宝抵扣{{data.user_money}}元</div>
+        <div class="right flex-center-y">
+          <van-switch v-model="user_money" />
+        </div>
+      </div>
+
       <div class="item flex-between">
         <div class="title">备注</div>
         <input type="text"
@@ -176,6 +177,9 @@ export default {
       if (!this.$route.query.action) {
         let res = await submit_order({ cart_ids: this.$route.query.ids, action: 'cart' })
         console.log(res);
+        this.data = res.data
+        delete this.data.cartList.cart_ids;
+        this.$forceUpdate()
       } else {
         let data = {
           goods_id: this.$route.query.goods_id,
@@ -193,12 +197,12 @@ export default {
       this.coupon = item;
       this.couponShow = false;
     },
-    // 选择收货地址
+    // // 选择收货地址
     useAddress(item) {
       this.address = item;
       this.addressShow = false;
     },
-    // 获取地址列表
+    // // 获取地址列表
     getAddressList() {
       this.addressShow = true;
       if (this.addressList.length) return false;
@@ -206,7 +210,7 @@ export default {
         this.addressList = res.data;
       });
     },
-    // 提交订单
+    // // 提交订单
     submit() {
       let data = {
         address_id: this.address == "" ? this.data.address.address_id : "",
@@ -265,9 +269,9 @@ export default {
     // 总价
     total() {
       let total = 0;
-      this.data.cartList.forEach((val, key) => {
-        total += Number(val.shop_price) * val.goods_num;
-      });
+      // this.data.cartList.forEach((val, key) => {
+      //   total += Number(val.shop_price) * val.goods_num;
+      // });
       return total.toFixed(2);
     },
     // 成交价
