@@ -144,6 +144,7 @@
 
 <script>
 import { Icon, Switch, Popup } from "vant";
+import { submit_order } from '@/axios/getData'
 export default {
   components: {
     "van-icon": Icon,
@@ -170,13 +171,11 @@ export default {
     this.getData();
   },
   methods: {
-    getData() {
-      if (this.$route.query.action == "") {
-        this.$post("cart/settlement", { cart_ids: this.$route.query.ids }).then(
-          res => {
-            this.data = res.data;
-          }
-        );
+    async getData() {
+      console.log(this.$route.query);
+      if (!this.$route.query.action) {
+        let res = await submit_order({ cart_ids: this.$route.query.ids, action: 'cart' })
+        console.log(res);
       } else {
         let data = {
           goods_id: this.$route.query.goods_id,
@@ -184,9 +183,9 @@ export default {
           item_id: this.$route.query.item_id,
           action: "buy_now"
         };
-        this.$post("cart/settlement", data).then(res => {
-          this.data = res.data;
-        });
+        // this.$post("cart/settlement", data).then(res => {
+        //   this.data = res.data;
+        // });
       }
     },
     // 使用优惠劵

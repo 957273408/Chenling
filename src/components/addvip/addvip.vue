@@ -11,7 +11,7 @@
         购买产品即可成为会员
       </div>
       <div class="l">
-        <router-link :to="'/details?id='+item.goods_id"
+        <router-link :to="'/details?goods_id='+item.goods_id"
                      tag="div"
                      v-for="(item, index) in goods_list" :key="index"
                      class="item">

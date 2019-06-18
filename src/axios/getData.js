@@ -51,12 +51,10 @@ export const meMessage = data => post('api/jiankang/message', data)
 export const messageInfo = data => post('api/jiankang/info', data)
 
 // 加入社群
-export const addjiankang = data=>post('api/jiankang/join',data)
-
-
+export const addjiankang = data => post('api/jiankang/join', data)
 
 // 购物车列表
-export const cartList = data => post('api/cart/index',data)
+export const cartList = data => post('api/cart/index', data)
 
 //地址列表
 export const shouhuodizhi = data => post('api/user/address_list', data)
@@ -66,3 +64,15 @@ export const edit_address = data => get('api/user/edit_address', data)
 
 //删除地址
 export const del_address = data => get('api/user/del_address', data)
+
+// 添加收藏
+export const add_collect = data => post('api/user/add_collect', data)
+
+// 领优惠卷
+export const get_coupon = data => post('api/user/get_coupon',data)
+
+// 删除购物车
+export const del_cart = data => post('api/cart/delete',data)
+
+// 提交订单
+export const submit_order = data => post('api/cart/addOrder',data)

@@ -3,27 +3,33 @@
     <div class="head flex-between">
       <p class="allNum">共2件商品</p>
       <div class="img">
-        <i class="iconfont icon-shanchu"></i>
+        <i @click="delcart"
+           class="iconfont icon-shanchu"></i>
       </div>
     </div>
 
     <div class="list">
       <van-checkbox-group v-model="checked"
+                          ref="checkbox"
                           @change="select">
-        <div class="item flex-center-y">
+        <div class="item flex-center-y"
+             v-for="(item, index) in cartItem"
+             :key="index">
           <van-checkbox class="checkbox"
+                        :ref="index"
                         checked-color="#2194e6"
                         :name="index"></van-checkbox>
           <div class="info flex flex_1">
-            <img src=""
+            <img :src="item.original_img"
                  alt=""
                  class="item">
             <div class="introduce flex_1">
-              <p class="title ellipsis">54561231</p>
-              <p class="text">456421313132</p>
+              <p class="title ellipsis">{{item.goods_name}}</p>
+              <!-- <p class="text">{{item.}}</p> -->
               <div class="handle flex-between">
-                <p class="price">￥900</p>
-                <van-stepper class="flex" />
+                <p class="price">￥{{item.member_goods_price}}</p>
+                <van-stepper v-model="item.goods_num"
+                             class="flex" />
               </div>
             </div>
           </div>
@@ -33,17 +39,20 @@
 
     <div class="balance flex-center-y">
       <div class="left flex_1 flex-between">
-        <van-checkbox checked-color="#2194e6">全选</van-checkbox>
-        <p class="total">合计：<span>￥200</span></p>
+        <van-checkbox v-model="checkeds"
+                      @change='allselect'
+                      checked-color="#2194e6">全选</van-checkbox>
+        <p class="total">合计：<span>￥{{countnum}}</span></p>
       </div>
-      <div class="button">发起乐拼</div>
+      <div class="button"
+           @click="submit">发起乐拼</div>
     </div>
   </div>
 </template>
 
 <script>
 import { Checkbox, CheckboxGroup, Stepper, Dialog, Toast } from 'vant';
-import {cartList} from '@/axios/getData'
+import { cartList, del_cart, submit_order } from '@/axios/getData'
 export default {
   components: {
     vanCheckbox: Checkbox,
@@ -52,13 +61,61 @@ export default {
   },
   data() {
     return {
-      
+      checked: [],
+      cartItem: [],
+      countnum: 0,
+      checkeds: false,
     }
   },
-  methods:{
-    async getlist(){
-      let res= await cartList()
+  methods: {
+    submit() {
+      this.$router.push('/uporder')
+    },
+    delcart() {
+      Dialog.confirm({
+        title: '删除',
+        message: '确认删除选中商品?'
+      }).then(async () => {
+        // on confirm
+        let arr = this.cartItem.filter((e, i) => {
+          return this.checked.includes(i)
+        })
+        let ids = arr.map(e => {
+          return e.id
+        }).join(',')
+        let res = await del_cart({ cart_ids: ids })
+        console.log(res);
+        this.$toast(res.data)
+        this.getlist()
+      }).catch(() => {
+        // on cancel
+      });
+    },
+    allselect(e) {
+      if (e) {
+        this.cartItem.forEach((e, i) => {
+          this.checked = [...this.checked, i]
+        })
+      } else {
+        this.checked = []
+      }
+    },
+    async getlist() {
+      let res = await cartList()
       console.log(res);
+      this.cartItem = res.data
+    },
+    select() {
+      let arr = []
+      this.cartItem.forEach((e, i) => {
+        if (this.checked.indexOf(i) != -1) {
+          arr.push(e)
+        }
+      })
+      this.countnum = arr.reduce((ar, { goods_price, goods_num }) => {
+        ar = ar + (goods_price * goods_num)
+        return ar
+      }, 0)
     }
   },
   created() {

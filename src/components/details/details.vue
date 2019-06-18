@@ -35,7 +35,7 @@
           <span class="old">原价：{{goods.market_price}}</span>
         </div>
       </div>
-      <div class="mes">运费：¥{{freight}}元</div>
+      <div class="mes">运费：¥{{goods.is_free_shipping==1?'0':freight}}元</div>
     </div>
     <div class="border"></div>
 
@@ -55,30 +55,31 @@
                    plain>满399减20</van-tag>
         </template>
       </van-cell>
+      <van-cell>
+        <template slot="title">
+          <span class="custom-text title">地址</span>
+          <span class="text">{{address}}</span>
+        </template>
+      </van-cell>
       <van-cell is-link
                 @click="openSku">
         <template slot="title">
-          <span class="custom-text title">地址</span>
-          <span class="text">广东省深圳市</span>
-        </template>
-      </van-cell>
-      <van-cell is-link>
-        <template slot="title">
           <span class="custom-text title">已选</span>
-          <span class="text">套餐1</span>
+          <span class="text">{{sku_name}}</span>
         </template>
       </van-cell>
-      <van-cell is-link>
+      <van-cell>
         <template slot="title">
           <span class="custom-text title">说明</span>
           <span class="text">广东省深圳市</span>
         </template>
       </van-cell>
-      <van-cell is-link>
+      <van-cell>
         <template slot="title">
           <span class="custom-text title">服务</span>
           <span class="text flex_1 ellipsis">
-            <span class="circle"></span>包邮
+            <span class="circle"
+                  v-show="goods.is_free_shipping==1"></span>包邮
             <span class="circle"></span>由华云发货并提供售后
           </span>
         </template>
@@ -127,7 +128,7 @@
                :src="val"
                alt>
         </div>
-        <p class="time">{{item.add_time | date}}</p>
+        <p class="time">{{item.add_time}}</p>
       </div>
     </div>
 
@@ -149,15 +150,19 @@
                v-for="(item, index) in couponList"
                :key="index">
             <div class="price">
-              <div class="num">¥{{item.expression}}</div>
+              <div class="num">¥{{item.money}}</div>
               <div class="countnum">满{{item.condition}}元可用</div>
             </div>
             <div class="content">
               <h3>{{item.name}}</h3>
               <p>部分特殊商品不可使用</p>
             </div>
-            <button v-if="item.ling_status==1" class="btn">领取</button>
-            <button v-else disabled class="btn nobtn">已领取</button>
+            <button v-if="item.ling_status==0"
+                    class="btn"
+                    @click="getCoupon(item)">领取</button>
+            <button v-else
+                    disabled
+                    class="btn nobtn">已领取</button>
           </div>
         </div>
       </div>
@@ -165,12 +170,13 @@
 
     <!-- 底部按钮 -->
     <van-goods-action>
-      <van-goods-action-mini-btn icon="chat-o"
+      <van-goods-action-mini-btn @click="addCollect"
+                                 :icon="iscollect?'star':'star-o'"
                                  text="收藏" />
-      <van-goods-action-mini-btn info="5"
-                                 icon="cart-o"
+      <van-goods-action-mini-btn icon="comment-o"
                                  text="客服" />
-      <van-goods-action-mini-btn icon="shop-o"
+      <van-goods-action-mini-btn @click="$router.push('/cart')"
+                                 icon="shopping-cart-o"
                                  text="购物车" />
       <van-goods-action-big-btn @click="addCart"
                                 text="加入购物车" />
@@ -184,33 +190,41 @@
       <div class="popup">
         <div class="wrap">
           <div class="commodity flex">
-            <img alt>
+            <img :src='goods.original_img'
+                 alt>
             <div class="middle flex flex_1">
-              <p class="title">123</p>
+              <p class="title">{{goods.goods_name}}</p>
               <div class="price">
-                <p class="new">￥33</p>
-                <p class="old">￥22</p>
+                <p class="new">￥{{price}}</p>
+                <p class="old">￥{{goods.market_price}}</p>
               </div>
             </div>
             <van-icon name="cross"
                       class="cross"
                       @click="openSku" />
           </div>
-          <div class="specification">
-            <p class="title">332</p>
+          <div class="specification"
+               v-for="(item, index) in filter_spec"
+               :key="index">
+            <p class="title">{{index}}</p>
             <div class="list flex-wrap">
-              <div class="item active">11</div>
+              <div :class="e.active?'item active':'item' "
+                   v-for="(e, i) in item"
+                   :key="i"
+                   @click="changeColor(e,i,index)">{{e.item}}</div>
             </div>
           </div>
           <div class="num flex-between cart">
             <p class="title">数量</p>
-            <van-stepper class="flex" />
+            <van-stepper v-model="num"
+                         class="flex" />
           </div>
           <div class="count">
-            库存:720
+            库存:{{store_count}}
           </div>
         </div>
-        <div class="button flex-center">确定</div>
+        <div class="button flex-center"
+             @click="openSku">确定</div>
       </div>
 
     </van-popup>
@@ -220,7 +234,7 @@
 import {  Swipe, SwipeItem, Icon, Rate, Popup, Stepper, Toast, Cell, Tag, GoodsAction,
   GoodsActionBigBtn, Sku,
   GoodsActionMiniBtn} from "vant";
-import { ajaxComment, couponList, addToCart, goodsinfo } from '@/axios/getData'
+import { ajaxComment, couponList, addToCart, goodsinfo, add_collect, get_coupon } from '@/axios/getData'
 export default {
   components: {
     "van-icon": Icon,
@@ -239,16 +253,21 @@ export default {
   },
   data() {
     return {
+      num: 0,
+      store_count: 1000,
+      price: 0,
       showCoupons: false,
       showsku: false,
+      sku_name: '',
+      item_id: null,
       couponList: [],
-      collect: 0,
+      iscollect: false,
       goods_attr: 0,
       filter_spec: '',
-      spec_goods_price: '',
       goods_images_list: '',
       goods_num: 0,
-      address: {},//地址
+      address: '',//地址
+      spec_goods_price: {},
       comment: {
         count: 1,
         list: [],
@@ -262,6 +281,29 @@ export default {
     }
   },
   methods: {
+    async getCoupon({ id }) {
+      let res = await get_coupon({ id, user_id: this.$store.state.userInfo.user_id })
+      console.log(res);
+    },
+    changeColor({ item_id, item }, ind, key) {
+      // this.filter_spec.spec_value.forEach((e, index) => {
+      //   e.active = (index == ind)
+      // });
+      console.log(this.filter_spec[key]);
+      this.filter_spec[key].forEach((e, index) => {
+        e.active = (index == ind)
+      })
+      this.sku_name = item
+      this.item_id = this.spec_goods_price[item_id].item_id
+      this.store_count = this.spec_goods_price[item_id].store_count
+      this.price = this.spec_goods_price[item_id].price
+      this.$forceUpdate()
+    },
+    async addCollect() {
+      let res = await add_collect({ goods_id: Number(this.$route.query.goods_id), user_id: this.$store.state.userInfo.user_id })
+      this.iscollect = !this.iscollect
+      this.$toast(res.data.msg)
+    },
     openCoupons() {
       this.showCoupons = !this.showCoupons
     },
@@ -269,7 +311,13 @@ export default {
       this.showsku = !this.showsku
     },
     async addCart() {
-      let res = addToCart({ goods_num })
+      if (this.item_id && this.num) {
+        let res = await addToCart({ goods_id: Number(this.$route.query.goods_id), goods_num: this.num, item_id: this.item_id })
+        this.$toast(res.data)
+        this.$router.push('/cart') 
+      } else {
+        this.openSku()
+      }
     },
     async getGoods() {
       let goods_id = this.$route.query.goods_id
@@ -281,11 +329,16 @@ export default {
       this.goods = res.data.goods
       this.freight = res.data.freight
       this.goods_images_list = res.data.goods_images_list
+      this.iscollect = (res.data.collect != 0)
+      this.filter_spec = res.data.filter_spec
+      this.price = res.data.goods.shop_price
+      this.spec_goods_price = res.data.spec_goods_price
+      this.getcouponList(res.data.coupon)
     },
-    async getcouponList() {
-      let res = await couponList()
-      console.log(res);
-      this.couponList = res.data
+    getcouponList(coupon) {
+      //   this.couponList = coupon.reduce((arr, { coupon }) => {
+      //     return arr.concat(coupon)
+      //   }, [])
     }
   },
   created() {

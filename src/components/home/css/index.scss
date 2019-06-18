@@ -1,4 +1,10 @@
 @import "@/assets/css/mixin.scss";
+.gohapply{
+  @include center();
+  word-break: normal;
+  font-size:30px;
+  color:#fff;
+}
 
 header {
   .van-swipe {
@@ -367,7 +373,6 @@ main {
     flex-wrap: wrap;
     .item{
       width: 33.33%;
-      padding: 30px;
       box-sizing: border-box;
       img{
         width:180px;

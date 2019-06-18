@@ -52,7 +52,8 @@
           <h2>正在乐拼</h2>
           <span>查看全部</span>
         </div>
-        <van-swipe indicator-color="white">
+        <van-swipe v-if="groupList.lenght"
+                   indicator-color="white">
           <van-swipe-item>
             <div class="item">
               <img src="@/assets/icon/图层136拷贝@2x.png"
@@ -96,6 +97,10 @@
           <van-swipe-item>3</van-swipe-item>
           <van-swipe-item>4</van-swipe-item>
         </van-swipe>
+        <div class="gohapply"
+             v-else>
+          暂时没有商品快开始乐拼吧
+        </div>
       </section>
 
       <section class="hserve">
@@ -299,6 +304,7 @@ export default {
       hot_product: [],
       img: [{ ad_code: '' }, { ad_code: '' }, { ad_code: '' }, { ad_code: '' }, { ad_code: '' }],
       yuyue: [],
+      groupList: [],
     }
   },
   async created() {
@@ -312,6 +318,7 @@ export default {
     this.hot_product = res.data.hot_product
     this.img = res.data.img
     this.yuyue = res.data.yuyue
+    this.groupList = res.data.groupList
   }
 }
 </script>
