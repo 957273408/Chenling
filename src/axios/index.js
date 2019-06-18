@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import { Toast } from 'vant'
-import store from '../store/store'
+import store from '../main'
 import { promises } from 'fs'
 import { resolve } from 'url'
 
@@ -12,7 +12,7 @@ let config = {
 if (process.env.NODE_ENV == 'development') {
   config.baseURL = '/api/'
 } else if (process.env.NODE_ENV == 'production') {
-  config.baseURL = 'http://quhiclub.com/api/'
+  config.baseURL = 'http://ycs.rujiezhineng.net/'
 }
 const _axios = axios.create(config)
 
@@ -34,7 +34,9 @@ _axios.interceptors.response.use(
     if (response.data.code == 200) {
       return response.data
     } else if (response.data.code == 401) {
-      this.$router.push({ path: '/login' })
+      Toast('请先登录')
+      // alert(response.data.return_url)
+      window.location.href = response.data.data.return_url
       // resolve(response.data)
     } else if (response.data.code == 110) {
       Toast('请先选择默认收货地址')
@@ -73,15 +75,15 @@ Plugin.install = function(Vue, options) {
 Vue.use(Plugin)
 
 export const get = (url = '', data = {}) => {
-  data.token = store.state.userInfo
-    ? store.state.userInfo
-    : '22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm'
+  
+  data.token = store.state.userInfo.token ||"22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm"
+
   return _axios.get(url, { params: data })
 }
 export const post = (url = '', data = {}) => {
-  data.token = store.state.userInfo
-    ? store.state.userInfo
-    : '22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm'
+  // store.state.userInfo.token ||
+  data.token =  store.state.userInfo.token ||"22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm"
+
   return _axios.post(url, data)
 }
 

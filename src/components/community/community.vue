@@ -1,33 +1,33 @@
 <template>
   <div>
-    <header>
+    <header :style="'background-image:url('+info.img +')'">
       <div class="flex">
         <div>
-          <p>#疑难杂症</p>
-          <span>146487人已加入</span>
+          <p>#{{info.name}}</p>
+          <span>{{info.count}}人已加入</span>
         </div>
-        <button>加入社群</button>
+        <button v-show="yes==0">加入社群</button>
       </div>
     </header>
     <div class="chat">
-      <div class="item">
+      <div class="item" v-for="(item, index) in list" :key="index">
         <div class="info">
-          <img src="@/assets/icon/active.png"
+          <img :src="item.head_pic"
                alt="">
-          <p class="name">不要放弃治疗</p>
+          <p class="name">{{item.nickname}}</p>
           <p class="time">2019-04-29 09:51:22</p>
         </div>
-        <div class="tex"> 我是一个孕妈妈，本来怀孕是一件很开心的事情，可是不幸的是，我在孕期被查出了甲亢，虽然现在用药物在控制，但是我还是担心会对孩子造成影响，不知道怎么办才好。</div>
+        <div class="tex">{{item.content}}</div>
         <div class="btn flex">
           <div>
             <img src="@/assets/icon/AK-MN点赞@2x.png"
                  alt="">
-            5482513
+            {{item.zan_num}}
           </div>
           <div>
             <img src="@/assets/icon/AK-MN消息1@2x.png"
                  alt="">
-            123
+            {{item.count}}
           </div>
         </div>
       </div>
@@ -43,8 +43,27 @@
 </template>
 
 <script>
+import { jiankangInfo } from '@/axios/getData.js'
 export default {
-
+  data() {
+    return {
+      info: {},
+      list: [],
+      yes: '',
+    }
+  },
+  methods: {
+    async getinfo(p = 1) {
+      let id = this.$route.query.id
+      let res = await jiankangInfo({ id, p })
+      this.info = res.data.info
+      this.list = res.data.list
+      this.yes = res.data.yes
+    }
+  },
+  created() {
+    this.getinfo()
+  },
 }
 </script>
 
@@ -109,6 +128,7 @@ header {
         float: left;
         @include wh(75px, 75px);
         margin-right: 15px;
+        border-radius: 50%;
       }
       .name {
         font-size: 30px;

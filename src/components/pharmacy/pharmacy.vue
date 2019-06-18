@@ -36,7 +36,7 @@
     </menu>
     <div class="banner">
       <p>{{banners.name}}</p>
-      <img :src="banners.banner_url"
+      <img :src="banners.banner"
            alt="">
     </div>
     <div class="hot_buy">

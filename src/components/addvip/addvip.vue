@@ -11,18 +11,18 @@
         购买产品即可成为会员
       </div>
       <div class="l">
-          <router-link to="/details"
-          tag="div"
-                       class="item">
-            <img src="@/assets/icon/图层602拷贝 (2).png"
-                 alt="">
-            <div class="t">辅舒良 丙酸氟替卡松鼻喷雾剂120喷 鼻炎喷剂
-              季节性过敏性鼻炎进口喷剂药品</div>
-            <div class="info">
-              <div class="pice">¥68 <span class="del">¥199</span></div>
-              <button>立即购买</button>
-            </div>
-          </router-link>
+        <router-link :to="'/details?id='+item.goods_id"
+                     tag="div"
+                     v-for="(item, index) in goods_list" :key="index"
+                     class="item">
+          <img :src="item.original_img"
+               alt="">
+          <div class="t">{{item.goods_name}}</div>
+          <div class="info">
+            <div class="pice">¥{{item.shop_price}} <span class="del">¥{{item.market_price}}</span></div>
+            <button>立即购买</button>
+          </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -30,9 +30,9 @@
 
 <style lang="scss" scoped>
 @import "../../assets/css/mixin.scss";
-.vip{
+.vip {
   width: 750px;
-  img{
+  img {
     width: 100%;
   }
 }
@@ -62,59 +62,73 @@
       border-radius: 50%;
     }
   }
-  .l{
+  .l {
     margin-bottom: 60px;
   }
-  .item{
+  .item {
     box-sizing: border-box;
     margin-bottom: 50px;
-    img{
+    img {
       display: inline-block;
       box-sizing: border-box;
-      border:8px solid rgba(203,229,243,1);
-      width:600px;
-      height:600px;
+      border: 8px solid rgba(203, 229, 243, 1);
+      width: 600px;
+      height: 600px;
       margin: auto;
     }
-    .t{
-      font-size:28px;
-      font-weight:bold;
+    .t {
+      font-size: 28px;
+      font-weight: bold;
       line-height: 35px;
-      color:rgba(44,44,44,1);
+      color: rgba(44, 44, 44, 1);
       @include tt();
     }
-    .info{
+    .info {
       @include fj();
       margin-top: 23px;
-      button{
-        width:150px;
-        height:45px;
-        background:rgba(33,162,230,1);
-        border-radius:23px;
-        font-size:24px;
-        color:rgba(255,255,255,1);
+      button {
+        width: 150px;
+        height: 45px;
+        background: rgba(33, 162, 230, 1);
+        border-radius: 23px;
+        font-size: 24px;
+        color: rgba(255, 255, 255, 1);
       }
-      .pice{
+      .pice {
         color: rgba(231, 39, 66, 1);
         font-size: 40px;
         font-weight: bold;
-        line-height:35px;
+        line-height: 35px;
         margin-right: 13px;
       }
-      .del{
-        font-size:20px;
-        text-decoration:line-through;
+      .del {
+        font-size: 20px;
+        text-decoration: line-through;
         vertical-align: bottom;
-        color:rgba(180,180,180,1);
-        line-height:35px;
+        color: rgba(180, 180, 180, 1);
+        line-height: 35px;
       }
     }
   }
 }
 </style>
 <script>
+import { addmember } from '@/axios/getData.js'
 export default {
-
+  data() {
+    return {
+      goods_list:[],
+    }
+  },
+  methods: {
+    async getGoods(p = 1) {
+      let res = await addmember({p})
+      this.goods_list= res.data.goods_list
+    }
+  },
+  created() {
+    this.getGoods(1)
+  },
 }
 </script>
 
