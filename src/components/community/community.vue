@@ -6,33 +6,38 @@
           <p>#{{info.name}}</p>
           <span>{{info.count}}人已加入</span>
         </div>
-        <button v-show="yes==0">加入社群</button>
+        <button v-show="yes==0"
+                @click="addclass">加入社群</button>
       </div>
     </header>
     <div class="chat">
-      <div class="item" v-for="(item, index) in list" :key="index">
+      <div class="item"
+           v-for="(item, index) in list"
+           :key="index">
         <div class="info">
           <img :src="item.head_pic"
                alt="">
           <p class="name">{{item.nickname}}</p>
-          <p class="time">2019-04-29 09:51:22</p>
+          <p class="time">{{item.add_time}}</p>
         </div>
         <div class="tex">{{item.content}}</div>
         <div class="btn flex">
           <div>
-            <img src="@/assets/icon/AK-MN点赞@2x.png"
-                 alt="">
+            <img :src="item.zan==0?zan:iszan"
+                 alt=""
+                 @click="clickZan(item,index)">
             {{item.zan_num}}
           </div>
           <div>
-            <img src="@/assets/icon/AK-MN消息1@2x.png"
+            <img @click="tomessage(item)"
+                 src="@/assets/icon/AK-MN消息1@2x.png"
                  alt="">
             {{item.count}}
           </div>
         </div>
       </div>
     </div>
-    <router-link to="/editmessage"
+    <router-link :to="'/editmessage?id='+$route.query.id"
                  tag="div"
                  class="edit"
                  src='@/assets/icon/赚@2x.png'>
@@ -43,22 +48,45 @@
 </template>
 
 <script>
-import { jiankangInfo } from '@/axios/getData.js'
+import iszan from '@/assets/icon/AK-MN点赞_fill@2x.png'
+import zan from '@/assets/icon/AK-MN点赞@2x.png'
+import { jiankangInfo, clickzan, addjiankang } from '@/axios/getData.js'
+import { Toast } from 'vant'
 export default {
   data() {
     return {
       info: {},
       list: [],
       yes: '',
+      zan,
+      iszan
     }
   },
   methods: {
+    async addclass() {
+      let res = await addjiankang({ id: this.$route.query.id })
+      this.$toast(res.data)
+      this.getinfo()
+    },
     async getinfo(p = 1) {
       let id = this.$route.query.id
+      let user_id = this.$store.state.userInfo.user_id
       let res = await jiankangInfo({ id, p })
       this.info = res.data.info
       this.list = res.data.list
       this.yes = res.data.yes
+    },
+    async clickZan(e, i) {
+      let comment_id = e.comment_id
+      let res = await clickzan({ comment_id })
+      this.getinfo()
+      Toast(res.data)
+    },
+    tomessage(item) {
+      this.$router.push({        path: 'messageInfo', query: {
+          id: this.$route.query.id,
+          comment_id: item.comment_id
+        }      })
     }
   },
   created() {

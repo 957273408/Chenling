@@ -42,7 +42,24 @@ export const getHealthyinfo = data => post('api/healthy/healthInfo', data)
 export const addmember = data => get('api/member/index', data)
 
 // 社群展示
-export const jiankangInfo = data=> post('api/jiankang/index',data)
+export const jiankangInfo = data => post('api/jiankang/index', data)
+
+//点赞
+export const clickzan = data => post('api/jiankang/zan', data)
+
+// 我要留言
+export const meMessage = data => post('api/jiankang/message', data)
+
+// 留言详情
+export const messageInfo = data => post('api/jiankang/info', data)
+
+// 加入社群
+export const addjiankang = data=>post('api/jiankang/join',data)
+
+
+
+// 购物车列表
+export const cartList = data => post('api/cart/index',data)
 
 //地址列表
 export const shouhuodizhi = data => post('api/user/address_list', data)

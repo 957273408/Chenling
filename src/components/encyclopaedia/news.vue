@@ -19,15 +19,15 @@ export default {
   data() {
     return {
       info: {
-        goods_content: "<p>重修的你不是</p><p><br/></p>",
-        goods_name: "sdhjsd",
-        goods_remark: "十大科技",
+        goods_content: "",
+        goods_name: "",
+        goods_remark: "",
         is_free_shipping: 0,
-        market_price: "0.00",
-        original_img: "http://ycs.rujiezhineng.net/public/upload/goods/2019/05-06/1c814a24013969734379b2935846cc8c.jpg",
+        market_price: "",
+        original_img: "",
         shop_price: null,
         shuoming: null,
-        update_time: "1970-01-01",
+        update_time: "",
       }
     }
   },

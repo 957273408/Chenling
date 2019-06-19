@@ -4,14 +4,16 @@
                type="textarea"
                placeholder="快来分享你的经验吧！~~"
                :autosize='autosize' />
-    <button>提交</button>
+    <button @click="sumbit">提交</button>
   </div>
 
 </template>
 
 
 <script>
-import { Field, Button } from 'vant';
+import { meMessage } from '@/axios/getData.js'
+import { Field, Button, } from 'vant';
+
 export default {
   components: {
     vanField: Field,
@@ -21,7 +23,15 @@ export default {
     return {
       autosize: {
         minHeight: 276
-      }
+      },
+      message: ''
+    }
+  },
+  methods: {
+    async sumbit() {
+      let res = await meMessage({ id: this.$route.query.id, content: this.message })
+      this.$toast(res.data)
+      this.$router.go(-1)
     }
   }
 }
@@ -32,7 +42,6 @@ export default {
   font-size: 30px;
   font-family: SourceHanSansCN-Regular;
   font-weight: 400;
-  line-height: 25px;
 }
 button {
   display: block;

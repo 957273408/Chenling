@@ -43,10 +43,9 @@ _axios.interceptors.response.use(
       this.$router.push({ path: '/consignee' })
       // resolve(response.data)
     } else {
-      Toast(response.data.msg)
-      return Promise.reject(response.data)
+      Toast(response.data)
+      return response
     }
-    return response
   },
   function(err) {
     store.state.loading = false
@@ -75,16 +74,19 @@ Plugin.install = function(Vue, options) {
 Vue.use(Plugin)
 
 export const get = (url = '', data = {}) => {
-  
-  data.token = store.state.userInfo.token ||"22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm"
+  data.token =
+    store.state.userInfo.token ||
+    '22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm'
 
   return _axios.get(url, { params: data })
 }
 export const post = (url = '', data = {}) => {
   // store.state.userInfo.token ||
-  data.token =  store.state.userInfo.token ||"22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm"
+  data.token =
+    store.state.userInfo.token ||
+    '22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm'
 
   return _axios.post(url, data)
 }
-
+Vue.prototype.$toast = Toast
 export default _axios

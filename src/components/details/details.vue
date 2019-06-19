@@ -2,14 +2,12 @@
   <div style="padding-bottom:50px">
     <div class="details_swipe">
       <van-swipe :autoplay="5000">
-        <van-swipe-item>
-          <img src="@/assets/images/banner.png"
+        <van-swipe-item v-for="(item) in goods_images_list"
+                        :key="item.image_id">
+          <img :src="item.image_url"
                alt>
         </van-swipe-item>
-        <van-swipe-item>
-          <img src="@/assets/images/banner.png"
-               alt>
-        </van-swipe-item>
+
       </van-swipe>
       <div class="info">
         <div class="pice">
@@ -29,16 +27,15 @@
     <!-- 热销信息 -->
     <div class="info">
       <p class="title">
-        欧姆龙高精准电子血压计家用上臂式全自动
-        血压测量仪HEM-7132
+        {{goods.goods_name}}
       </p>
       <div class="flex-between">
         <div class="price">
-          <span class="new">￥350.00</span>
-          <span class="old">原价：399.00</span>
+          <span class="new">￥{{goods.shop_price}}</span>
+          <span class="old">原价：{{goods.market_price}}</span>
         </div>
       </div>
-      <div class="mes">运费：¥0元</div>
+      <div class="mes">运费：¥{{freight}}元</div>
     </div>
     <div class="border"></div>
 
@@ -92,22 +89,22 @@
     <div class="border"></div>
 
     <!-- 评论 -->
-    <!-- <div class="evaluate"
-         v-if="data.comment.list.length">
+    <div class="evaluate"
+         v-if="comment.list.length">
       <div class="head flex-between">
-        <div class="title">商品评价({{data.comment.count}})</div>
+        <div class="title">商品评价({{comment.count}})</div>
         <router-link to="evaluateList"
                      class="good flex-center-y">
           <p>
             好评度
-            <span>{{data.comment.praise*100}}%</span>
+            <span>{{comment.praise*100}}%</span>
           </p>
           <van-icon name="arrow"
                     class="arrow" />
         </router-link>
       </div>
       <div class="item"
-           v-for="(item, index) in data.comment.list"
+           v-for="(item, index) in comment.list"
            :key="index">
         <div class="user_info flex-between">
           <div class="user flex-center-y">
@@ -132,10 +129,11 @@
         </div>
         <p class="time">{{item.add_time | date}}</p>
       </div>
-    </div> -->
+    </div>
 
     <!-- 商品详情 -->
-    <div class="shop_details"></div>
+    <div class="shop_details"
+         v-html="goods.goods_content"></div>
 
     <!-- 优惠详细 -->
     <van-popup position="bottom"
@@ -147,16 +145,19 @@
                     @click="openCoupons" />
         </div>
         <div class="coupons_list">
-          <div class="coupon_item">
+          <div class="coupon_item"
+               v-for="(item, index) in couponList"
+               :key="index">
             <div class="price">
-              <div class="num">¥20</div>
-              <div class="countnum">满399可用</div>
+              <div class="num">¥{{item.expression}}</div>
+              <div class="countnum">满{{item.condition}}元可用</div>
             </div>
             <div class="content">
-              <h3>新用户首单优惠券</h3>
+              <h3>{{item.name}}</h3>
               <p>部分特殊商品不可使用</p>
             </div>
-            <button class="btn">领取</button>
+            <button v-if="item.ling_status==1" class="btn">领取</button>
+            <button v-else disabled class="btn nobtn">已领取</button>
           </div>
         </div>
       </div>
@@ -211,6 +212,7 @@
         </div>
         <div class="button flex-center">确定</div>
       </div>
+
     </van-popup>
   </div>
 </template>
@@ -239,7 +241,24 @@ export default {
     return {
       showCoupons: false,
       showsku: false,
+      couponList: [],
+      collect: 0,
+      goods_attr: 0,
+      filter_spec: '',
+      spec_goods_price: '',
+      goods_images_list: '',
       goods_num: 0,
+      address: {},//地址
+      comment: {
+        count: 1,
+        list: [],
+        praise: 0,
+      },//评论
+      filter_spec: [],
+      freight: 0,
+      goods: {
+        goods_content: ''
+      },
     }
   },
   methods: {
@@ -251,14 +270,27 @@ export default {
     },
     async addCart() {
       let res = addToCart({ goods_num })
+    },
+    async getGoods() {
+      let goods_id = this.$route.query.goods_id
+      let res = await goodsinfo({ goods_id })
+      console.log(res);
+      this.goods = res.data.goods
+      this.comment = res.data.comment
+      this.address = res.data.address
+      this.goods = res.data.goods
+      this.freight = res.data.freight
+      this.goods_images_list = res.data.goods_images_list
+    },
+    async getcouponList() {
+      let res = await couponList()
+      console.log(res);
+      this.couponList = res.data
     }
   },
-  async created() {
-    let goods_id = this.$route.query.goods_id
-    let res = await ajaxComment({ goods_id, commentType: 'all' })
-    // let couponlist = await couponList()
-    let goodinfo = await goodsinfo({ goods_id })
-    console.log(goodinfo);
+  created() {
+    this.getGoods()
+    this.getcouponList()
   },
 
 }

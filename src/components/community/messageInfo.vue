@@ -3,64 +3,97 @@
     <div class="chat">
       <div class="item">
         <div class="info">
-          <img src="@/assets/icon/active.png"
+          <img :src="info.head_pic"
                alt="">
-          <p class="name">不要放弃治疗</p>
-          <p class="time">2019-04-29 09:51:22</p>
+          <p class="name">{{info.nickname}}</p>
+          <p class="time">{{info.add_time}}</p>
         </div>
-        <div class="tex"> 我是一个孕妈妈，本来怀孕是一件很开心的事情，可是不幸的是，我在孕期被查出了甲亢，虽然现在用药物在控制，但是我还是担心会对孩子造成影响，不知道怎么办才好。</div>
+        <div class="tex"> {{info.content}}</div>
         <div class="btn flex">
-          <div>
-            <img src="@/assets/icon/AK-MN点赞@2x.png"
+          <div @click="clickZan">
+            <img :src="info.zan==0?zan:iszan"
                  alt="">
-            5482513
+            {{info.zan_num}}
           </div>
           <div>
             <img src="@/assets/icon/AK-MN消息1@2x.png"
                  alt="">
-            123
+            {{info.count}}
           </div>
         </div>
       </div>
     </div>
     <div class="comment">
       <div class="tip">
-        评论<span>(233)</span>
+        评论<span>({{info.count}})</span>
       </div>
-      <div class="item">
+      <div class="item"
+           v-for="(item, index) in list"
+           :key="index">
         <div class="info">
-          <img src="@/assets/icon/active.png"
+          <img :src="item.head_pic"
                alt="">
-          <p class="name">憨厚的黄连</p>
-          <p class="time">2019-04-29 16:18:24</p>
+          <p class="name">{{item.nickname}}</p>
+          <p class="time">{{item.add_time}}</p>
         </div>
-        <div class="txt">孕期出现了这样的情况，真的让人乐观不起来</div>
+        <div class="txt">{{item.content}}</div>
       </div>
     </div>
     <div class="commit">
       <van-field v-model="value"
                  placeholder="请输入用户名" />
-      <button>发表</button>
+      <button @click="sumbit">发表</button>
     </div>
   </div>
 </template>
 
 <script>
-import { Field } from 'vant';
+import { Field, Toast } from 'vant';
+import iszan from '@/assets/icon/AK-MN点赞_fill@2x.png'
+import zan from '@/assets/icon/AK-MN点赞@2x.png'
+import { messageInfo, clickzan, } from '@/axios/getData.js'
 export default {
   components: {
-    vanField: Field
+    vanField: Field,
+
   },
   data() {
     return {
-      value:""
+      value: "",
+      info: {},
+      list: [],
+      iszan,
+      zan
     }
+  },
+  methods: {
+    async sumbit() {
+
+    },
+    async getmsgInfo() {
+      let res = await messageInfo({ id: this.$route.query.id, comment_id: this.$route.query.comment_id })
+      console.log(res);
+      this.info = res.data.info
+      this.list = res.data.list
+    },
+    async clickZan() {
+      let comment_id = this.$route.query.comment_id
+
+      let res = await clickzan({ comment_id })
+      Toast(res.data)
+      this.getmsgInfo()
+      
+    }
+  },
+  created() {
+    this.getmsgInfo()
   },
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../../assets/css/mixin.scss";
+
 .chat {
   padding: 0 35px;
   .item {
@@ -75,6 +108,7 @@ export default {
         float: left;
         @include wh(75px, 75px);
         margin-right: 15px;
+        border-radius: 50%;
       }
       .name {
         font-size: 30px;
@@ -143,6 +177,7 @@ export default {
         float: left;
         @include wh(75px, 75px);
         margin-right: 15px;
+        border-radius: 50%;
       }
       .name {
         font-size: 30px;
