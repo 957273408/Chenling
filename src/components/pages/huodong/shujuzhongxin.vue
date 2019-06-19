@@ -85,8 +85,10 @@ export default {
 			}
 		}
 		.info{
-			margin:-250px 60px;
+			margin:-270px 60px;
 			background: #fff;
+			border-top-left-radius:20px; 
+			border-top-right-radius:20px; 
 			.bg1{
 				background: url(src/assets/images/会员6@2x.png) no-repeat 10% center;
 				background-size: 50px;

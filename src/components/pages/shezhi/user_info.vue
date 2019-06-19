@@ -9,7 +9,7 @@
       </div>
       <div class="item flex-between" @click="popup('nickname', data.nickname)">
         <div class="title">用户名</div>
-        <div class="right flex-center-y"><span>{{data.nickname}}</span><van-icon name="arrow" class="arrow" /></div>
+        <div class="right flex-center-y"><span>{{data.nickname}}笑望星辰</span><van-icon name="arrow" class="arrow" /></div>
       </div>
       <div class="item flex-between" @click="sexShow = true">
         <div class="title">性别</div>
@@ -17,15 +17,15 @@
       </div>
       <div class="item flex-between" @click="timeShow = true">
         <div class="title">生日</div>
-        <div class="right flex-center-y"><span>{{data.birthday}}</span><van-icon name="arrow" class="arrow" /></div>
+        <div class="right flex-center-y"><span>{{data.birthday}}1970-01-01</span><van-icon name="arrow" class="arrow" /></div>
       </div>
       <div class="item flex-between">
         <div class="title">手机</div>
-        <div class="right flex-center-y"><span>{{data.mobile}}</span><van-icon name="arrow" class="arrow" /></div>
+        <div class="right flex-center-y"><span>{{data.mobile}}18888888888</span><van-icon name="arrow" class="arrow" /></div>
       </div>
       <div class="item flex-between" @click="popup('email', data.email)">
         <div class="title">邮箱</div>
-        <div class="right flex-center-y"><span>{{data.email}}</span><van-icon name="arrow" class="arrow" /></div>
+        <div class="right flex-center-y"><span>{{data.email}}1005412627@qq.com</span><van-icon name="arrow" class="arrow" /></div>
       </div>
     </div>
 

@@ -16,7 +16,7 @@
       <van-cell title="全部级别" is-link arrow-direction="down" />
     </div>
     <div id="list">
-      <img src="@/assets/images/522.png" alt="">
+      <img src="@/assets/images/522.png" alt="" style="width:unset;">
       <div class="inner">
         <span>昵称：爱的故事上集</span>
         <span>级别：二级</span>

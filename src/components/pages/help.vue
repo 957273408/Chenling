@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="button flex-center-x">
-      <div class="flex-center flex_1"><img src="@/assets/images/help1.png" alt="">联系客服</div>
+      <div class="flex-center flex1"><img src="@/assets/images/help1.png" alt="">联系客服</div>
       <!-- <div class="flex-center flex_1" @click="$router.push({path: '/feedback'})"><img src="../../assets/images/help2.png" alt="">意见反馈</div> -->
     </div>
 
@@ -108,5 +108,11 @@ export default {
   text-align: center;
   font-size: 34px;
   margin-bottom: 20px;
+}
+.flex1{
+  display: flex;
+  justify-content:center;
+  margin-left:50%;
+  transform:translateX(-50%);  
 }
 </style>

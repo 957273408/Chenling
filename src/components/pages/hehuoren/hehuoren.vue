@@ -9,7 +9,7 @@
 				</ul>
 			</div>
 		</div>
-        <div v-show="false">
+        <div v-show="true">
             <div class="info">
             <div class="bottom">
                 <span>真实姓名<i style="color:red;">* </i></span>
@@ -17,11 +17,11 @@
             </div>
             <div class="bottom">
                 <span>真实姓名<i style="color:red;">* </i></span>
-                <input type="text" placeholder="申请人真实姓名">
+                <input type="text" placeholder="申请人身份证号码">
             </div>
             <div class="bottom">
                 <span>真实姓名<i style="color:red;">* </i></span>
-                <input type="text" placeholder="申请人真实姓名">
+                <input type="text" placeholder="申请人手机号码">
             </div>
             <div class="img">
                 <div>
@@ -51,7 +51,7 @@
                 <button style="color:#fff">重新提交</button>
             </div>
         </div>
-         <div class="zhuangtai"> <!-- 已提交状态 -->
+         <div class="zhuangtai" v-show="false"> <!-- 已提交状态 -->
             <img src="@/assets/images/成功23@2x.png" alt="">
             <p style="font-size:17pt;">申请已提交</p>
             <p>您的申请资料已经提交 请耐心等候</p>

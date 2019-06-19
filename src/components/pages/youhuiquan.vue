@@ -65,6 +65,8 @@
 </template>
 <script>
 import {Button} from "vant";
+import { youhuiquan_list } from '@/axios/getData';
+
 export default {
 	data(){
 		return{
@@ -73,6 +75,16 @@ export default {
 	},
 	components:{
 		"van-button":Button
+	},
+	created(){
+		this.getData()
+	},
+	methods:{
+		async getData(){
+			var id = this.$route.query.id;
+			var res = await youhuiquan_list({id,type:1})
+        	console.log(res.data)
+		}
 	}
 }
 </script>

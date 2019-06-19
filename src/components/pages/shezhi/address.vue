@@ -16,8 +16,7 @@
     <div class="item flex-center-y">
       <div class="title"></div>
 
-
-      <div class="flex_1">
+      <div class="flex1" style="color:#000;">
         <van-radio-group v-model="data.famale" class="flex">
           <van-radio name="1" checked-color="#EF2C10">先生</van-radio>
           <van-radio name="2" class="radio" checked-color="#EF2C10">女士</van-radio>
@@ -30,8 +29,12 @@
       <div class="title">手机号：</div>
       <input type="number" placeholder="请填写收货人的手机号码" v-model="data.mobile">
     </div>
-    <div class="checkbox_wrap">
-      <van-checkbox v-model="data.is_default" checked-color="#EF2C10">设置为默认地址</van-checkbox>
+    <!-- <div class="checkbox_wrap">
+      <van-checkbox v-model="data.is_default" checked-color="#EF2C10" @click="default_()">设置为默认地址</van-checkbox>
+    </div> -->
+    <div id='dizhi'  @click="default_()">
+      <span class="radio" :class="{active:data.is_default==1}"> </span>
+      <span>设置为默认地址</span>
     </div>
     <div class="button flex-center" @click="sub()"> {{this.$route.query.data?"修改":"添加"}}</div>
 
@@ -75,10 +78,11 @@ export default {
         province: "",
         twon: "",
       },
-      is_default: 0,
+      is_default: 1,
       address: [],
       site: util.site,
-      show: false
+      show: false,
+      changed:false
     }
   },
   created() {
@@ -94,6 +98,7 @@ export default {
       district: this.$route.query.data.district,
       address: this.$route.query.data.address,
       mobile: this.$route.query.data.mobile,
+      is_default: this.$route.query.data.is_default,
       famale: String(this.$route.query.data.famale)
     }
     console.log(this.data)
@@ -102,7 +107,17 @@ export default {
     //   this.getData()
     // }
   },
+  watch:{
+    data(){
+      this.changed=true
+      console.log(this.data)
+    }
+  },
   methods: {
+    default_(){
+      this.data.is_default=this.data.is_default==1?0:1;
+      console.log(this.data)
+    },
     getData() {
       this.$get('user/edit_address', {address_id: this.$route.query.id}).then((res) => {
         this.data = {
@@ -153,16 +168,19 @@ export default {
       }else if(!(/^1[3456789]\d{9}$/.test(this.data.mobile))){
         Toast('手机号码格式错误')
       }else{
-        if(this.$route.query.data.address_id){
+        if(this.$route.query.data&&this.changed){
           edit_address(this.data).then((res) => {
             Toast('修改成功')
             this.$router.go(-1)
           })
-        }else{
+        }else if(!this.$route.query.data){
           add_address(this.data).then((res) => {
             Toast('保存成功')
             this.$router.go(-1)
           })
+        }else{
+          Toast('修改成功')
+          this.$router.go(-1)
         }
       }
     }
@@ -189,6 +207,11 @@ export default {
   .radio {
     margin-left: 50px;
   }
+  .flex_1 {
+    span{
+      color: #000 !important;
+    }
+ }
 }
 .checkbox_wrap {
   margin: 30px 10px;
@@ -202,5 +225,31 @@ export default {
   border-radius: 60px;
   font-size: 38px;
   box-shadow: 0 4px 16px #b3edf6;
+}
+.flex1{
+  display: flex;
+}
+input::-webkit-input-placeholder{
+  color:#999999;
+}
+#dizhi{
+  display: flex;
+  align-items: center;
+  font-size: 0.48rem;
+  color:#323233;
+  .radio{
+    display: inline-block;
+    // vertical-align: middle;
+    height: 13pt;
+    width: 13pt;
+    border:2px solid #323233;
+    border-radius: 50%;
+    margin-right: 10pt;
+  }
+  .active{
+    background: url(src/assets/images/success_fill@2x.png) no-repeat;
+    background-size: 100%;
+    border-color:#fff !important;
+  }
 }
 </style>
