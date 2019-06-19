@@ -41,7 +41,8 @@
         马上签到
       </router-link>
     </div>
-    <div class="block flex column1"><!--跳转我的订单-->
+    <div class="block flex column1">
+      <!--跳转我的订单-->
       <router-link :to="{path: '/wodedingdan',query:{index:1}}"
                    class="item">
         <img src="@/assets/images/待付款.png"
@@ -74,7 +75,8 @@
       </router-link>
     </div>
     <div class="banner">
-      <router-link to="/news"><img src="@/assets/icon/海报1拷贝@2x.png" alt=""></router-link>
+      <router-link to="/news"><img src="@/assets/icon/海报1拷贝@2x.png"
+             alt=""></router-link>
     </div>
     <van-tabs v-model="active"
               title-active-color='#FF4C23'
@@ -134,7 +136,8 @@
           </router-link>
         </div>
         <div class="banner">
-          <router-link to="/news"><img src="@/assets/icon/海报2拷贝@2x.png" alt=""></router-link>
+          <router-link to="/news"><img src="@/assets/icon/海报2拷贝@2x.png"
+                 alt=""></router-link>
         </div>
         <div class="block flex-wrap column2">
           <router-link to="/choujiang"
@@ -180,7 +183,8 @@
         <div slot="title">
           <i class="iconfont icon-tianchongxing-"></i> 合伙人中心
         </div>
-        <div class="block flex-wrap column2" v-show="true">
+        <div class="block flex-wrap column2"
+             v-show="true">
           <router-link to="orderList"
                        class="item">
             <img src="@/assets/images/乐拼.png"
@@ -224,18 +228,22 @@
             <p>我的名片</p>
           </router-link>
         </div>
-		<div v-show="true" class="flex_1">
-          <img src="@/assets/images/哭.png" alt=""/>
+        <div v-show="true"
+             class="flex_1">
+          <img src="@/assets/images/哭.png"
+               alt="" />
           <p class="p1">抱歉，您还不是代理商</p>
           <p><span>3个月</span>内累计实际消费满<span>8000元</span>，才可</p>
           <p class="p2">申请成为代理商</p>
         </div>
-		<div v-show="true" class="flex_2">
-          <img src="@/assets/images/笑.png" alt=""/>
+        <div v-show="true"
+             class="flex_2">
+          <img src="@/assets/images/笑.png"
+               alt="" />
           <p class="p1">恭喜，您已满足条件</p>
           <p>您已满足申请代理商的条件，</p>
           <p class="p2">赶快去申请吧！</p>
-		  <button @click="$router.push({path:'/hehuoren'})">马上申请</button>
+          <button @click="$router.push({path:'/hehuoren'})">马上申请</button>
         </div>
       </van-tab>
     </van-tabs>
@@ -419,7 +427,7 @@ p {
 }
 </style>
 
-<style lang="scss" >
+<style lang="scss" scoped >
 .myicon {
   position: absolute;
   right: 0px;
@@ -436,54 +444,54 @@ div /deep/ .van-tab--active {
   font-weight: 500;
   color: #ff4c23 !important;
 }
-.flex_1{  
+.flex_1 {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-weight: 600;
-  img{
-    width:50pt;
-    height:50pt;
+  img {
+    width: 50pt;
+    height: 50pt;
   }
-  p{
-	font-size: 13pt;
+  p {
+    font-size: 13pt;
   }
-  span{
-	  color:#f00;
+  span {
+    color: #f00;
   }
-  .p1{
-    margin:15pt 0;
+  .p1 {
+    margin: 15pt 0;
     font-size: 15pt;
   }
-  .p2{
-	margin:15pt 0;
+  .p2 {
+    margin: 15pt 0;
   }
 }
-.flex_2{  
+.flex_2 {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-weight: 600;
-  img{
-    width:50pt;
-    height:50pt;
+  img {
+    width: 50pt;
+    height: 50pt;
   }
-  p{
-	font-size: 13pt;
+  p {
+    font-size: 13pt;
   }
-  .p1{
-    margin:15pt 0;
+  .p1 {
+    margin: 15pt 0;
     font-size: 15pt;
   }
-  .p2{
-	margin:15pt 0;
+  .p2 {
+    margin: 15pt 0;
   }
-  button{
-	background:linear-gradient(to right,#FF462D,#FF9E3F);
-	display: inline-block;
-	width:50% !important;
-	height:50pt;
-	border-radius: 25pt !important;
+  button {
+    background: linear-gradient(to right, #ff462d, #ff9e3f);
+    display: inline-block;
+    width: 50% !important;
+    height: 50pt;
+    border-radius: 25pt !important;
   }
 }
 </style>

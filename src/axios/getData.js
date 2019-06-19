@@ -5,6 +5,9 @@ import { get, post } from './index'
  */
 export const gethome = () => get('api/index/index')
 
+// 登录
+export const login = ()=> get('api/login/index')
+
 // ajax商品评论
 export const ajaxComment = data => post('api/goods/ajaxComment', data)
 
@@ -78,7 +81,7 @@ export const del_cart = data => post('api/cart/delete', data)
 export const submit_order = data => post('api/cart/settlement', data)
 
 // 提交订单
-// export const
+export const addOrder = data => post('api/cart/addOrder',data)
 
 //添加收藏
 export const add_shoucang = data => get('api/user/add_collect', data)
@@ -88,3 +91,9 @@ export const set_default = data => get('api/user/set_default', data)
 
 //优惠券列表
 export const youhuiquan_list = data => get('api/user/coupon', data)
+
+// 更改购物车数量
+export const changeCartNum = data =>post('api/cart/changeNum',data)
+
+// 搜索列表
+export const searchlist =data=> post('api/goods/searchlist',data)

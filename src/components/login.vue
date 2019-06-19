@@ -5,13 +5,14 @@
 
 <script>
 import { Toast } from 'vant'
+import {login} from '@/axios/getData.js'
 export default {
   created() {
     this.login()
   },
   methods: {
     async login() {
-      let res = await this.$post('login/index', { code: this.$route.query.code })
+      let res = await login()
       Toast('登录成功')
       this.$store.commit('userUpdate', res.data)
       this.$router.push({

@@ -67,18 +67,7 @@ nav {
       height: 41px;
      
     }
-    .guahao{
-      @include bis('src/assets/icon/服务诊所@2x.png')
-    }
-    .zhuanjia{
-      @include bis('src/assets/icon/诊所医生@2x.png')
-    }
-    .peizheng{
-      @include bis('src/assets/icon/服务人员@2x.png')
-    }
-    .jiuyi{
-      @include bis('src/assets/icon/订单@2x.png')
-    }
+
     .title {
       margin: 25px 0 5px 0;
       text-align: left;
@@ -130,12 +119,17 @@ main {
 
 .happly-go {
   @include wh(688px, 457px);
-  @include bis('src/assets/images/正在乐拼.png');
   position: relative;
   box-shadow: 0 11px 10px rgba(233, 79, 71, 0.1);
   margin: 40px auto 0;
   border-radius: 20px;
-
+  .img{
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;    
+  }
   .top {
     height: 84px;
     @include fj(space-between);
@@ -304,6 +298,59 @@ main {
       }
       &>div{
         flex: 1;
+      }
+    }
+    .imt{
+      position: relative;
+      .title{
+        margin-top: 29px;
+        margin-left: 26px;        
+        height:33px;
+        font-size:34px;
+        font-family:SourceHanSansCN-Bold;
+        font-weight:bold;
+        color:rgba(67,67,73,1);
+        line-height:24px;
+      }
+      .btn{
+        margin-top: 24px;
+        margin-left: 26px;    
+        background-color: #fff;   
+        width:76px;
+        height:32px;
+        border:2px solid rgba(33,162,230,1);
+        border-radius:16px;
+        font-size:24px;
+        font-weight:400;
+        color:rgba(33,162,230,1);
+        line-height:24px;
+      }
+      .tex{
+        margin-top: 12px;
+        margin-left: 26px;     
+        height:22px;
+        font-size:24px;
+        font-family:SourceHanSansCN-Normal;
+        font-weight:400;
+        color:rgba(156,156,156,1);
+        line-height:24px;
+      }
+      img{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width:247px;
+        height:186px;
+      }
+    }
+    .imt2{
+      position: relative;
+      img{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width:131px;
+        height:139px;
       }
     }
   }

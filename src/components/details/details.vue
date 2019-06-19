@@ -181,6 +181,7 @@
       <van-goods-action-big-btn @click="addCart"
                                 text="加入购物车" />
       <van-goods-action-big-btn primary
+                                @click="addTohapply"
                                 text="参加乐拼" />
     </van-goods-action>
 
@@ -217,6 +218,7 @@
           <div class="num flex-between cart">
             <p class="title">数量</p>
             <van-stepper v-model="num"
+                         :max='store_count'
                          class="flex" />
           </div>
           <div class="count">
@@ -283,24 +285,39 @@ export default {
   methods: {
     async getCoupon({ id }) {
       let res = await get_coupon({ id, user_id: this.$store.state.userInfo.user_id })
+      if (res.err) return
       console.log(res);
     },
-    changeColor({ item_id, item }, ind, key) {
-      // this.filter_spec.spec_value.forEach((e, index) => {
-      //   e.active = (index == ind)
-      // });
-      console.log(this.filter_spec[key]);
+    changeColor({ item }, ind, key) {
+
       this.filter_spec[key].forEach((e, index) => {
         e.active = (index == ind)
       })
-      this.sku_name = item
-      this.item_id = this.spec_goods_price[item_id].item_id
-      this.store_count = this.spec_goods_price[item_id].store_count
-      this.price = this.spec_goods_price[item_id].price
+      let arr = []
+      Object.keys(this.filter_spec).forEach(e => {
+        this.filter_spec[e].forEach(k => {
+          if (k.active) arr.push(k)
+        })
+      })
+      arr.sort((a, b) => a.item_id - b.item_id)
+      console.log(arr);
+      let item_id = arr.reduce((id, { item_id }) => {
+        return id = id + '_' + item_id
+      }, '').substring(1)
+      let item_name = arr.reduce((name, { item }) => {
+        return name = name + '-' + item
+      }, '')
       this.$forceUpdate()
+      try {
+        this.sku_name = item_name
+        this.item_id = this.spec_goods_price[item_id].item_id
+        this.store_count = this.spec_goods_price[item_id].store_count
+        this.price = this.spec_goods_price[item_id].price
+      } catch (e) { }
     },
     async addCollect() {
       let res = await add_shoucang({ goods_id: Number(this.$route.query.goods_id), user_id: this.$store.state.userInfo.user_id })
+      if (res.err) return
       this.iscollect = !this.iscollect
       this.$toast(res.data.msg)
     },
@@ -312,16 +329,31 @@ export default {
     },
     async addCart() {
       if (this.item_id && this.num) {
+
         let res = await addToCart({ goods_id: Number(this.$route.query.goods_id), goods_num: this.num, item_id: this.item_id })
+        if (res.err) return
         this.$toast(res.data)
-        this.$router.push('/cart') 
+        this.$router.push('/cart')
       } else {
         this.openSku()
       }
     },
+    addTohapply() {
+      this.$router.push({
+        path: '/uporder',
+        query: {
+          action: "",
+          goods_id: this.$route.query.goods_id,
+          goods_num: this.num,
+          item_id: this.item_id,
+          // cart_ids:
+        }
+      })
+    },
     async getGoods() {
       let goods_id = this.$route.query.goods_id
       let res = await goodsinfo({ goods_id })
+      if (res.err) return
       console.log(res);
       this.goods = res.data.goods
       this.comment = res.data.comment

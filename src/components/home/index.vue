@@ -48,6 +48,9 @@
              alt="">
       </router-link>
       <section class="happly-go">
+        <img class="img"
+             src="@/assets/images/正在乐拼.png"
+             alt="">
         <div class="top">
           <h2>正在乐拼</h2>
           <span>查看全部</span>
@@ -143,7 +146,7 @@
           </div>
         </div>
       </section>
-      <section class="pharmacy">
+      <!-- <section class="pharmacy">
         <div class="top">
           <p class="left"><span>亿长寿</span>大药房</p>
           <router-link to=""
@@ -154,17 +157,28 @@
         </div>
         <div class="content">
           <div class="item">
-            <div>
-              <img src="../../assets/images/药房1.png"
-                   alt="">
+            <div class="imt">
+              <router-link :to="`/pharmacy?id=${category_seven[0].id}`"
+                           tag="div">
+                <img :src="category_seven[0].image"
+                     alt="">
+                <div class="title">{{category_seven[0].name}}</div>
+                <div class="tex">{{category_seven[0].sub_name}}</div>
+                <button class="btn">go</button>
+              </router-link>
             </div>
-            <div>
+            <div >
+               <router-link :to="`/pharmacy?id=${category_seven[1].id}`" class="imt2"
+                           tag="div">
+                <img :src="category_seven[1].image"
+                     alt="">
+                <div class="title">{{category_seven[1].name}}</div>
+                <div class="tex">{{category_seven[1].sub_name}}</div>
+              </router-link>
               <div>
-                <img src="../../assets/images/男性健康.png"
+                <img src="../../assets/images/女性调养.png"
                      alt="">
               </div>
-              <div><img src="../../assets/images/女性调养.png"
-                     alt=""></div>
             </div>
           </div>
           <div class="item">
@@ -187,7 +201,7 @@
 
           </div>
         </div>
-      </section>
+      </section> -->
       <section class="banner">
         <img :src="img[2].ad_code"
              alt="">
@@ -211,20 +225,20 @@
             <li>
               <img src="@/assets/images/药丸.png"
                    alt="">
-              <p>中西药品</p>
-              <span>下单<em>减120元</em></span>
+              <p>隐形眼镜</p>
+              <span>下单<em>立减158元</em></span>
             </li>
             <li>
               <img src="@/assets/images/药丸.png"
                    alt="">
-              <p>中西药品</p>
-              <span>下单<em>减120元</em></span>
+              <p>药妆个护</p>
+              <span>大牌<em>199减100元</em></span>
             </li>
             <li>
               <img src="@/assets/images/药丸.png"
                    alt="">
-              <p>中西药品</p>
-              <span>下单<em>减120元</em></span>
+              <p>医疗器械</p>
+              <span>低至<em>1.1元</em></span>
             </li>
 
           </div>
@@ -284,6 +298,7 @@
 </template>
 
 <script>
+import wa from 'axios'
 import TTitle from './compontes/Ttitle'
 import { Swipe, SwipeItem, Search, } from 'vant';
 import { gethome } from '@/axios/getData'
@@ -308,8 +323,10 @@ export default {
     }
   },
   async created() {
+    wa.get('http://47.112.129.157/kk/login?username=ceshi&password=123456&verify_code=1220').then(res => {
+      console.log(res);
+    })
     let res = await gethome()
-    console.log(res.data);
     this.banner = res.data.banner
     this.category_eight = res.data.category_eight
     this.category_seven = res.data.category_seven

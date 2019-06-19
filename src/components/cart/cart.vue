@@ -1,7 +1,7 @@
 <template>
   <div class="cart">
     <div class="head flex-between">
-      <p class="allNum">共2件商品</p>
+      <p class="allNum">共{{cartItem.length}}件商品</p>
       <div class="img">
         <i @click="delcart"
            class="iconfont icon-shanchu"></i>
@@ -29,6 +29,7 @@
               <div class="handle flex-between">
                 <p class="price">￥{{item.member_goods_price}}</p>
                 <van-stepper v-model="item.goods_num"
+                             @change="goodsnumchange(item)"
                              class="flex" />
               </div>
             </div>
@@ -52,7 +53,7 @@
 
 <script>
 import { Checkbox, CheckboxGroup, Stepper, Dialog, Toast } from 'vant';
-import { cartList, del_cart, submit_order } from '@/axios/getData'
+import { cartList, del_cart, submit_order, changeCartNum } from '@/axios/getData'
 export default {
   components: {
     vanCheckbox: Checkbox,
@@ -68,9 +69,23 @@ export default {
     }
   },
   methods: {
+    async goodsnumchange({ id, goods_num }) {
+      let res = await changeCartNum({ cart_id: id, goods_num })
+      console.log(res);
+    },
     submit() {
-       let ids = this.getids()
-      this.$router.push('/uporder?ids=' + ids)
+      let ids = this.getids()
+      if (!ids) {
+        this.$toast('请选择商品')
+        return
+      }
+      this.$router.push({
+        path: '/uporder',
+        query: {
+          action: 'cart',
+          ids
+        }
+      })
     },
     getids() {
       let arr = this.cartItem.filter((e, i) => {
@@ -89,7 +104,7 @@ export default {
         let ids = this.getids()
 
         let res = await del_cart({ cart_ids: ids })
-        console.log(res);
+        if (res.err) return
         this.$toast(res.data)
         this.getlist()
       }).catch(() => {
@@ -107,7 +122,7 @@ export default {
     },
     async getlist() {
       let res = await cartList()
-      console.log(res);
+      if (res.err) return
       this.cartItem = res.data
     },
     select() {

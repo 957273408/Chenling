@@ -15,12 +15,22 @@
 
 <script>
 import { Swipe, SwipeItem, Search, } from 'vant';
+import { searchlist } from '@/axios/getData.js'
 export default {
   components: {
     'van-swipe': Swipe,
     'van-swipe-item': SwipeItem,
     'van-search': Search,
   },
+  methods: {
+    async getlist() {
+      let res = await searchlist({ keyword: '细胞',user_id:this.$store.state.userInfo.user_id })
+      console.log(res);
+    }
+  },
+  created() {
+    this.getlist()
+  }
 }
 </script>
 
@@ -49,10 +59,10 @@ export default {
       height: 63px;
       background: rgba(246, 246, 246, 1);
       border-radius: 32px;
-      font-size:26px;
-      font-weight:400;
-      color:rgba(51,51,51,1);
-      line-height:63px;
+      font-size: 26px;
+      font-weight: 400;
+      color: rgba(51, 51, 51, 1);
+      line-height: 63px;
       text-align: center;
     }
   }

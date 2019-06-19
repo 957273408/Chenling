@@ -9,7 +9,7 @@
           <p>收货人：{{data.address.consignee}}</p>
           <p>{{data.address.mobile}}</p>
         </div>
-        <p class="address">{{data.address.province + data.address.city + data.address.district + data.address.address}}</p>
+        <p class="address">{{ data.address.city + data.address.district + data.address.address}}</p>
       </div>
       <van-icon name="arrow"
                 class="arrow"
@@ -119,38 +119,26 @@
     </van-popup>
 
     <!--地址-->
-    <van-popup v-model="addressShow"
-               position="bottom"
+    <van-popup style="width:100%;height:100%"
+               v-model="addressShow"
+               position="right"
+               :overlay="false"
                class="address_popup">
-      <div class="address_list">
-        <div class="item flex-between"
-             v-for="(item, index) in addressList"
-             :key="index">
-          <div class="left flex_1">
-            <div class="column flex-center-y">
-              <p class="name">{{item.consignee}}</p>
-              <p class="phone">{{item.mobile}}</p>
-              <p class="default"
-                 v-if="item.is_default">默认</p>
-            </div>
-            <div class="address">{{item.address_details}}</div>
-          </div>
-          <div class="right flex-center"
-               @click="useAddress(item)">选择</div>
-        </div>
-      </div>
+      <shouhuodizhi @tochange='changeAddress'></shouhuodizhi>
     </van-popup>
   </div>
 </template>
 
 <script>
-import { Icon, Switch, Popup } from "vant";
-import { submit_order } from '@/axios/getData'
+import { Icon, Switch, Popup, Dialog } from "vant";
+import shouhuodizhi from '@/components/pages/shezhi/shouhuodizhi.vue'
+import { submit_order, addOrder } from '@/axios/getData'
 export default {
   components: {
     "van-icon": Icon,
     "van-switch": Switch,
-    "van-popup": Popup
+    "van-popup": Popup,
+    shouhuodizhi
   },
   data() {
     return {
@@ -172,12 +160,18 @@ export default {
     this.getData();
   },
   methods: {
+    changeAddress(e) {
+      this.data.address = e
+      this.addressShow = false
+      this.$forceUpdate()
+    },
     async getData() {
       console.log(this.$route.query);
-      if (!this.$route.query.action) {
+      if (this.$route.query.action == 'cart') {
         let res = await submit_order({ cart_ids: this.$route.query.ids, action: 'cart' })
-        console.log(res);
+        if (res.err) return
         this.data = res.data
+        console.log(this.data);
         delete this.data.cartList.cart_ids;
         this.$forceUpdate()
       } else {
@@ -185,8 +179,25 @@ export default {
           goods_id: this.$route.query.goods_id,
           goods_num: this.$route.query.goods_num,
           item_id: this.$route.query.item_id,
-          action: "buy_now"
+          action: this.$route.query.action
         };
+        let res = await submit_order(data)
+        console.log(res);
+        if (res.err) {
+          Dialog.confirm({
+            title: '确认',
+            message: res.msg
+          }).then(() => {
+            // on confirm
+            this.$router.push('/nowhapply')
+          }).catch(() => {
+            // on cancel
+            this.$router.push('/')
+          });
+        }
+        this.data = res.data
+        console.log(this.data);
+        delete this.data.cartList.cart_ids;
         // this.$post("cart/settlement", data).then(res => {
         //   this.data = res.data;
         // });
@@ -205,25 +216,23 @@ export default {
     // // 获取地址列表
     getAddressList() {
       this.addressShow = true;
-      if (this.addressList.length) return false;
-      this.$post("user/address_list", {}).then(res => {
-        this.addressList = res.data;
-      });
     },
     // // 提交订单
-    submit() {
+    async submit() {
       let data = {
         address_id: this.address == "" ? this.data.address.address_id : "",
         coupon_id: this.coupon == "" ? "" : this.coupon.id,
         pay_points: this.pay_points ? this.data.pay_points : "",
         user_money: this.user_money ? this.data.user_money : "",
         user_note: this.user_note,
+        // action: this.$route.query.action,
         action: this.$route.query.action,
         item_id: "",
         goods_num: "",
         goods_id: "",
-        cart_ids: "",
-        pay_type: 1
+        pay_type: 1,
+        cart_ids: this.$route.query.ids,
+        prom_type: this.data.cartList[0].prom_type
       };
       if (this.$route.query.action == "") {
         data.cart_ids = this.data.cart_ids.toString();
@@ -232,46 +241,46 @@ export default {
         data.goods_num = this.$route.query.goods_num;
         data.item_id = this.$route.query.item_id;
       }
-      this.$post("cart/addOrder", data).then(res => {
-        if (typeof WeixinJSBridge == "undefined") {
-          if (document.addEventListener) {
-            document.addEventListener(
-              "WeixinJSBridgeReady",
-              onBridgeReady,
-              false
-            );
-          } else if (document.attachEvent) {
-            document.attachEvent("WeixinJSBridgeReady", onBridgeReady);
-            document.attachEvent("onWeixinJSBridgeReady", onBridgeReady);
-          }
-        } else {
-          WeixinJSBridge.invoke(
-            "getBrandWCPayRequest",
-            {
-              appId: res.data.appId, //公众号名称，由商户传入
-              timeStamp: res.data.timeStamp, //时间戳，自1970年以来的秒数
-              nonceStr: res.data.nonceStr, //随机串
-              package: res.data.package,
-              signType: res.data.signType, //微信签名方式：
-              paySign: res.data.paySign //微信签名
-            },
-            res => {
-              if (res.err_msg == "get_brand_wcpay_request:ok") {
-                this.$router.push({ path: "/success" });
-              }
-            }
+      let res = await addOrder(data)
+      if (res.err) return
+      if (typeof WeixinJSBridge == "undefined") {
+        if (document.addEventListener) {
+          document.addEventListener(
+            "WeixinJSBridgeReady",
+            onBridgeReady,
+            false
           );
+        } else if (document.attachEvent) {
+          document.attachEvent("WeixinJSBridgeReady", onBridgeReady);
+          document.attachEvent("onWeixinJSBridgeReady", onBridgeReady);
         }
-      });
+      } else {
+        WeixinJSBridge.invoke(
+          "getBrandWCPayRequest",
+          {
+            appId: res.data.appId, //公众号名称，由商户传入
+            timeStamp: res.data.timeStamp, //时间戳，自1970年以来的秒数
+            nonceStr: res.data.nonceStr, //随机串
+            package: res.data.package,
+            signType: res.data.signType, //微信签名方式：
+            paySign: res.data.paySign //微信签名
+          },
+          res => {
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+              this.$router.push({ path: "/succesorder" });
+            }
+          }
+        );
+      }
     }
   },
   computed: {
     // 总价
     total() {
       let total = 0;
-      // this.data.cartList.forEach((val, key) => {
-      //   total += Number(val.shop_price) * val.goods_num;
-      // });
+      Object.values(this.data.cartList).forEach(e => {
+        total += Number(e.goods_price) * e.goods_num;
+      })
       return total.toFixed(2);
     },
     // 成交价
