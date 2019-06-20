@@ -43,9 +43,7 @@ export default {
   },
   methods:{
      async getdata() {
-      var id = this.$route.query.id;
-      var res = await getshoucang({id})
-      console.log(res);
+      var res = await getshoucang();
       this.data=res.data;
       console.log(this.data)
     },

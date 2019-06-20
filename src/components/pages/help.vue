@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="list">
-      <div class="item flex-between">
+      <div class="item flex-between" v-for="(item,index) in data" :key="index"  @click="$router.push({path: '/help_detali',query:{article_id:item.article_id}})">
         <div class="flex-center-y">
           <img src="@/assets/images/help_icon.png" alt="">
-          <p class="ellipsis">乐拼折扣多久可以出结果？</p>
+          <p class="ellipsis">{{item.title}}</p>
         </div>
         <van-icon name="arrow" class="arrow" />
       </div>
@@ -26,10 +26,26 @@
 
 <script>
 import { Icon, Popup } from 'vant';
+import { helper } from '@/axios/getData';
 export default {
+  data(){
+    return{
+      data:[]
+    }
+  },
   components: {
     'van-icon': Icon,
     "van-popup": Popup
+  },
+  created() {
+    this.getdata();
+  },
+  methods:{
+    async getdata(){
+      var res= await helper();
+      console.log(res.data);
+      this.data=res.data;
+    }
   },
 }
 //   data() {

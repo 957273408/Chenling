@@ -54,6 +54,7 @@
 
 <script>
 import { Tab, Tabs, List, Dialog, Toast } from 'vant';
+import { order_list } from '@/axios/getData';
 export default {
   components: {
     'van-tabs': Tabs,
@@ -62,13 +63,20 @@ export default {
   },
   data(){
 	  return{
-		  index:0
+      index:0,
+      data:{}
 	  }
   },
   created(){
-    console.log(this.$route.query)
-    this.index=this.$route.query.index
+    this.getData();
   },
+  methods:{
+    async getData(){
+      var res = await order_list();
+      this.data=res.data;
+      console.log(res.data);
+    }
+  }
 }
 //   data() {
 //     return {

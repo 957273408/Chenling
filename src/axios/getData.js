@@ -78,3 +78,45 @@ export const set_default = data => get('api/user/set_default', data)
 
 //优惠券列表
 export const youhuiquan_list = data => get('api/user/coupon', data)
+
+//用户资料
+export const xiugaiziliao = data => post('api/user/xiugai_ziliao', data)
+
+//修改用户资料
+export const userinfo = data => post('api/user/userinfo', data)
+
+//添加银行卡
+export const bankadd = data => get('api/user/bankadd', data)
+
+//修改银行卡
+export const bankedit = data => post('api/user/bankedit', data)
+
+//银行卡列表
+export const bankList = data => get('api/user/bankList', data)
+
+//删除银行卡
+export const delBank = data => post('api/user/delBank', data)
+
+//帮助列表
+export const helper = data => get('api/user/helper', data)
+
+//帮助中心详情
+export const helper_info = data => post('api/user/helper_info', data)
+
+//上传图片
+export const upload = data => get('api/upload/uploadImg', data)
+
+//签到规则
+export const qiandao_guize = data => post('api/user/sign_rules', data)
+
+//马上签到规则
+export const user_sign = data => post('api/user/user_sign', data)
+
+//签到总积分api/order/order_list
+export const sign_total = data => post('api/user/sign_total', data)
+
+//订单列表
+export const order_list = data => post('api/order/order_list', data)
+
+//物流查询
+export const express = data => get('api/user/express', data)

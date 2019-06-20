@@ -1,89 +1,66 @@
 <template>
 	<div id="box">
 		<div id="nav">
-			<a href="#" @click="index=1" :class="{active:index==1}">未使用</a>
-			<a href="#" @click="index=2" :class="{active:index==2}">已使用</a>
-			<a href="#" @click="index=3" :class="{active:index==3}">已过期</a>
+			<span @click="submit(1)" :class="{active:index1==1}">未使用</span>
+			<span @click="submit(2)" :class="{active:index1==2}">已使用</span>
+			<span @click="submit(3)" :class="{active:index1==3}">已过期</span>
 		</div>
-		<div id="quan">
+		<div id="quan" v-for="(item,index) in data" :key="index" :class="{guoqi:index1!=1}">
 			<div class="card">
 				<div class="inner left">
-					<h1>￥30</h1>
-					<span>满168可用</span>
+					<h1>￥{{item.money}}</h1>
+					<span>满{{item.condition}}可用</span>
 				</div>
 				<div class="inner middle">
-					<h2>新用户首单优惠券</h2>
-					<span>部分特殊商品不可使用</span>
+					<h2>{{item.name}}</h2>
 				</div>
-				<van-button round type="danger">去使用</van-button>
+				<van-button round type="danger">{{index1==1?"去使用":index1==2?"已使用":"未使用"}}</van-button>
 			</div>
-			<span class="shijian">有效期至[2019-04-24]</span>
-		</div>
-		<div id="quan">
-			<div class="card">
-				<div class="inner left">
-					<h1>￥30</h1>
-					<span>满168可用</span>
-				</div>
-				<div class="inner middle">
-					<h2>新用户首单优惠券</h2>
-					<span>部分特殊商品不可使用</span>
-				</div>
-				<van-button round type="danger">去使用</van-button>
-			</div>
-			<span class="shijian">有效期至[2019-04-24]</span>
-		</div>
-		<div id="quan" class="guoqi">
-			<div class="card">
-				<div class="inner left">
-					<h1>￥30</h1>
-					<span>满168可用</span>
-				</div>
-				<div class="inner middle">
-					<h2>新用户首单优惠券</h2>
-					<span>部分特殊商品不可使用</span>
-				</div>
-				<van-button round type="danger">已过期</van-button>
-			</div>
-			<span class="shijian">有效期至[2019-04-24]</span>
-		</div>
-				<div id="quan" class="guoqi">
-			<div class="card">
-				<div class="inner left">
-					<h1>￥30</h1>
-					<span>满168可用</span>
-				</div>
-				<div class="inner middle">
-					<h2>新用户首单优惠券</h2>
-					<span>部分特殊商品不可使用</span>
-				</div>
-				<van-button round type="danger">已使用</van-button>
-			</div>
-			<span class="shijian">有效期至[2019-04-24]</span>
+			<span class="shijian">有效期至[{{item.send_time}}]</span>
 		</div>
 	</div>
 </template>
 <script>
 import {Button} from "vant";
 import { youhuiquan_list } from '@/axios/getData';
-
 export default {
 	data(){
 		return{
-			index:1
+			index1:1,
+			data:[]
 		}
 	},
 	components:{
 		"van-button":Button
 	},
 	created(){
-		this.getData()
+		this.submit(1);
 	},
 	methods:{
-		async getData(){
-			var id = this.$route.query.id;
-			var res = await youhuiquan_list({id,type:1})
-        	console.log(res.data)
+		async submit(id){
+			switch(id){
+				case 1:
+					var res = await youhuiquan_list({type:0})
+					this.data=res.data;
+					this.index1=1
+					console.log(this.data)
+					break;
+				case 2:
+					this.index1=2;
+					this.data=[];
+					var res = await youhuiquan_list({type:1})
+					this.data=res.data;
+					console.log(this.data)
+					break;
+				case 3:
+					this.index1=3;
+					this.data=[];
+					var res = await youhuiquan_list({type:2})
+					this.data=res.data;
+					console.log(this.data)
+					break;
+				default:
+			}
 		}
 	}
 }
@@ -95,7 +72,7 @@ export default {
 			flex-direction: row;
 			justify-content: space-around;
 			margin: 50px 0;
-			a{
+			span{
 				color:#000; 
 			}
 			.active{

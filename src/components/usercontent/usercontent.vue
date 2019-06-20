@@ -17,11 +17,10 @@
         <div class="order myicon">
           <div class="flex-center-y"
                style='float:right'>
-            <router-link to="">
+            <router-link to="/mymsg">
               <van-icon name="chat" />
             </router-link>
-
-            <router-link to="">
+            <router-link to="/myset">
               <van-icon name="setting-o" />
             </router-link>
           </div>
@@ -32,12 +31,9 @@
       </div>
 
     </div>
-    <div class=" jfqd flex">
-      <img src="@/assets/icon/等级图标@2x.png"
-           alt="">
-      <div>已为您赠送积分 <span>4862</span></div>
-      <router-link to=""
-                   tag="button">
+    <div class="jfqd flex22 " style="width:100%;padding:0 30pt;">   
+      <div id="hee" style="color:#5E402B;font-size:11pt"><img src="@/assets/icon/等级图标@2x.png" style="margin-right:5pt;" alt=""> 已为您赠送积分 <span style="margin-left:10pt;color:#E61F1F;font-weight:bold;font-size:11pt;">4862</span></div>
+      <router-link to="/wodeqiandao" tag="button" style="width:70pt;line-height:18pt; border-radius:9pt;background:linear-gradient(to right,#FF462D,#FF9E3F);color:#fff;">
         马上签到
       </router-link>
     </div>
@@ -261,11 +257,12 @@ export default {
     this.getData()
   },
   methods: {
-    getData() {
-      this.$post('user/userinfo', {}).then((res) => {
-        this.data = res.data
-      })
-    }
+    // async getData() {
+    //   var id = this.$route.query.id;
+    //   var res= await userinfo({id})
+    //   console.log(res.data)
+    //   this.data=res.data
+    //   }
   }
 }
 </script>
@@ -275,7 +272,6 @@ export default {
   height: 104px;
   width: 640px;
   margin: auto;
-
   align-items: center;
   img {
     width: 34px;
@@ -485,5 +481,14 @@ div /deep/ .van-tab--active {
 	height:50pt;
 	border-radius: 25pt !important;
   }
+}
+#hee{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.flex22{
+  display: flex;
+  justify-content: space-between
 }
 </style>

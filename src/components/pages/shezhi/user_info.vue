@@ -4,12 +4,12 @@
       <div class="item flex-between head">
         <div class="title">头像</div>
         <van-uploader :after-read="onReads" accept="image/*" >
-          <img src="@/assets/images/522.png" alt="" class="upload img">
+          <img :src="data.head_pic" alt="" class="upload img">
         </van-uploader>
       </div>
       <div class="item flex-between" @click="popup('nickname', data.nickname)">
         <div class="title">用户名</div>
-        <div class="right flex-center-y"><span>{{data.nickname}}笑望星辰</span><van-icon name="arrow" class="arrow" /></div>
+        <div class="right flex-center-y"><span>{{data.nickname}}</span><van-icon name="arrow" class="arrow" /></div>
       </div>
       <div class="item flex-between" @click="sexShow = true">
         <div class="title">性别</div>
@@ -17,15 +17,15 @@
       </div>
       <div class="item flex-between" @click="timeShow = true">
         <div class="title">生日</div>
-        <div class="right flex-center-y"><span>{{data.birthday}}1970-01-01</span><van-icon name="arrow" class="arrow" /></div>
+        <div class="right flex-center-y"><span>{{data.birthday}}</span><van-icon name="arrow" class="arrow" /></div>
       </div>
-      <div class="item flex-between">
+      <div class="item flex-between" @click="popup('mobile', data.mobile)">
         <div class="title">手机</div>
-        <div class="right flex-center-y"><span>{{data.mobile}}18888888888</span><van-icon name="arrow" class="arrow" /></div>
+        <div class="right flex-center-y"><span>{{data.mobile}}</span><van-icon name="arrow" class="arrow" /></div>
       </div>
       <div class="item flex-between" @click="popup('email', data.email)">
         <div class="title">邮箱</div>
-        <div class="right flex-center-y"><span>{{data.email}}1005412627@qq.com</span><van-icon name="arrow" class="arrow" /></div>
+        <div class="right flex-center-y"><span>{{data.email}}</span><van-icon name="arrow" class="arrow" /></div>
       </div>
     </div>
 
@@ -33,7 +33,7 @@
     <van-popup v-model="show" position="bottom">
       <div class="popup">
         <van-icon name="cross" @click="show=false" class="cross"/>
-        <input type="text" v-model="mod">
+        <input type="text" v-model="mod" placeholder="请输入正确的格式">
         <div class="button flex-center" @click="submit">确认修改</div>
       </div>
     </van-popup>
@@ -50,6 +50,7 @@
 
 <script>
 import { Icon, Popup, Actionsheet, DatetimePicker, Uploader } from 'vant';
+import { xiugaiziliao, userinfo, upload} from "@/axios/getData"
 export default {
   components: {
     'van-icon': Icon,
@@ -65,6 +66,9 @@ export default {
       attribute: '',
       sexShow: false,
       timeShow: false,
+      user:{
+        photo:null
+      },
       actions: [
         {
           name: '男',
@@ -76,17 +80,24 @@ export default {
         },
       ],
       currentDate: new Date(),
-      data: {}
+      data: {
+        head_pic:"",
+
+      }
     }
   },
   created() {
     this.getData()
   },
   methods: {
-    getData() {
-      this.$post('user/userinfo', {}).then((res) => {
-         this.data = res.data
-      })
+    async getData(){
+      let u_id=this.$store.state.userInfo.user_id
+      var res= await xiugaiziliao({u_id});
+      // var date = new Date(Number(res.data.birthday));
+      // var dateTime = date.toLocaleString();
+      // res.data.birthday = dateTime.split(" ")[0].replace(/\//g,"-");
+      this.data=res.data;
+      console.log(res.data,111111)
     },
     popup(name, val) {
       this.show = true
@@ -95,40 +106,73 @@ export default {
     },
     // 确认修改
     submit() {
-      let data = {}
-      data[this.attribute] = this.mod
-      this.$post('user/userinfo', data).then((res) => {
-        this.show = false
-        this.getData()
-      })
+      // let data1 = this.mod;
+      // data1[this.attribute] = this.mod
+      this.data[this.attribute] = this.mod
+      switch(this.attribute){
+        case "nickname" : 
+          userinfo({nickname:this.mod}).then(()=>{
+          this.show = false
+        })
+        break;
+        case "email" : 
+          userinfo({email:this.mod}).then(()=>{
+            this.show = false;
+          })
+        break;
+        case "mobile" : 
+          userinfo({mobile:this.mod}).then(()=>{
+          this.show = false;
+        })
+        break;
+        default:
+      }
+      console.log(this.data,this.attribute)
+      // userinfo(data).then(()=>{
+      //     // this.data.sex=e.sex;
+      //     this.show = false
+      // })
     },
     // 修改性别
-    onSelect(e) {
-      this.$post('user/userinfo', {sex: e.sex}).then((res) => {
-        this.sexShow = false
-        this.getData()
-      })
+    onSelect(e) {        
+        userinfo({sex: e.sex}).then(()=>{
+          this.data.sex=e.sex;
+          this.sexShow = false
+        })
     },
-    // 修改生日
+    // 修改生日 birth
     onConfirm(e) {
-      this.$post('user/userinfo', {birth: e.getTime()/1000}).then((res) => {
+      var date = new Date(e.getTime());
+      var dateTime = date.toLocaleString();
+      var time = dateTime.split(" ")[0].replace(/\//g,"-");
+      // console.log(time)
+      // this.timeShow = false
+      userinfo({birthday: time}).then(()=>{
+        this.data.birthday=time;
         this.timeShow = false
-        this.getData()
       })
     },
     // 图片修改
+    
     onReads(file) {
-      let data = new FormData()
-      data.append('return_imgs', file.file)
-      this.$upImg(data).then((res) => {
-        this.data.head_pic = file.content
-        this.$post('user/userinfo', {head_pic: res.data.imgpath}).then((res) => { })
+      let data1 = new FormData()
+      data1.append('return_imgs', file.file)
+      console.log(data1)
+      this.$upImg(data1).then((res) => {
+        this.data.head_pic = file.content;
+        console.log(2)
+        // userinfo({head_pic: res.data1.imgpath}).then((res) => { })
       })
+      // let data = new FormData()
+      // data.append('return_imgs', file.file)
+      // this.$upImg(data).then((res) => {
+      //   this.data.head_pic = file.content
+      //   this.$post('user/userinfo', {head_pic: res.data.imgpath}).then((res) => { })
+      // })
     }
   }
 }
 </script>
-
 <style scoped lang="scss">
 .wrap {
   background: #fff;
@@ -188,5 +232,8 @@ export default {
     font-size: 38px;
     box-shadow: 0 4px 16px #b3edf6;
   }
+}
+::-webkit-input-placeholder{
+  color:#999999;
 }
 </style>

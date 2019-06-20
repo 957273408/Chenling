@@ -377,6 +377,12 @@ export default new Router({
       meta:{ title:"申请合伙人" }
     },
     {
+      path: '/help_detali',
+      name: 'help_detali',
+      component: () =>import ('../components/pages/help_detali.vue'),
+      meta:{ title:"帮助中心详情" }
+    },
+    {
       path: '/test',
       name: 'test',
       component: () =>

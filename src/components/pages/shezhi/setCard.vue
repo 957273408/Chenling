@@ -1,50 +1,62 @@
 <template>
   <div class="bindSettings">
-    <div class="list">
-      
+    <div class="list">    
       <div class="item flex-center-y">
         <div class="title">选择银行：</div>
-         <input type="text" placeholder="点击选择"> <!--v-model="data.bankname" readonly @click="show = true" -->
+         <input type="text" placeholder="点击选择" v-model="data.bankname" readonly @click="show = true">
         <van-icon name="arrow" class="arrow" />
       </div>
       
       <div class="item flex-center-y">
         <div class="title">银行卡号：</div>
-         <input type="text" placeholder="请输入银行卡号"> <!-- v-model="data.banknum" -->
+         <input type="text" placeholder="请输入银行卡号" v-model="data.banknum">
       </div>
       <div class="item flex-center-y">
         <div class="title">确认卡号：</div>
-        <input type="text" placeholder="请再次输入银行卡号">
+        <input type="text" placeholder="请再次输入银行卡号" v-model="data.bankname2">
       </div>
-      <div class="item flex-center-y">
+      <!-- <div class="item flex-center-y">
         <div class="title">开户所在地：</div>
-         <input type="text" placeholder="点击选择">  <!-- readonly v-model="data.place" -->
+         <input type="text" placeholder="点击选择" readonly v-model="data.place">
          <van-icon name="arrow" class="arrow" />
-      </div>
+      </div> -->
+
+    <div class="item flex-center-y">
+      <div class="title">开户所在地：</div>
+      <input type="text" placeholder="点击选择" readonly v-model="data.place"  @click="show1=true">
+      <van-icon name="arrow" class="arrow"/>
+    </div>
+
       <div class="item flex-center-y">
         <div class="title">开户行：</div>
-        <input type="text" placeholder="请输入开户支行"> <!--   v-model="data.place" -->
+        <input type="text" placeholder="请输入开户支行" v-model="data.bankplace">
       </div>
-      <div class="button flex-center" @click="submit">添加</div>
-      <div class="button flex-center disabled">删除</div>
+      <div class="button flex-center" @click="submit()">添加</div>
     </div>
     <van-popup v-model="show" position="bottom">
-      <van-picker :columns="columns" show-toolbar  @confirm="confirm" @cancel="cancel"/>
+      <van-picker :columns="columns" show-toolbar  @confirm="onConfirm" @cancel="show=false"/>
+    </van-popup>
+    <van-popup v-model="show1" position="bottom">
+      <van-area :area-list="site" @cancel="show1=false" @confirm="changeAddress"/>
     </van-popup>
   </div>
 </template>
 
 <script>
-import { Icon, Picker, Popup, Toast } from 'vant';
+import { Icon, Picker, Popup, Toast, Area } from 'vant';
+import util from '../../utils/utils.js'
+import { bankadd, delBank } from '@/axios/getData'
 export default {
   components: {
     'van-icon': Icon,
     'van-picker': Picker,
-    'van-popup': Popup
+    'van-popup': Popup,
+    "van-area": Area
   },
   data() {
     return {
-      show: false,
+      show: false,  // 选择银行
+      show1:false,  // 选择所在地
       columns: [
         {
           text: '工商银行'
@@ -75,16 +87,51 @@ export default {
         }
       ],
       data: {
-        banknum: ''
-      }
+        banknum: '',
+        bankname2: '',
+        bankname:"",
+        bankplace:"",
+        place:""
+      },
+      Address:"",
+      site: util.site,
     }
   },
+  created(){
+  },
+  // watch: {
+  //   data: {
+  //     bankname2(newName, oldName) {
+  //       if(data.banknum.call(this)==newName){
+  //         Toast("两次输入的卡号必须相同");
+  //       }
+  //   },
+  //   deep: true,
+  //   immediate: true
+  //   }
+  // },
   methods: {
-    submit() {
-      this.$post('user/bankadd', this.data).then((res) => {
-        Toast('添加成功')
-        this.$router.back()
-      })
+    async submit() {
+      var id=this.$route.query.id;
+      if(this.data.bankname&&this.data.bankname2&&this.data.banknum&&this.data.bankplace&&this.data.place){
+        if(this.data.bankname2==this.data.banknum){
+          this.data.id=id;
+          console.log(555)
+          await bankadd(this.data).then((res)=>{
+            this.$router.go(-1);
+          })
+        }else{
+          Toast("两次输入的卡号必须相同");
+        }
+      }
+    },
+    onConfirm(picker, value, index) {
+      this.data.bankname=this.columns[value].text;
+      this.show=false;
+    },
+    changeAddress(val) {
+      this.data.place=val[0].name+" "+val[1].name+" "+val[2].name;
+      this.show1 = false
     }
   }
 }
@@ -129,5 +176,8 @@ export default {
   background: #eee;
   color: #333;
   box-shadow: 0 4px 16px #eee;
+}
+input::-webkit-input-placeholder{
+  color:#999999;
 }
 </style>

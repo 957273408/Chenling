@@ -1,20 +1,12 @@
 <!--个人设置-->
 <template>
   <div class="about">
-    <div class="date">
-      <van-button round type="danger">2019-04-06</van-button>
-    </div>
-    <div id="msg">
-			<h3>双十一期间物流说明</h3>
+    <div id="msg" v-for="(item,index) in data" :key="index">
+			<h3>{{item.message_title}}</h3>
 	  	<div id="dd">
-			  描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息
+			  {{item.message}}
 	  	</div>
-		</div>
-		<div id="msg">
-			<h3>双十一期间物流说明</h3>
-	  	<div id="dd">
-			  描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息
-	  	</div>
+			<p>{{item.create_time}}</p>
 		</div>
   </div>
 </template>
@@ -23,12 +15,24 @@ import { Button} from 'vant'
 import { mymsg } from '@/axios/getData'
 
 export default {
+	data(){
+		return{
+			data:[]
+		}
+	},
   components:{
     "van-button": Button
 	},
-	async created() {
-    let res = await mymsg()
-		console.log(res.data);
+	created() {
+    this.getdata();
+		
+	},
+	methods:{
+		async getdata(){
+			var res = await mymsg();
+			console.log(res.data);
+			this.data=res.data;
+		}
 	}
 }
 </script>

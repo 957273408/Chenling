@@ -26,10 +26,25 @@
 </template>
 <script>
 import {Steps,Step} from "vant";
+import { express } from "@/axios/getData"
 export default {
+	data(){
+		return{
+
+		}
+	},
+	created(){
+		this.getdata();
+	},
 	components:{
 		"van-steps":Steps,
 		"van-step":Step,
+	},
+	methods:{
+		async getdata(){
+			var res= await express();
+			console.log(res.data);
+		}
 	}
 }
 </script>

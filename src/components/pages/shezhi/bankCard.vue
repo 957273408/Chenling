@@ -1,42 +1,66 @@
 <template>
   <div class="backCrad">
-    <div class="wrap">
+    <div class="wrap" v-for="(item,index) in data" :key="index">
       <div class="con">
         <div class="flex-between">
-          <div class="name">中国工商银行</div>
+          <div class="name">{{item.bankname}}</div>
           <div class="flex-center r">
             <div class="label flex-center">储蓄卡</div>
-            <!-- <img src="@/assets/images/形状34拷贝82@2x.png" alt="" class="del"> -->
+            <img src="@/assets/images/删除.png" alt="" class="del" @click="del(item.id,index)">
           </div>
         </div>
-        <div class="number">6222  ****  ****  0732</div>
+        <div class="number">{{item.banknum.slice(0,4)}}  ****  ****  {{item.banknum.slice(-4)}}</div>
       </div>
-      <router-link to="backCradInput" class="button flex-center">更换银行卡</router-link>
+      <!--query:{data:item}-->
     </div>
-    <div class="wrap">
+
+
+
+    <div class="wrap" v-if="data.length==0">
       <div class="con disabled">
         <div class="flex-between">
           <div class="name">未添加银行卡</div>
         </div>
         <div class="number">****  ****  ****  ****</div>
       </div>
-      <router-link to="backCradInput" class="button flex-center">添加银行卡</router-link>
+      <router-link to="/setCard" class="button flex-center">添加银行卡</router-link>
     </div>
+    <div @click="$router.push({path: '/setCard'})" class="button flex-center">添加银行卡</div>
   </div>
 </template>
 
 <script>
-// import { Dialog } from 'vant';
+import { Dialog } from 'vant';
+ import { bankList,bankedit, delBank } from '@/axios/getData';
 export default {
   data() {
     return {
       data: []
     }
   },
+  created() {
+    this.getData();
+  },
+  methods:{
+    async getData(){
+      var id = this.$route.query.id;
+      var res = await bankList();
+      if(res.data.length){
+        this.data=res.data;
+        console.log(this.data)
+      }
+    },
+    del(id_,index){
+      Dialog.confirm({
+        title: '确认删除？',
+        message: '删除后不可恢复'
+      }).then(() => {
+        delBank({id:id_})
+        this.data.splice(index,1)
+      })
+    }
+  }
 }
-//   created() {
-//     this.getData()
-//   },
 //   methods: {
 //     getData() {
 //       this.$post('user/bankList', {}).then((res) => {
@@ -108,7 +132,6 @@ export default {
 .del {
   position: absolute;
   width: 30px;
-  right: -30px;
   top: -30px;
 }
 </style>

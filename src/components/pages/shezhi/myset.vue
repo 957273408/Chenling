@@ -17,7 +17,7 @@
           <span v-if="data.is_name_auth == 3">认证失败</span> -->
         <van-icon name="arrow" class="arrow" /></div>
       </router-link>
-      <router-link to="" class="item flex-between">
+      <router-link to="/bankCard" class="item flex-between">
         <div class="title">银行卡</div>
         <div class="right flex-center-y"><van-icon name="arrow" class="arrow"/></div>
       </router-link>

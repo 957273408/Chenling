@@ -88,5 +88,51 @@ export const post = (url = '', data = {}) => {
 
   return _axios.post(url, data)
 }
+
+// function upImg(data={}){
+//   data.token =
+//     store.state.userInfo.token ||
+//     '22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm'
+//   // return _axios.post({
+//   //   url:'api/upload/uploadImg',
+//   // })
+
+// }
+
 Vue.prototype.$toast = Toast
+ function upImg (data = {}, headers = {}, loading = true) {
+  return new Promise((resolve, reject) => {
+    data.token =
+    store.state.userInfo.token ||
+    '22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm'  
+    headers['Content-Type'] = 'multipart/form-data'
+    axios({
+      url: 'http://ycs.rujiezhineng.net/api/upload/uploadImg',
+      method: 'post',
+      data: data,
+      headers: headers
+    }).then(response => {
+      if (response.data.code == 200) {
+        resolve(response.data)
+      } else if (response.data.code == 408) {
+        // Toast('请先登录')
+        // this.$router.push({path: '/login'})
+        window.location.href = response.data.msg
+
+        // resolve(response.data)
+      }else if(response.data.code == 401){
+        resolve(response) 
+      } else {
+        Toast(response.data.msg)
+        reject(response)
+      }
+    }, err => {
+      this.$store.state.loading = false
+      Toast(err.msg)
+      reject(err)
+    })
+  })
+}
+// Vue.prototype.$post = post_
+Vue.prototype.$upImg = upImg
 export default _axios
