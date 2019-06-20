@@ -1,13 +1,17 @@
 <template>
   <div>
-    <van-search shape='round'
-                background='none'
-                placeholder="搜索亿长寿精选好物"
-                v-model="value" />
+
+    <form @submit="search">
+      <van-search shape='round'
+                  background='none'
+                  placeholder="搜索亿长寿精选好物"
+                  v-model="value" />
+    </form>
     <div class="hotsearch">
       <div class="tip">热门搜索</div>
       <ul>
-        <li>感冒发烧</li>
+        <li v-for="(item, index) in keyname"
+            :key="index">感冒发烧</li>
       </ul>
     </div>
   </div>
@@ -15,17 +19,26 @@
 
 <script>
 import { Swipe, SwipeItem, Search, } from 'vant';
-import { searchlist } from '@/axios/getData.js'
+import { searchWord } from '@/axios/getData.js'
 export default {
   components: {
     'van-swipe': Swipe,
     'van-swipe-item': SwipeItem,
     'van-search': Search,
   },
+  data() {
+    return {
+      value: '',
+      keyname: []
+    }
+  },
   methods: {
     async getlist() {
-      let res = await searchlist({ keyword: '细胞',user_id:this.$store.state.userInfo.user_id })
+      let res = await searchWord({ user_id: this.$store.state.userInfo.user_id })
       console.log(res);
+    },
+    search() {
+      this.$router.push('/home')
     }
   },
   created() {

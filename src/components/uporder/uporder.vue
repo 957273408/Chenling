@@ -217,6 +217,7 @@ export default {
     getAddressList() {
       this.addressShow = true;
     },
+
     // // 提交订单
     async submit() {
       let data = {
@@ -245,33 +246,32 @@ export default {
       if (res.err) return
       if (typeof WeixinJSBridge == "undefined") {
         if (document.addEventListener) {
-          document.addEventListener(
-            "WeixinJSBridgeReady",
-            onBridgeReady,
-            false
-          );
+          document.addEventListener('WeixinJSBridgeReady', this.onBridgeReady(res), false);
         } else if (document.attachEvent) {
-          document.attachEvent("WeixinJSBridgeReady", onBridgeReady);
-          document.attachEvent("onWeixinJSBridgeReady", onBridgeReady);
+          document.attachEvent('WeixinJSBridgeReady', this.onBridgeReady(res));
+          document.attachEvent('onWeixinJSBridgeReady', this.onBridgeReady(res));
         }
       } else {
-        WeixinJSBridge.invoke(
-          "getBrandWCPayRequest",
-          {
-            appId: res.data.appId, //公众号名称，由商户传入
-            timeStamp: res.data.timeStamp, //时间戳，自1970年以来的秒数
-            nonceStr: res.data.nonceStr, //随机串
-            package: res.data.package,
-            signType: res.data.signType, //微信签名方式：
-            paySign: res.data.paySign //微信签名
-          },
-          res => {
-            if (res.err_msg == "get_brand_wcpay_request:ok") {
-              this.$router.push({ path: "/succesorder" });
-            }
-          }
-        );
+        this.onBridgeReady(res);
       }
+    },
+    onBridgeReady(res) {
+      WeixinJSBridge.invoke(
+        "getBrandWCPayRequest",
+        {
+          appId: res.data.appId, //公众号名称，由商户传入
+          timeStamp: res.data.timeStamp, //时间戳，自1970年以来的秒数
+          nonceStr: res.data.nonceStr, //随机串
+          package: res.data.package,
+          signType: res.data.signType, //微信签名方式：
+          paySign: res.data.paySign //微信签名
+        },
+        res => {
+          if (res.err_msg == "get_brand_wcpay_request:ok") {
+            this.$router.push({ path: "/succesorder" });
+          }
+        }
+      );
     }
   },
   computed: {

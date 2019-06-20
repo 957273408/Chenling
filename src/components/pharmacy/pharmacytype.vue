@@ -1,46 +1,51 @@
 <template>
-  <div>
+  <div v-if="showlist">
     <header>
-      <img src=""
+      <img :src="list.banner.banner"
            alt="">
     </header>
     <div class="list">
-      <div class="item">
-        <router-link to="/details"
-                     class="item">
-          <img src="@/assets/icon/图层93拷贝@2x.png"
-               alt="">
-          <div class="t">辅舒良 丙酸氟替卡松鼻喷雾剂120喷 鼻炎喷剂
-            季节性过敏性鼻炎进口喷剂药品</div>
-          <div class="info">
-            <div class="pice">¥68</div>
-            <div class="del">¥199</div>
-          </div>
-        </router-link>
-      </div>
-      <div class="item">
-        <router-link to="/details"
-                     class="item">
-          <img src="@/assets/icon/图层93拷贝@2x.png"
-               alt="">
-          <div class="t">辅舒良 丙酸氟替卡松鼻喷雾剂120喷 鼻炎喷剂
-            季节性过敏性鼻炎进口喷剂药品</div>
-          <div class="info">
-            <div class="pice">¥68</div>
-            <div class="del">¥199</div>
-          </div>
-        </router-link>
-      </div>
+      <router-link v-for="(item, index) in list.goods_list"
+                   tag="div"
+                   :key="index"
+                   :to="'/details?goods_id='+item.goods_id"
+                   class="item">
+        <img :src="item.original_img"
+             alt="">
+        <div class="t">{{item.goods_name +' '+ item.goods_remark}}</div>
+        <div class="info">
+          <div class="pice">¥{{item.shop_price}}</div>
+          <div class="del">¥{{item.market_price}}</div>
+        </div>
+      </router-link>
+
     </div>
   </div>
 </template>
 
 <script>
+import { goods_category } from '@/axios/getData.js'
 export default {
-  
+  data() {
+    return {
+      list: {},
+      showlist: false,
+    }
+  },
+  methods: {
+    async getdata(p = 1) {
+      let res = await goods_category({ id: this.$route.query.id, p })
+      console.log(res);
+      this.list = res.data
+      if (res.data.goods_list.length) this.showlist = true
+    }
+  },
+  created() {
+    this.getdata()
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-@import './css/pharmacytype.scss';
+@import "./css/pharmacytype.scss";
 </style>

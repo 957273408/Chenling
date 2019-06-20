@@ -131,6 +131,7 @@ main {
     right: 0;    
   }
   .top {
+    position: relative;
     height: 84px;
     @include fj(space-between);
     @include sc(34px,#fff);
@@ -293,6 +294,7 @@ main {
   .content{
     .item{
       @include fj();
+     
       img{
         width: 100%;
       }
@@ -302,6 +304,7 @@ main {
     }
     .imt{
       position: relative;
+      height: 290px;
       .title{
         margin-top: 29px;
         margin-left: 26px;        
@@ -345,12 +348,65 @@ main {
     }
     .imt2{
       position: relative;
+      overflow: hidden;
+      height: 140px;
+      .title{
+        margin-top: 39px;
+        margin-left: 26px;        
+        height:27px;
+        font-size:28px;
+        font-family:SourceHanSansCN-Bold;
+        font-weight:bold;
+        color:rgba(67,67,73,1);
+        line-height:27px;
+      }
+  
+      .tex{
+        margin-top: 12px;
+        margin-left: 26px;     
+        height:24px;
+        font-size:24px;
+        font-family:SourceHanSansCN-Normal;
+        font-weight:400;
+        color:rgba(156,156,156,1);
+        line-height:24px;
+      }
       img{
         position: absolute;
         bottom: 0;
         right: 0;
         width:131px;
         height:139px;
+      }
+    }
+    .imt3{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 200px;
+      img{
+        width:140px;
+        height:97px;
+      }
+      .title{
+        margin-bottom: 9px;
+        height:27px;
+        font-size:28px;
+        font-family:SourceHanSansCN-Bold;
+        font-weight:bold;
+        color:rgba(67,67,73,1);
+        line-height:27px;
+      }
+  
+      .tex{
+        margin-bottom: 9px;
+        height:24px;
+        font-size:24px;
+        font-family:SourceHanSansCN-Normal;
+        font-weight:400;
+        color:rgba(156,156,156,1);
+        line-height:24px;
       }
     }
   }

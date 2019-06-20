@@ -41,7 +41,7 @@
     <div class="balance flex-center-y">
       <div class="left flex_1 flex-between">
         <van-checkbox v-model="checkeds"
-                      @change='allselect'
+                      @click='allselect'
                       checked-color="#2194e6">全选</van-checkbox>
         <p class="total">合计：<span>￥{{countnum}}</span></p>
       </div>
@@ -112,7 +112,7 @@ export default {
       });
     },
     allselect(e) {
-      if (e) {
+      if (!this.checkeds) {
         this.cartItem.forEach((e, i) => {
           this.checked = [...this.checked, i]
         })
@@ -126,6 +126,11 @@ export default {
       this.cartItem = res.data
     },
     select() {
+      if (this.checked.length == this.cartItem.length) {
+        this.checkeds = true
+      } else {
+        this.checkeds = false
+      }
       let arr = []
       this.cartItem.forEach((e, i) => {
         if (this.checked.indexOf(i) != -1) {
@@ -136,6 +141,7 @@ export default {
         ar = ar + (goods_price * goods_num)
         return ar
       }, 0)
+
     }
   },
   created() {

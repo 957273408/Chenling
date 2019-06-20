@@ -43,7 +43,7 @@
       </section>
       <router-link class="banner"
                    tag="div"
-                   to="/pharmacy">
+                   :to="'/pharmacy?id='+img[0].ad_id">
         <img :src="img[0].ad_code"
              alt="">
       </router-link>
@@ -53,52 +53,32 @@
              alt="">
         <div class="top">
           <h2>正在乐拼</h2>
-          <span>查看全部</span>
+          <router-link tag="span"
+                       to="/nowhapply">
+            查看全部
+          </router-link>
         </div>
-        <van-swipe v-if="groupList.lenght"
+        <van-swipe v-if="showhapply"
                    indicator-color="white">
-          <van-swipe-item>
-            <div class="item">
+          <van-swipe-item v-for="(items, index) in groupList[0].goodsinfo"
+                          :key="index">
+            <router-link :to="'/details?goods_id='+item.goods_id"
+                         tag="div"
+                         v-for="(item, index) in items"
+                         :key="index"
+                         class="item">
               <img src="@/assets/icon/图层136拷贝@2x.png"
                    alt="">
               <p>
-                鱼跃电子血压计医用家用全自动
-                高精准上臂式测量仪器
+                {{item.goods_name}}
               </p>
               <div class="pice">
-                <span>¥99</span>
-                <del>¥199</del>
+                <span>¥{{item.cost_price}}</span>
+                <del>¥{{item.final_price}}</del>
               </div>
-            </div>
-            <div class="item">
-              <img src="@/assets/icon/图层136拷贝@2x.png"
-                   alt="">
-              <p>
-                鱼跃电子血压计医用家用全自动
-                高精准上臂式测量仪器
-              </p>
-              <div class="pice">
-                <span>¥99</span>
-                <del>¥199</del>
-              </div>
-            </div>
-            <div class="item">
-              <img src="@/assets/icon/图层136拷贝@2x.png"
-                   alt="">
-              <p>
-                鱼跃电子血压计医用家用全自动
-                高精准上臂式测量仪器
-              </p>
-              <div class="pice">
-                <span>¥99</span>
-                <del>¥199</del>
-              </div>
-            </div>
+            </router-link>
 
           </van-swipe-item>
-          <van-swipe-item>2</van-swipe-item>
-          <van-swipe-item>3</van-swipe-item>
-          <van-swipe-item>4</van-swipe-item>
         </van-swipe>
         <div class="gohapply"
              v-else>
@@ -122,7 +102,7 @@
         </div>
       </section>
       <section class="banner">
-        <router-link to="/pharmacy">
+        <router-link :to="'/pharmacy?id='+img[1].ad_id">
           <img :src="img[1].ad_code"
                alt="">
         </router-link>
@@ -146,16 +126,17 @@
           </div>
         </div>
       </section>
-      <!-- <section class="pharmacy">
+      <section class="pharmacy">
         <div class="top">
           <p class="left"><span>亿长寿</span>大药房</p>
-          <router-link to=""
+          <router-link to="/nowhapply"
                        class="more"
                        slot="right">
             更多
           </router-link>
         </div>
-        <div class="content">
+        <div class="content"
+             v-if="category_seven.length">
           <div class="item">
             <div class="imt">
               <router-link :to="`/pharmacy?id=${category_seven[0].id}`"
@@ -167,55 +148,79 @@
                 <button class="btn">go</button>
               </router-link>
             </div>
-            <div >
-               <router-link :to="`/pharmacy?id=${category_seven[1].id}`" class="imt2"
+            <div>
+              <router-link :to="`/pharmacy?id=${category_seven[1].id}`"
+                           class="imt2"
                            tag="div">
                 <img :src="category_seven[1].image"
                      alt="">
                 <div class="title">{{category_seven[1].name}}</div>
                 <div class="tex">{{category_seven[1].sub_name}}</div>
               </router-link>
-              <div>
-                <img src="../../assets/images/女性调养.png"
+              <router-link :to="`/pharmacy?id=${category_seven[2].id}`"
+                           class="imt2"
+                           tag="div">
+                <img :src="category_seven[2].image"
                      alt="">
-              </div>
+                <div class="title">{{category_seven[2].name}}</div>
+                <div class="tex">{{category_seven[2].sub_name}}</div>
+              </router-link>
+
             </div>
           </div>
           <div class="item">
-            <div>
-              <img src='../../assets/images/关爱长辈.png'
+            <router-link :to="`/pharmacy?id=${category_seven[3].id}`"
+                         class="imt3"
+                         tag="div">
+              <div class="title">{{category_seven[3].name}}</div>
+              <div class="tex">{{category_seven[3].sub_name}}</div>
+              <img :src="category_seven[3].image"
                    alt="">
-            </div>
-            <div>
-              <img src='../../assets/images/儿童用药.png'
+            </router-link>
+            <router-link :to="`/pharmacy?id=${category_seven[4].id}`"
+                         class="imt3"
+                         tag="div">
+              <div class="title">{{category_seven[4].name}}</div>
+              <div class="tex">{{category_seven[4].sub_name}}</div>
+              <img :src="category_seven[4].image"
                    alt="">
-            </div>
-            <div>
-              <img src='../../assets/images/肝胆专区.png'
+            </router-link>
+            <router-link :to="`/pharmacy?id=${category_seven[5].id}`"
+                         class="imt3"
+                         tag="div">
+              <div class="title">{{category_seven[5].name}}</div>
+              <div class="tex">{{category_seven[5].sub_name}}</div>
+              <img :src="category_seven[5].image"
                    alt="">
-            </div>
-            <div>
-              <img src='../../assets/images/心脑血管.png'
+            </router-link>
+            <router-link :to="`/pharmacy?id=${category_seven[6].id}`"
+                         class="imt3"
+                         tag="div">
+              <div class="title">{{category_seven[6].name}}</div>
+              <div class="tex">{{category_seven[6].sub_name}}</div>
+              <img :src="category_seven[6].image"
                    alt="">
-            </div>
+            </router-link>
 
           </div>
         </div>
-      </section> -->
-      <section class="banner">
-        <img :src="img[2].ad_code"
-             alt="">
       </section>
       <section class="banner">
-        <img :src="img[3].ad_code"
-             alt="">
+        <router-link to="/addvip">
+          <img :src="img[2].ad_code"
+               alt="">
+        </router-link>
+      </section>
+      <section class="banner">
+        <router-link to="/pharmacytype?id=52">
+          <img :src="img[3].ad_code"
+               alt="">
+        </router-link>
       </section>
       <section class="hot_to">
         <div class="content">
           <div class="top">
-            <!-- <router-link to="" tag="li" v-for="(item, index) in category_eight.slice(0, 3)" :key="index">
 
-            </router-link> -->
             <li>
               <img src="@/assets/images/药丸.png"
                    alt="">
@@ -272,8 +277,10 @@
         </div>
       </section>
       <div class="banner">
-        <img :src="img[4].ad_code"
-             alt="">
+        <router-link to="/pharmacytype?id=52">
+          <img :src="img[4].ad_code"
+               alt="">
+        </router-link>
       </div>
       <div class="hot_buy">
         <t-title title="热卖好货"></t-title>
@@ -298,7 +305,6 @@
 </template>
 
 <script>
-import wa from 'axios'
 import TTitle from './compontes/Ttitle'
 import { Swipe, SwipeItem, Search, } from 'vant';
 import { gethome } from '@/axios/getData'
@@ -311,6 +317,7 @@ export default {
   },
   data() {
     return {
+      showhapply: false,
       banner: [],
       category_eight: [],
       category_seven: [],
@@ -323,10 +330,9 @@ export default {
     }
   },
   async created() {
-    wa.get('http://47.112.129.157/kk/login?username=ceshi&password=123456&verify_code=1220').then(res => {
-      console.log(res);
-    })
+
     let res = await gethome()
+    console.log(res);
     this.banner = res.data.banner
     this.category_eight = res.data.category_eight
     this.category_seven = res.data.category_seven
@@ -336,6 +342,10 @@ export default {
     this.img = res.data.img
     this.yuyue = res.data.yuyue
     this.groupList = res.data.groupList
+    if (this.groupList[0].goodsinfo) {
+      this.showhapply = true
+    }
+    this.$forceUpdate()
   }
 }
 </script>
