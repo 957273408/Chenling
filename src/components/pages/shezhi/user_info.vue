@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div id="box">
+    <!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar> -->
     <div class="wrap">
       <div class="item flex-between head">
         <div class="title">头像</div>
@@ -31,7 +32,7 @@
 
     <!-- 基础修改 -->
     <van-popup v-model="show" position="bottom">
-      <div class="popup">
+      <div class="popup" style="width:100%">
         <van-icon name="cross" @click="show=false" class="cross"/>
         <input type="text" v-model="mod" placeholder="请输入正确的格式">
         <div class="button flex-center" @click="submit">确认修改</div>
@@ -39,17 +40,17 @@
     </van-popup>
 
     <!-- 修改性别 -->
-    <van-actionsheet v-model="sexShow" :actions="actions" cancel-text="取消" @select="onSelect"/>
+    <van-actionsheet v-model="sexShow" :actions="actions" cancel-text="取消" @select="onSelect"  style="width:100%"/>
 
     <!-- 修改生日 -->
-    <van-popup v-model="timeShow" position="bottom">
+    <van-popup v-model="timeShow" position="bottom"  style="width:100%">
       <van-datetime-picker v-model="currentDate" type="date" :min-date="new Date(1900, 1, 1)" :max-date="new Date()" @cancel="timeShow=false" @confirm="onConfirm"/>
     </van-popup>
   </div>
 </template>
 
 <script>
-import { Icon, Popup, Actionsheet, DatetimePicker, Uploader } from 'vant';
+import { Icon, Popup, Actionsheet, DatetimePicker, Uploader, NavBar } from 'vant';
 import { xiugaiziliao, userinfo, upload} from "@/axios/getData"
 export default {
   components: {
@@ -57,7 +58,8 @@ export default {
     'van-popup': Popup,
     'van-actionsheet': Actionsheet,
     'van-datetime-picker': DatetimePicker,
-    'van-uploader': Uploader
+    'van-uploader': Uploader,
+    vanNavBar:NavBar
   },
   data() {
     return {
@@ -155,20 +157,15 @@ export default {
     // 图片修改
     
     onReads(file) {
-      let data1 = new FormData()
-      data1.append('return_imgs', file.file)
-      console.log(data1)
-      this.$upImg(data1).then((res) => {
+      let data = new FormData()
+      data.append('return_imgs', file.file)
+      data.append('token',this.$store.state.userInfo.token)
+      console.log(data,file)
+      this.$upImg(data).then((res) => {
         this.data.head_pic = file.content;
-        console.log(2)
-        // userinfo({head_pic: res.data1.imgpath}).then((res) => { })
+        console.log(2,res.data.imgpath)
+        userinfo({head_pic: res.data.imgpath}).then((res) => { })
       })
-      // let data = new FormData()
-      // data.append('return_imgs', file.file)
-      // this.$upImg(data).then((res) => {
-      //   this.data.head_pic = file.content
-      //   this.$post('user/userinfo', {head_pic: res.data.imgpath}).then((res) => { })
-      // })
     }
   }
 }
@@ -235,5 +232,17 @@ export default {
 }
 ::-webkit-input-placeholder{
   color:#999999;
+}
+
+// #box /deep/ .van-nav-bar {
+// 	.van-icon{
+// 		color: #999 !important;
+// 	}
+// 	.van-nav-bar__text{
+// 		color: #999 !important;
+// 	}
+// }
+#box{
+  width:100%;
 }
 </style>

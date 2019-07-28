@@ -1,5 +1,7 @@
 <template>
-  <div class="orderDetails">
+<div id="box">
+  <!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar> -->
+  <div class="orderDetails" style="margin-top:40pt;">
     <div class="head">
       <div class="title">待收货</div>
       <div class="text">卖家已发货，请准备收货</div>
@@ -113,10 +115,12 @@
       <div class="background_blue flex-center">确认收货</div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 // import util from '../utils/utils.js'
+import { NavBar } from "vant";
 export default {
   created() {
     // this.getData()
@@ -128,6 +132,9 @@ export default {
       }
     }
   },
+  components:{
+    vanNavBar:NavBar
+  }
 }
 //   methods: {
 //     getData() {
@@ -303,5 +310,13 @@ export default {
       color: #fff;
     }
 }
+// #box /deep/ .van-nav-bar {
+//   .van-icon{
+//   	color: #999 !important;
+//   }
+//   .van-nav-bar__text{
+//   	color: #999 !important;
+//   }
+// }
 </style>
 

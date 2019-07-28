@@ -1,83 +1,202 @@
 <template>
-<div>
-  	<div class="nav">
-		<a href="#" @click="index=0" :class="{active:index==0}">所有订单</a>
-		<a href="#" @click="index=1" :class="{active:index==1}">待付款</a>
-		<a href="#" @click="index=2" :class="{active:index==2}">待发货</a>
-		<a href="#" @click="index=3" :class="{active:index==3}">已发货</a>
-		<a href="#" @click="index=4" :class="{active:index==4}">已完成</a>
-	</div>
-  <div class="orderList">
-    <!-- <van-tabs type="card" class="tab">
-      <van-tab> -->
-        <van-list finished="" finished-text="没有更多了">
-          <div class="list">
+<div id="box">
+  	<!-- all 所有订单
+waitpay 待支付
+waitsend 待发货
+waitccomment 待评价
+finish 已完成 -->
+    
+    <div class="nav">
+		  <a href="#" @click="toggle_order(0)" :class="{active:index==0}">所有订单</a>
+		  <a href="#" @click="toggle_order(1)" :class="{active:index==1}">待支付</a>
+		  <a href="#" @click="toggle_order(2)" :class="{active:index==2}">待发货</a>
+		  <!-- <a href="#" @click="toggle_order(3)" :class="{active:index==3}">已发货</a> -->
+		  <a href="#" @click="toggle_order(3)" :class="{active:index==3}">待评价</a>
+		  <a href="#" @click="toggle_order(4)" :class="{active:index==4}">已完成</a>
+	  </div>
+
+    <div class="orderList">
+      <van-list finished-text="没有更多了" v-model="loading" :finished="finished" @load="onLoad">
+        <div class="list" v-for="(item,index) in data" :key="index">
+            <div class="head flex-between" style="margin:0 20pt;">
+              <p class="number">订单号：<span>{{item.order_sn}}</span></p>
+              <p class="status" v-if="item.order_status==0" style="color: #f8900a;">{{item.order_status_detail}}</p>
+              <p class="status" v-if="item.order_status==1" style="color: #2277e2;">{{item.order_status_detail}}</p>
+              <p class="status" v-if="item.order_status==2" style="color: #2277e2;">{{item.order_status_detail}}</p>
+              <p class="status" v-if="item.order_status==3" style="color: #858585;">{{item.order_status_detail}}</p>
+              <p class="status" v-if="item.order_status==4" style="color: #2277e2;">{{item.order_status_detail}}</p>
+              <p class="status" v-if="item.order_status>=4" style="color: #858585;">{{item.order_status_detail}}</p> 
+            </div>
             <div class="item">
-              <div class="head flex-between">
-                <p class="number">订单号：2019113025481</p>
-                <p class="status" v-if="index==1" style="color: #f8900a;">待付款</p>
-                <p class="status" v-if="index==2" style="color: #2277e2;">待发货</p>
-                <p class="status" v-if="index==3" style="color: #2277e2;">配送中</p>
-                <p class="status" v-if="index==4" style="color: #858585;">已完成</p>
-              </div>
-              <!-- <router-link :to="'/orderDetails?id='+item.order_id" class="info flex"> -->
-			  <router-link to="">
-				  <div id="flex_info">
-                	<img class="img" src="@/assets/images/图层602拷贝.png" alt="">
-                	<div class="flex_1">
-                	  <p class="title">善存 多维元素片100片/瓶 ...</p>
-                	  <p class="text">瓶</p>
-                	  <p class="price">￥105.00 &nbsp;&nbsp;&nbsp;&nbsp;<span> x5</span></p>
-					  
-                	</div>
-				  </div>
-              </router-link>
+			        <div id="flex_info" v-for="(items,index_) in item.order_goods" :key="index_">
+              	<img class="img" :src="items.original_img" alt="">
+              	<div class="flex_1">
+              	  <p class="title">{{items.goods_name}}</p>
+              	  <p class="text" style="display:block;margin:10pt 0;"></p>
+              	  <p class="price">￥{{Number(items.goods_price)}} &nbsp;&nbsp;&nbsp;&nbsp;<span> x {{items.goods_num}}</span></p>
+              	</div>
+			        </div>
               <div class="total flex-center-y">
-                总计：<span>￥210.00</span>
+                总计：<span>￥{{item.order_amount}}</span>
               </div>
               <div class="button flex-center-y">
                 <div class="border flex-center">联系客服</div>
-                <div class="border flex-center">取消订单</div>
-                <div class="background flex-center">付款</div>
-                <!-- <div class="background_blue flex-center">提醒发货</div>
-                <div class="background_blue flex-center">确认收货</div>
-                <div class="border flex-center">申请售后</div> -->
+                <div class="border flex-center" @click="$router.push({path:'/chakanwuliu',query:{id_:item.order_id}})">查看物流</div>
+                <div class="border flex-center" v-if="item.order_status<=1" @click="cancel(item.order_id,index)">取消订单</div>
+                <div class="background flex-center" v-if="item.order_status==0" @click="up_order(item.order_id)">去付款</div>
+                <div class="background_blue flex-center" v-if="item.order_status==1">提醒发货</div>
+                <div class="background_blue flex-center" v-if="item.order_status==2">确认收货</div>
+                <div class="border flex-center" v-if="item.order_status>=4">申请售后</div>
               </div>
             </div>
-          </div>
-        </van-list>
-      <!-- </van-tab>
-    </van-tabs> -->
+        </div>
+      </van-list>
   </div>
 </div>
 </template>
 
 <script>
-import { Tab, Tabs, List, Dialog, Toast } from 'vant';
-import { order_list } from '@/axios/getData';
+import { Tab, Tabs, List, Dialog, Toast, NavBar } from 'vant';
+import { order_list, del_order, up_myorder } from '@/axios/getData';
 export default {
   components: {
     'van-tabs': Tabs,
     'van-tab': Tab,
-    'van-list': List
+    'van-list': List,
+    vanNavBar:NavBar
   },
   data(){
 	  return{
       index:0,
-      data:{}
+      data:[
+        {}
+      ],
+      list:[],
+      loading: false,
+      finished: false,
+      type:['all','waitpay','waitsend','waitccomment','finish'],
+      p:1
 	  }
   },
   created(){
+    console.log()
     this.getData();
   },
   methods:{
     async getData(){
-      var res = await order_list();
-      this.data=res.data;
+      var res = await order_list({type:'all',page:1});
+      // this.data=res.data.list;
       console.log(res.data);
+      // console.log(this.data,res.data.list[0].order_goods[0])
+      // for(let i=0;i<res.data.list.length;i++){
+      //   this.data[i].order_goods.pop();
+      //   this.data[i].order_goods.push(res.data.list[i].order_goods[0]);
+      // }
+      // console.log(this.data)
+    },
+    //未发货之前取消订单
+    async cancel(id,index) {
+      Dialog.confirm({
+        title: '提示',
+        message: '取消订单后不可恢复！'
+      }).then(() => {
+        del_order({order_id: id}).then((res) => {
+          if(res.code==200){
+            Toast('取消成功')
+            this.data.splice(index,1);
+          } else {
+            Toast('取消失败')
+          }
+        })
+      })
+    },
+    async onLoad(){
+      if(this.loading){
+        if(this.p==1){
+          this.data=[]
+        }
+        console.log(this.index,8888888)
+        order_list({type:this.type[this.index],page:this.p}).then((res)=>{
+          this.data=this.data.concat(res.data.list)
+          this.loading=false;
+          this.p+=1;
+          if(this.data.length>=res.data.count){
+            this.finished=true;
+            return;
+          }
+        })
+      }
+    },
+    toggle_order(a){
+      this.index=a;
+      console.log(this.index)
+      this.p=1;
+      this.finished=false;
+      this.loading=true;
+      console.log(1)
+      this.onLoad();
+      console.log(this.data)
+    },
+    async up_order(aa){
+      await  up_myorder({order_id:aa}).then((res)=>{
+        this.onBridgeReady(res);
+      })
+      console.log(res)
+    },
+    onBridgeReady(res) {
+      WeixinJSBridge.invoke(
+        "getBrandWCPayRequest",
+        {
+          appId: res.data.appId, //公众号名称，由商户传入
+          timeStamp: res.data.timeStamp, //时间戳，自1970年以来的秒数
+          nonceStr: res.data.nonceStr, //随机串
+          package: res.data.package,
+          signType: res.data.signType, //微信签名方式：
+          paySign: res.data.paySign //微信签名
+        },
+        res => {
+          if (res.err_msg == "get_brand_wcpay_request:ok") {
+            this.$router.push({ path: "/succesorder" });
+          }
+        }
+      );
     }
   }
 }
+    // payment(id) {
+    //   this.$post('user/payment_order', {order_id: id}).then((res) => {
+    //      if (typeof WeixinJSBridge == "undefined") {
+    //       if (document.addEventListener) {
+    //         document.addEventListener(
+    //           "WeixinJSBridgeReady",
+    //           onBridgeReady,
+    //           false
+    //         );
+    //       } else if (document.attachEvent) {
+    //         document.attachEvent("WeixinJSBridgeReady", onBridgeReady);
+    //         document.attachEvent("onWeixinJSBridgeReady", onBridgeReady);
+    //       }
+    //     } else {
+    //       WeixinJSBridge.invoke(
+    //         "getBrandWCPayRequest",
+    //         {
+    //           appId: res.data.appId, //公众号名称，由商户传入
+    //           timeStamp: res.data.timeStamp, //时间戳，自1970年以来的秒数
+    //           nonceStr: res.data.nonceStr, //随机串
+    //           package: res.data.package,
+    //           signType: res.data.signType, //微信签名方式：
+    //           paySign: res.data.paySign //微信签名
+    //         },
+    //         res => {
+    //           if (res.err_msg == "get_brand_wcpay_request:ok") {
+    //             this.$router.push({ path: "/success" });
+    //           }
+    //         }
+    //       );
+    //     }
+    //   })
+    // }
+
 //   data() {
 //     return {
 //       active: 0,
@@ -176,42 +295,7 @@ export default {
 //         }
 //       })
 //     },
-//     // 付款
-//     payment(id) {
-//       this.$post('user/payment_order', {order_id: id}).then((res) => {
-//          if (typeof WeixinJSBridge == "undefined") {
-//           if (document.addEventListener) {
-//             document.addEventListener(
-//               "WeixinJSBridgeReady",
-//               onBridgeReady,
-//               false
-//             );
-//           } else if (document.attachEvent) {
-//             document.attachEvent("WeixinJSBridgeReady", onBridgeReady);
-//             document.attachEvent("onWeixinJSBridgeReady", onBridgeReady);
-//           }
-//         } else {
-//           WeixinJSBridge.invoke(
-//             "getBrandWCPayRequest",
-//             {
-//               appId: res.data.appId, //公众号名称，由商户传入
-//               timeStamp: res.data.timeStamp, //时间戳，自1970年以来的秒数
-//               nonceStr: res.data.nonceStr, //随机串
-//               package: res.data.package,
-//               signType: res.data.signType, //微信签名方式：
-//               paySign: res.data.paySign //微信签名
-//             },
-//             res => {
-//               if (res.err_msg == "get_brand_wcpay_request:ok") {
-//                 this.$router.push({ path: "/success" });
-//               }
-//             }
-//           );
-//         }
-//       })
-//     }
-//   }
-// }
+
 </script>
 
 <style scoped lang="scss">
@@ -268,6 +352,8 @@ export default {
     .button {
       justify-content: flex-end;
       padding-bottom: 30px;
+      margin-bottom: 30px;
+      border-bottom: 1pt solid rgba(153, 153, 153, .3);
       div {
         width: 170px;
         height: 50px;
@@ -321,4 +407,12 @@ export default {
 	flex-direction: row;
 	align-items: center;
 }
+// #box /deep/ .van-nav-bar {
+//   .van-icon{
+//   	color: #999 !important;
+//   }
+//   .van-nav-bar__text{
+//   	color: #999 !important;
+//   }
+// }
 </style>

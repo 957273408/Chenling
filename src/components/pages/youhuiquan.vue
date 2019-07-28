@@ -11,10 +11,10 @@
 					<h1>￥{{item.money}}</h1>
 					<span>满{{item.condition}}可用</span>
 				</div>
-				<div class="inner middle">
-					<h2>{{item.name}}</h2>
+				<div class="inner middle" style="width:30%;">
+					<h2 class="fs-5-1">{{item.name}}</h2>
 				</div>
-				<van-button round type="danger">{{index1==1?"去使用":index1==2?"已使用":"未使用"}}</van-button>
+				<van-button round type="danger" class="wd5">{{index1==1?"去使用":index1==2?"已使用":"未使用"}}</van-button>
 			</div>
 			<span class="shijian">有效期至[{{item.send_time}}]</span>
 		</div>
@@ -66,6 +66,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@media screen and (max-width: 320px) {
+    .fs-5-1{font-size: 12pt !important;}
+	.wd5{width:30% !important;}
+}
 	#box{
 		#nav{
 			display: flex;
@@ -90,6 +94,8 @@ export default {
 			}
 		}
 		#quan{
+			border-bottom: 1px solid #ccc;
+			padding-top:5pt;
 			.shijian{
 				display: inline-block;
 				margin:45px 25px;

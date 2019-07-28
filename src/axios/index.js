@@ -6,13 +6,14 @@ import { promises } from 'fs'
 import { resolve } from 'url'
 
 let config = {
-  timeout: 60 * 1000, // Timeout
-  withCredentials: true // Check cross-site Access-Control
+  timeout: 60 * 1000 // Timeout
+  // withCredentials: true // Check cross-site Access-Control
 }
 if (process.env.NODE_ENV == 'development') {
   config.baseURL = '/api/'
 } else if (process.env.NODE_ENV == 'production') {
   config.baseURL = 'http://ycs.rujiezhineng.net/'
+  axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8;'
 }
 const _axios = axios.create(config)
 
@@ -43,8 +44,9 @@ _axios.interceptors.response.use(
       this.$router.push({ path: '/consignee' })
       // resolve(response.data)
     } else {
-      Toast(response.data)
-      return response
+      Toast(response.data.msg)
+      response.data.err = true
+      return response.data
     }
   },
   function(err) {
@@ -136,3 +138,6 @@ Vue.prototype.$toast = Toast
 // Vue.prototype.$post = post_
 Vue.prototype.$upImg = upImg
 export default _axios
+
+
+

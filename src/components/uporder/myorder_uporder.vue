@@ -11,9 +11,7 @@
         </div>
         <p class="address">{{ data.address.city + data.address.district + data.address.address}}</p>
       </div>
-      <van-icon name="arrow"
-                class="arrow"
-                @click="getAddressList" />
+      <van-icon name="arrow" class="arrow" @click="getAddressList" />
       <img src="../../assets/images/submitOrder_bg.png"
            alt
            class="submitOrder_bg">
@@ -22,31 +20,28 @@
       <div class="info flex"
            v-for="(item, index) in data.cartList"
            :key="index">
-        <img :src="item.product_img"
-             class="product_img"
-             v-if="action_le">
-        <img :src="img_src"
-             class="product_img"
-             v-if="action_buy">
+        <img :src="item.product_img" class="product_img" v-if="action_le">
+        <img :src="img_src" class="product_img" v-if="action_buy">
         <div class="flex_1">
           <div class="flex-between">
             <p class="title">{{item.goods_name}}</p>
             <span class="price">￥{{item.goods_price}}</span>
           </div>
+          <!-- <p class="text">肿瘤个体化化疗药物分子检测</p> -->
           <p class="num">x{{item.goods_num}}</p>
         </div>
       </div>
       <div class="item flex-between">
         <div class="title">优惠券</div>
         <div class="right flex-center-y"
-             @click="showyhj">
-          <p>{{yhjtext}}</p>
+             @click="couponShow=true">
+          <p>{{coupon == '' ? '选择优惠劵' : '-'+coupon.expression}}</p>
           <van-icon name="arrow"
                     class="arrow" />
         </div>
       </div>
       <div class="item flex-between">
-        <div class="title">使用{{integration}}积分抵扣{{integrations}}元</div>
+        <div class="title">使用{{data.pay_points?data.pay_points:0}}积分抵扣{{data.pay_points?data.pay_points:0}}元</div>
         <div class="right flex-center-y">
           <van-switch v-model="pay_points" />
         </div>
@@ -76,18 +71,15 @@
         </p>
         <p class="flex-between">
           <span>优惠券抵扣：</span>
-          <!-- <span class="price">-￥{{coupon !== '' ? coupon.expression?coupon.expression:'0.00' : '0.00' }}</span> -->
-          <span class="price">-￥{{deduction}}</span>
+          <span class="price">-￥{{coupon !== '' ? coupon.expression?coupon.expression:'0.00' : '0.00' }}</span>
         </p>
         <p class="flex-between">
           <span>积分抵扣：</span>
-          <!-- <span class="price">-￥{{user_money ? data.user_money?data.user_money:'0.00' : '0.00'}}</span> -->
-          <span class="price">-￥{{pay_points?integrations:'0.00'}}</span>
+          <span class="price">-￥{{user_money ? data.user_money?data.user_money:'0.00' : '0.00'}}</span>
         </p>
         <p class="flex-between">
           <span>个人累计折扣：</span>
-          <!-- <span class="price">-￥{{pay_points ? data.pay_points?data.pay_points:'0.00' : '0.00'}}</span> -->
-          <span class="price">-￥{{personage}}</span>
+          <span class="price">-￥{{pay_points ? data.pay_points?data.pay_points:'0.00' : '0.00'}}</span>
         </p>
       </div>
     </div>
@@ -105,7 +97,7 @@
                position="bottom">
       <div class="coupon_list">
         <div class="item flex-center-y"
-             v-for="(item, index) in userCartCouponList"
+             v-for="(item, index) in data.userCartCouponList"
              :key="index">
           <div class="left flex-center">
             <div class="num">{{item.expression}}</div>
@@ -137,7 +129,7 @@
 <script>
 import { Icon, Switch, Popup, Dialog } from "vant";
 import shouhuodizhi from '@/components/pages/shezhi/shouhuodizhi.vue'
-import { submit_order, addOrder, up_my_order, couponList } from '@/axios/getData'
+import { submit_order, addOrder } from '@/axios/getData'
 export default {
   components: {
     "van-icon": Icon,
@@ -155,68 +147,37 @@ export default {
       addressShow: false,
       data: {
         address: {},
-        cartList: [],
+        cartList: []
       },
-      userCartCouponList: [],//优惠卷列表
       addressList: [],
       user_note: "",
-      img_src: "",
-      action_buy: true,
-      action_le: false
+      img_src:"",
+      action_buy:true,
+      action_le:false
     };
   },
-  async created() {
-    console.log(this.$route.query)
-    if (this.$route.query.action == "buy_now") {
-      let data = {
-        goods_id: this.$route.query.goods_id,
-        goods_num: this.$route.query.goods_num,
-        item_id: this.$route.query.item_id,
-        action: 'buy_now',
-        isgroup: this.$route.query.isgroup
-      };
-      let res = await submit_order(data);
-      console.log(res.data);
-      if (res.data) {
-        this.data = res.data;
-        this.img_src = this.data.cartList[0].goods.product_img
-      }
-
-
-      return;
-    }
-    if (this.$route.query.action == 'cart') {
-      this.action_buy = false,
-        this.action_le = true
+  created() {
+    //console.log(this.$route.query)
+    if(this.$route.query.action == 'cart'){
+      this.action_buy=false,
+      this.action_le=true
     }
     this.getData();
-    try {
-      let res = await couponList()
-      console.log(res);
-      this.userCartCouponList = res.data
-    } catch (e) {
-
-    }
   },
   methods: {
-    // 打开优惠卷
-    showyhj() {
-      if (this.userCartCouponList.length > 0) {
-        this.couponShow = true
-      }
-    },
     changeAddress(e) {
       this.data.address = e
       this.addressShow = false
       this.$forceUpdate()
     },
     async getData() {
+      console.log(this.$route.query);
       if (this.$route.query.action == 'cart') {
         console.log('购物车跳转')
-        let res = await submit_order({ cart_ids: this.$route.query.ids, action: 'cart', isgroup: this.$route.query.isgroup })
+        let res = await submit_order({ cart_ids: this.$route.query.ids, action: 'cart', isgroup:this.$route.query.isgroup })
         if (res.err) return
-        console.log(res.data);
         this.data = res.data
+        console.log(this.data);
         delete this.data.cartList.cart_ids;
         this.$forceUpdate()
       } else {
@@ -225,9 +186,10 @@ export default {
           goods_num: this.$route.query.goods_num,
           item_id: this.$route.query.item_id,
           action: this.$route.query.action,
-          isgroup: this.$route.query.isgroup
+          isgroup:this.$route.query.isgroup
         };
         let res = await submit_order(data)
+        console.log(res);
         if (res.err) {
           Dialog.confirm({
             title: '确认',
@@ -236,15 +198,19 @@ export default {
             // on confirm
             this.$router.push('/nowhapply')
           }).catch(() => {
+            // on cancel
             this.$router.push('/')
           });
         }
         this.data = res.data
         console.log(this.data);
-        if (this.$route.query.action == "buy_now") {
-          this.img_src = this.data.cartList[0].goods.product_img
+        if(this.$route.query.action=="buy_now"){
+          this.img_src=this.data.cartList[0].goods.product_img
         }
         delete this.data.cartList.cart_ids;
+        // this.$post("cart/settlement", data).then(res => {
+        //   this.data = res.data;
+        // });
       }
     },
     // 使用优惠劵
@@ -261,30 +227,34 @@ export default {
     getAddressList() {
       this.addressShow = true;
     },
+
     // // 提交订单
     async submit() {
       let data = {
         address_id: this.address == "" ? this.data.address.address_id : "",
         coupon_id: this.coupon == "" ? "" : this.coupon.id,
-        pay_points: this.pay_points ? this.integration : "",
+        pay_points: this.pay_points ? this.data.pay_points : "",
         user_money: this.user_money ? this.data.user_money : "",
         user_note: this.user_note,
+        // action: this.$route.query.action,
         action: this.$route.query.action,
+        // item_id: "",
+        // goods_num: "",
+        // goods_id: "",
         pay_type: 1,
         cart_ids: this.$route.query.ids,
-        prom_type: this.$route.query.islq ? 6 : 0,
+        prom_type: this.data.cartList[0].prom_type,
       };
-      console.log(data);
       if (this.$route.query.action == "cart") {
         console.log("购物车跳转8888888")
-        data.action = ""
+        // data.cart_ids = this.data.cart_ids.toString();
+        data.action=""
       } else {
         data.goods_id = this.$route.query.goods_id;
         data.goods_num = this.$route.query.goods_num;
         data.item_id = this.$route.query.item_id;
-        data.prom_type = this.$route.query.isgroup
       }
-      console.log("购物车跳转", data)
+      console.log("购物车跳转",data)
       let res = await addOrder(data)
       if (res.err) return
       if (typeof WeixinJSBridge == "undefined") {
@@ -325,73 +295,14 @@ export default {
         total += Number(e.goods_price) * e.goods_num;
       })
       return total.toFixed(2);
-      console.log(total);
     },
     // 成交价
     price() {
       let price = Number(this.total);
       if (this.user_money) price = price - this.data.user_money;
-      if (this.pay_points) {
-        if (price - this.integrations > 0) {
-          price = price - this.integrations
-        } else {
-          price = 0
-        }
-      };
-      if (this.coupon !== "") {
-        if (price - this.coupon.expression > 0) {
-          price = price - this.coupon.expression;
-        } else {
-          price = 0
-        }
-      }
+      if (this.pay_points) price = price - this.data.pay_points;
+      if (this.coupon !== "") price = price - this.coupon.expression;
       return price.toFixed(2);
-    },
-    // 优惠券抵扣
-    deduction() {
-      return '0.00';
-    },
-    // 积分抵扣
-    integration() {
-      try {
-        let total = 0;
-        Object.values(this.data.cartList).forEach(e => {
-          total += Number(e.goods_price) * e.goods_num;
-        })
-        let max
-        try {
-          max = total * Number(this.data.point_use_percent) / 100
-        } catch (e) {
-        }
-
-        max = max * this.data.point_rate
-        if (this.data.pay_points > max) {
-          return max.toFixed(2)
-        } else {
-          return this.data.pay_points.toFixed(2)
-        }
-      } catch (err) {
-        return '0.00'
-      }
-    },
-    integrations() {
-      let go = this.integration / this.data.point_rate
-      return go.toFixed(2)
-    },
-    personage() {
-      let go = 0
-      if (this.pay_points) {
-        go = go + Number(this.integrations)
-      }
-
-      return go.toFixed(2)
-    },
-    yhjtext() {
-      if (this.userCartCouponList.length == 0) {
-        return '无可用优惠卷'
-      } else {
-        return this.coupon == '' ? '选择优惠劵' : '-' + this.coupon.expression
-      }
     }
   }
 };
@@ -446,7 +357,6 @@ export default {
     .title {
       font-weight: bold;
       font-size: 32px;
-      width: 80%;
     }
     .price {
       color: #dc2121;
@@ -518,6 +428,7 @@ export default {
   padding: 30px;
   min-height: 50vh;
   .item {
+    // background: url("src/assets/images/coupon_bg.png") no-repeat center center;
     background-size: 100% 100%;
     height: 200px;
     margin-top: 20px;
@@ -561,6 +472,7 @@ export default {
     }
   }
   .disabled {
+    // background: url("src/assets/images/coupon_disabled.png") no-repeat center center;
     background-size: 100% 100%;
   }
 }

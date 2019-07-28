@@ -1,61 +1,90 @@
 <template>
   <div class="bindSettings">
-    <div class="list">
-      <div class="item flex-center-y">
-        <div class="img"><img src="@/assets/images/s_phone.png" alt=""></div>
-        <input type="text" placeholder="请输入新的手机号码"/>
+    <div class="list" v-if="this.$route.query.isshow==0">
+      <div class="item flex-center-y img1">
+        <div><img src="@/assets/images/s_phone.png" alt=""></div>
+        <input type="text" placeholder="请输入新的手机号码" v-model="data.mobile"/>
       </div>
-      <div class="item flex-center-y">
-        <div class="img"><img src="@/assets/images/s_unlock.png" alt=""></div>
-        <input type="text" placeholder="请输入短信验证码"/>
-        <div class="code flex-center">获取验证码</div>
+      <div class="item flex-center-y img1">
+        <div><img src="@/assets/images/s_unlock.png" alt=""></div>
+        <input type="text" placeholder="请输入短信验证码"  v-model="data.code"/>
+        <div class="code flex-center" :class="codeText !== '获取验证码' ? 'gary' : ''" @click="getCode">{{codeText}}</div>
       </div>
-      <div class="button flex-center">绑定</div>
+      <div class="button flex-center"  @click="submit">绑定</div>
+    </div>
+    <div class="list" v-if="this.$route.query.isshow==1">
+      <div class="item flex-center-y img2">
+        <div class="img">真实姓名</div>
+        <input type="text" placeholder="请输入您的真实姓名" v-model="data.mobile"/>
+      </div>
+      <div class="item flex-center-y img2">
+        <div class="img">身份证号码</div>
+        <input type="text" placeholder="请输入您的身份证号码"  v-model="data.code"/>
+      </div>
+      <div class="button flex-center"  @click="submit_shiming">提交</div>
     </div>
   </div>
 </template>
-
 <script>
-// import { Toast } from 'vant'
+import { Toast } from 'vant'
+import { smsSend, bandmobile, shiming } from "@/axios/getData";
 export default {
-
+  data() {
+    return {
+      data: {
+        code: '',
+        mobile: ''
+      },
+      codeText: '获取验证码',
+      code:"",
+    }
+  },
+  methods: {
+    getCode() {
+      if (!(/^1[3456789]\d{9}$/.test(this.data.mobile))) {
+        Toast('请输入正确的手机号码')
+        return false
+      } else if (this.codeText !== '获取验证码') {
+        return false
+      }
+      smsSend({mobile: this.data.mobile}).then((res) => {
+        Toast(res.data.msg)
+      })
+      let index = 60
+      let clock = window.setInterval(() => {
+        this.codeText = index + 's'
+        index --
+        if (index < 0) {
+          window.clearInterval(clock)
+          this.codeText = '获取验证码'
+        }
+      }, 1000)
+    },
+    submit() {
+      // if(this.data.code&&this.data.mobile){
+        bandmobile(this.data).then((res) => {
+          Toast(res.data.msg)
+          if(res.code==200){
+            Toast(res.data.msg)
+            this.$router.go(-1);
+          }
+        })
+      // }else if(!(/^1[3456789]\d{9}$/.test(this.data.mobile))){
+      //   Toast("请填写正确的手机号码");
+      // }else{
+      //   Toast("请填写验证码")
+      // }
+    },
+    submit_shiming(){
+      if(this.data.code&&this.data.mobile){
+        shiming({realname:this.data.mobile,idcard:this.data.code}).then((res)=>{
+          Toast("数据已提交");
+          this.$router.go(-1);
+        })
+      }
+    }
+  }
 }
-//   data() {
-//     return {
-//       data: {
-//         code: '',
-//         mobile: ''
-//       },
-//       codeText: '获取验证码'
-//     }
-//   },
-//   methods: {
-//     getCode() {
-//       if (!(/^1[3456789]\d{9}$/.test(this.data.mobile))) {
-//         Toast('请输入正确的手机号码')
-//         return false
-//       } else if (this.codeText !== '获取验证码') {
-//         return false
-//       }
-//       this.$post('user/smsSend', {mobile: this.data.mobile}).then((res) => {})
-//       let index = 60
-//       let clock = window.setInterval(() => {
-//         this.codeText = index + 's'
-//         index --
-//         if (index < 0) {
-//           window.clearInterval(clock)
-//           this.codeText = '获取验证码'
-//         }
-//       }, 1000)
-//     },
-//     submit() {
-//       this.$post('user/bandmobile', this.data).then((res) => {
-//         Toast('绑定成功')
-//         this.$router.go(-1)
-//       })
-//     }
-//   }
-// }
 </script>
 
 <style scoped lang="scss">
@@ -70,9 +99,21 @@ export default {
     width: 36px;
     margin-right: 20px;
   }
+  .img1{
+    input {
+      flex: 1;
+      padding:0 15pt;
+      &::-webkit-input-placeholder{
+        padding-left:30pt; 
+        color:#B7B7BB;
+      }
+    }
+  }
   input {
     flex: 1;
+    padding:0 15pt;
     &::-webkit-input-placeholder{
+      // text-align: right;
       color:#B7B7BB;
     }
   }
@@ -80,7 +121,7 @@ export default {
     width: 170px;
     height: 50px;
     background: #FF4C23;
-    font-size: 22px;
+    font-size: 18px;
     border-radius: 60px;
     color: #fff;
   }
@@ -95,6 +136,15 @@ export default {
   height: 90px;
   border-radius: 60px;
   font-size: 38px;
-  box-shadow: 0 4px 16px #b3edf6;
+}
+.img2{
+    input {
+    // flex: 1;
+    // padding:0 15pt;
+    &::-webkit-input-placeholder{
+      text-align: right;
+      color:#B7B7BB;
+    }
+  }
 }
 </style>

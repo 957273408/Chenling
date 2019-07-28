@@ -1,4 +1,7 @@
 <template>
+<div id="box">
+  <img src="@/assets/images/形状1拷贝3@2x.png" alt="" style="z-index:-5;position:absolute;width:100%;height:100%;">
+  <!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar> -->
   <div class="signIn">
     <div class="rule flex-center" @click="show=true">签到规则</div>
     <div class="con">
@@ -16,14 +19,13 @@
       <div class="button flex-center" :class="data.sign_status ? 'dis' : ''" @click="signIn">马上签到</div>
       <p class="total">累计获得<span> {{data.sign_integral}} </span>积分</p>
     </div>
-
     <van-popup v-model="show" position="bottom">
-      <div class="popup" v-html="rules"></div>
+      <div class="popup" v-html="rules">{{rules}}</div>
+      <!-- <s:property :value="rules" escape="false" /> -->
     </van-popup>
   </div>
+</div>
 </template>
-
-
 <script>
 import util from '../../utils/utils.js';
 import { Popup, Toast } from 'vant';
@@ -51,8 +53,8 @@ export default {
     },
     async rule() {
       var res = await qiandao_guize();
-        console.log(res.data)
-        this.rules = res.data;
+      console.log(res.data);
+      this.rules = res.data.content;
     },
     signIn() {
       if (this.data.sign_status) return false
@@ -60,6 +62,7 @@ export default {
         date: util.format(new Date().getTime(), 'YYYY-MM-DD')
       }
       user_sign(data).then((res) => {
+        console.log(res)
         Toast(res.data.msg)
         this.getData()
       })
@@ -91,7 +94,7 @@ export default {
     box-sizing: border-box;
     padding: 40px;
     position: absolute;
-    top: 46%;
+    top: 40%;
     left: 50%;
     transform: translateX(-50%);
     border-radius: 30px;

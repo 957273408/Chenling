@@ -3,7 +3,7 @@
     <img src="@/assets/icon/成功23@2x.png"
          alt="">
     <div class="title">订单支付成功</div>
-    <div class="num">订单金额为: <span>96.00</span></div>
+    <div class="num">订单金额为: <span>{{$route.query.num}}</span></div>
     <div class="tip"> 您可进入我的订单查看订单进度</div>
     <div class="btn">
       <router-link class="tohome"
@@ -11,7 +11,7 @@
         <button>返回首页</button>
       </router-link>
       <router-link class="order"
-                   to="/home">
+                   to="/wodedingdan?index=0#">
         <button>查看订单</button>
       </router-link>
     </div>

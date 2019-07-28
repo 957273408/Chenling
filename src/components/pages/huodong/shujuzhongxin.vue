@@ -1,55 +1,57 @@
 <template>
 	<div id="box">
+		<!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;color:#999" fixed></van-nav-bar> -->
 		<div class="head">
 			<table></table>
+			<img class="img1" src="@/assets/images/bg2拷贝@2x.png" alt="">
 			<div class="top">
 				<ul class="zhongxian">
-					<li>2480.00</li>
+					<li>{{Number(data.total).toFixed(2)}}</li>
 					<li>我的佣金</li>
 				</ul>
 				|
 				<ul>
-					<li>233.00</li>
-					<li>结算中佣金</li>
+					<li>{{Number(data.money).toFixed(2)}}</li>
+					<li>结算中{{data.level>2?"佣金":"奖金"}}</li>
 				</ul>
 			</div>
 		</div>
 		<div class="info">
 			<div class="list">
-				<span class="title bg1">合伙人收入佣金</span>
+				<span class="title bg1">我的收入奖金</span>
 				<div>
-					<span>74120.00</span>
+					<span>{{Number(data.totaluser).toFixed(2)}}</span>
 					<span>总计</span>
 				</div>
 				<div>
-					<span>120.00</span>
+					<span>{{Number(data.moneyuser).toFixed(2)}}</span>
 					<span>结算中</span>
 				</div>
 				<div>
-					<span>100</span>
+					<span>{{data.orderenduser}}</span>
 					<span>完成订单</span>
 				</div>
 				<div>
-					<span>23</span>
+					<span>{{Number(data.orderstartuser)}}</span>
 					<span>交易中订单</span>
 				</div>
 			</div>
 			<div class="list">
 				<span class="title bg2">团队收入佣金</span>
 				<div>
-					<span>74120.00</span>
+					<span>{{Number(data.totaldistribut).toFixed(2)}}</span>
 					<span>总计</span>
 				</div>
 				<div>
-					<span>120.00</span>
+					<span>{{Number(data.moneydistribut).toFixed(2)}}</span>
 					<span>结算中</span>
 				</div>
 				<div>
-					<span>100</span>
+					<span>{{data.orderenddistribut}}</span>
 					<span>完成订单</span>
 				</div>
 				<div>
-					<span>23</span>
+					<span>{{Number(data.orderstartdistribut)}}</span>
 					<span>交易中订单</span>
 				</div>
 			</div>
@@ -57,16 +59,35 @@
 	</div>
 </template>
 <script>
+// import { NavBar } from "vant";
+import { shuju } from "@/axios/getData";
 export default {
-	
+	data(){
+		return{
+			data:{}
+		}
+	},
+	created(){
+		this.getdata();
+	},
+	methods:{
+		async getdata(){
+			var res = await shuju();
+			this.data = res.data
+			console.log(res.data);
+		}
+	},
+	components:{
+		// vanNavBar:NavBar
+	}
 }
 </script>
 <style lang="scss" scoped>
 	#box{
 		.head{
-			background: url(src/assets/images/bg2拷贝@2x.png) no-repeat;
-			background-size: 100% 50%;
-			height:150pt;
+			// background: url(src/assets/images/bg2拷贝@2x.png) no-repeat;
+			// background-size: 100% 50%;
+			// height:150pt;
 			.top{
 				display: flex;
 				flex-direction: row;
@@ -85,7 +106,7 @@ export default {
 			}
 		}
 		.info{
-			margin:-270px 60px;
+			margin: 30px 60px;
 			background: #fff;
 			border-top-left-radius:20px; 
 			border-top-right-radius:20px; 
@@ -134,4 +155,16 @@ export default {
 			}
 		}
 	}
+	.img1{
+		position: absolute;
+		z-index: -5;
+	}
+	// #box /deep/ .van-nav-bar {
+	// 	.van-icon{
+	// 		color: #999 !important;
+	// 	}
+	// 	.van-nav-bar__text{
+	// 		color: #999 !important;
+	// 	}
+	// }
 </style>

@@ -2,13 +2,14 @@
   <van-list>
     <div class="list">
       <div class="item flex" v-for="(item,index) in data" :key="index">
-        <img src="item.original_img" v-if="item.original_img">
+        <img :src="item.original_img" v-if="item.original_img">
         <div class="info flex_1">
           <p class="title">{{item.goods_name}}</p>
           <p class="price">{{item.shop_price}}</p>
           <div class="button flex-center" @click="del(item.collect_id,index)"  v-if="item.original_img">取消收藏</div>
         </div>
       </div>
+      <div v-if="data.length==0" style="margin-top:100pt;text-align:center;font-size:13pt;color:#999;">您还没有收藏任何商品</div>
     </div>
   </van-list>
 </template>
@@ -23,18 +24,18 @@ export default {
   data() {
     return {
       data:[
-        {
-          add_time: 1560843148,
-          cat_id: 34,
-          collect_id: 108,
-          goods_id: 237,
-          goods_name: "",
-          is_on_sale: 1,
-          is_virtual: 0,
-          original_img: "",
-          shop_price: "",
-          store_count: 65531
-        }
+        // {
+        //   add_time: null,
+        //   cat_id: null,
+        //   collect_id: null,
+        //   goods_id: null,
+        //   goods_name: null,
+        //   is_on_sale: null,
+        //   is_virtual: null,
+        //   original_img: null,
+        //   shop_price: null,
+        //   store_count: null
+        // }
       ]
     }
   },
@@ -51,7 +52,7 @@ export default {
       var user_id = this.$route.query.id;
       Dialog.confirm({
         title: '提示',
-        message: '删除地址后不可恢复！'
+        message: '取消收藏后不可恢复!'
       }).then(async()=>{
         await del_shoucang({user_id,collect_id:id}).then((res)=>{
         Toast("已取消收藏");
@@ -134,7 +135,7 @@ export default {
     margin-left: 25px;
     overflow: hidden;
     .title {
-      font-size: 34px;
+      font-size: 34px;       
     }
     .price {
       margin: 20px 0;

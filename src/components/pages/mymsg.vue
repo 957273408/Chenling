@@ -2,11 +2,11 @@
 <template>
   <div class="about">
     <div id="msg" v-for="(item,index) in data" :key="index">
-			<h3>{{item.message_title}}</h3>
+			<h3>{{item.message_notice.message_title}}</h3>
 	  	<div id="dd">
-			  {{item.message}}
+			  {{item.message_notice.message_content}}
 	  	</div>
-			<p>{{item.create_time}}</p>
+			<p>{{item.send_time_text}}</p>
 		</div>
   </div>
 </template>
@@ -30,7 +30,9 @@ export default {
 	methods:{
 		async getdata(){
 			var res = await mymsg();
-			console.log(res.data);
+			var date = new Date(res.data.create_time*1000);
+      var dateTime = date.toLocaleString();
+			console.log(res.data,dateTime);
 			this.data=res.data;
 		}
 	}
@@ -50,17 +52,20 @@ export default {
 	}
   }
   #msg{
-	padding:30px;
+	padding:20px;
+	margin: 0 30px;
 	color:#4A4A4A;
+	border-bottom: 1px rgba(74, 74, 74, 0.4) solid;
 		h3{
-			margin: 30px 0;
+			margin: 20px 0 15px;
 		}
   	#dd{
-		overflow:hidden; 
-		text-overflow:ellipsis;
-		display:-webkit-box; 
-		-webkit-box-orient:vertical;
-		-webkit-line-clamp:2; 
+		// overflow:hidden; 
+		// text-overflow:ellipsis;
+		// display:-webkit-box; 
+		// -webkit-box-orient:vertical;
+		// -webkit-line-clamp:2;
+		margin-bottom:5pt; 
   	}
   }
 </style>

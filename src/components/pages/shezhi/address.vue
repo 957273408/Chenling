@@ -1,5 +1,6 @@
 <template>
   <div class="wrap mod_address">
+    <!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar> -->
     <div class="item flex-center-y">
       <div class="title">收货地址：</div>
       <input type="text" placeholder="点击选择" readonly :value="data.province + ' ' + data.city + ' ' + data.district"  @click="show=true">
@@ -15,15 +16,12 @@
     </div>
     <div class="item flex-center-y">
       <div class="title"></div>
-
       <div class="flex1" style="color:#000;">
         <van-radio-group v-model="data.famale" class="flex">
           <van-radio name="1" checked-color="#EF2C10">先生</van-radio>
           <van-radio name="2" class="radio" checked-color="#EF2C10">女士</van-radio>
         </van-radio-group>
       </div>
-
-
     </div>
     <div class="item flex-center-y">
       <div class="title">手机号：</div>
@@ -45,7 +43,7 @@
 </template>
 
 <script>
-import { Icon, RadioGroup, Radio, Checkbox, Area, Popup, Toast } from 'vant';
+import { Icon, RadioGroup, Radio, Checkbox, Area, Popup, Toast, NavBar } from 'vant';
 import { add_address, edit_address} from '@/axios/getData'
 import util from '../../utils/utils.js'
 
@@ -56,18 +54,13 @@ export default {
     'van-radio': Radio,
     'van-checkbox': Checkbox,
     'van-area': Area,
-    'van-popup': Popup
+    'van-popup': Popup, 
+    vanNavBar:NavBar
   },
   data() {
     return {
       checked: false,
       data: {
-        // name: '',
-        // province: '',
-        // city: '',
-        // district: '',
-        // address: '',
-        // mobile: '',
         famale: 1,
         city: "",
         name: "",
@@ -86,7 +79,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$route.query.data);
     if(this.$route.query.data.province==null){
       this.$route.query.data.province="";
     }
@@ -99,13 +91,9 @@ export default {
       address: this.$route.query.data.address,
       mobile: this.$route.query.data.mobile,
       is_default: this.$route.query.data.is_default,
-      famale: String(this.$route.query.data.famale)
+      famale: String(this.$route.query.data.famale),
     }
     console.log(this.data)
-    // this.data=this.$route.query.data;
-    // if (this.$route.query.id) {
-    //   this.getData()
-    // }
   },
   watch:{
     data(){
@@ -224,7 +212,7 @@ export default {
   height: 90px;
   border-radius: 60px;
   font-size: 38px;
-  box-shadow: 0 4px 16px #b3edf6;
+  // box-shadow: 0 4px 16px #b3edf6;
 }
 .flex1{
   display: flex;
@@ -252,4 +240,5 @@ input::-webkit-input-placeholder{
     border-color:#fff !important;
   }
 }
+
 </style>

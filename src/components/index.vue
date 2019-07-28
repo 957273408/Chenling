@@ -30,9 +30,8 @@
         <span>个人中心</span>
         <img slot="icon"
              slot-scope="props"
-             :src="props.active ? myzore.active : myzore.normal">
+             :src="props.active ? user.active : user.normal">
       </van-tabbar-item>
-
     </van-tabbar>
   </div>
 </template>
@@ -47,8 +46,8 @@ import addvip from '@/assets/images/integral.png'
 import addvip1 from '@/assets/images/integral_fill.png'
 import cart from '@/assets/images/shop.png'
 import cart1 from '@/assets/images/shop_fill.png'
-import myzore from '@/assets/images/mine.png'
-import myzore1 from '@/assets/images/mine_fill.png'
+import user from '@/assets/images/mine.png'
+import user1 from '@/assets/images/mine_fill.png'
 
 export default {
   components: {
@@ -75,15 +74,25 @@ export default {
         normal: cart,
         active: cart1
       },
-      myzore: {
-        normal: myzore,
-        active: myzore1
+      user: {
+        normal: user,
+        active: user1
       },
+      router_:null
     }
   },
   created() {
-    this.change(this.$route.name)
+          console.log(5555);
+    switch(this.$route.name){
 
+      case 'home': this.active=0;      console.log(5555);break;
+      case "cyclopedia": this.active=1;break;
+      case "addvip": this.active=2;break;
+      case "cart": this.active=3;break;
+      case "user": this.active=4;break;
+      default:break;
+    }
+    this.change(this.$route.name)
   },
   methods: {
     change(name) {
@@ -92,13 +101,14 @@ export default {
         cyclopedia: 1,
         addvip: 2,
         cart: 3,
-        myzore: 4
+        user: 4
       }
-      this.active = obj[name]
+      this.active = obj[name] 
     }
   },
   watch: {
     $route(to, from) {
+      console.log(to,from)
       this.change(to.name)
     }
   },

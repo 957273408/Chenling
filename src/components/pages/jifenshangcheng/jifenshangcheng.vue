@@ -1,66 +1,50 @@
 <template>
   <div id="box">
+    <!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar> -->
     <div class="top">
       <div class="inner">
         <span>可用积分</span>
-        <span>199999</span>
+        <span>{{data.pay_points?data.pay_points:0}}</span>
       </div>
       <span style="opacity:0.7">|</span>
-      <div class="inner">
+      <div class="inner" @click="$router.push({path:'/duihuanjilu'})">
         <span>兑换记录</span>
         <span>查看兑换记录</span>
       </div>
     </div>
     <div id="nav">
-			<a href="#" @click="index=0" :class="{active:index==0}">全部商品</a>
-			<a href="#" @click="index=1" :class="{active:index==1}">数码产品</a>
-			<a href="#" @click="index=2" :class="{active:index==2}">服饰箱包</a>
-			<a href="#" @click="index=3" :class="{active:index==3}">日用百货</a>
+			<a href="#" @click="nav_(-1,0)" :class="{active:index1==0}">全部商品</a>
+			<a href="#" @click="nav_(index,item.id)" :class="{active:index1==(index+1)}" v-for="(item,index) in data.cate_list" :key="index">{{item.name}}</a>
 		</div>
     <div id="list">
-      <div class="info">
-        <img class="img" src="@/assets/images/图层90拷贝@2x.png" alt="">
-        <p class="p1">iPhone XS  256GB 金色</p>
-        <p class="p2">9990积分</p>
-        <p class="p3">市场价：¥9999.00</p>
-      </div>
-      <div class="info">
-        <img class="img" src="@/assets/images/图层90拷贝@2x.png" alt="">
-        <p class="p1">iPhone XS  256GB 金色</p>
-        <p class="p2">9990积分</p>
-        <p class="p3">市场价：¥9999.00</p>
-      </div>
-      <div class="info">
-        <img class="img" src="@/assets/images/图层90拷贝@2x.png" alt="">
-        <p class="p1">iPhone XS  256GB 金色</p>
-        <p class="p2">9990积分</p>
-        <p class="p3">市场价：¥9999.00</p>
-      </div>
-      <div class="info">
-        <img class="img" src="@/assets/images/图层90拷贝@2x.png" alt="">
-        <p class="p1">iPhone XS  256GB 金色</p>
-        <p class="p2">9990积分</p>
-        <p class="p3">市场价：¥9999.00</p>
-      </div>
+      <div class="info" v-for="(item,index) in data.goods_list" :key="index" @click="duihuan(index)">
+        <img class="img" :src="item.original_img" alt="">
+        <p class="p1">{{item.goods_name}}</p>
+        <p class="p2">{{item.intergral}}积分</p>
+        <p class="p3">市场价：¥{{item.market_price}}</p>
+      </div>  
+    </div>
+    <div class="button_more">
+        <van-button round @click="more" :class="{jinyong:data.count==data.goods_list.length}">{{data.count==data.goods_list.length?"没有更多数据了":"加载更多"}}</van-button>
     </div>
     <van-popup v-model="popup">
       <div class="popup">
         <p class="title">兑换商品</p>
-        <p class="center" style="margin-bottom:10px;">您要兑换的商品:<span>iPhone XS  256GB 金色</span></p>
-        <p class="center">所需积分:<span>9990积分</span> 确定要兑换吗?</p>
+        <p class="center" style="margin-bottom:10px;">您要兑换的商品:<span>{{duihuan_.goods_name}}</span></p>
+        <p class="center">所需积分:<span>{{duihuan_.intergral}}积分</span> 确定要兑换吗?</p>
         <div class="item">
-          收件人<span style="color:red">*</span><input type="text" placeholder="收件人">
+          收件人<span style="color:red">*</span><input type="text" placeholder="收件人" v-model="submit.consignee">
         </div>
         <div class="item">
-          联系方式<span style="color:red">*</span><input type="text" placeholder="联系方式">
+          联系方式<span style="color:red">*</span><input type="text" placeholder="联系方式" v-model="submit.mobile">
         </div>
         <div class="item">
-          收货地址<span style="color:red">*</span><input type="text" placeholder="收货地址">
+          收货地址<span style="color:red">*</span><input type="text" placeholder="收货地址" v-model="submit.address">
         </div>
         <p class="red">请仔细填写收货信息,提交成功后不可更改</p>
         <div class="button flex-between">
           <div class="flex-center back" @click="popup=false">取消</div>
-          <div class="flex-center submit" @click="popup=false">兑换</div>
+          <div class="flex-center submit" @click="duihuan_sub">兑换</div>
         </div>
       </div>
     </van-popup>
@@ -68,19 +52,85 @@
 </template>
 
 <script>
-import {Cell,Popup} from 'vant';
+import {Cell,Popup, Button, Toast, Dialog } from 'vant';
+import {jifen_store, shangpin_duihuan} from '@/axios/getData';
 // import util from '@/utils/utils.js'
 export default {
   components: {
     "van-cell":Cell,
-    "van-popup":Popup
+    "van-popup":Popup,
+    "van-button":Button
   },
   data() {
     return {
-      index:0,
-      popup:true
+      index1:0,
+      popup:false,
+      data:{
+        goods_list:[]
+      },
+      id_:0,
+      data1:{},
+      duihuan_:{},
+      submit:{   //兑换积分与商品id   duihuan_.intergral和duihuan_.goods_id  是一样的
+        mobile:null,
+        consignee:null,//收件人
+        address:null
+      }
     }
   },
+  created(){
+    this.getdata();
+  },
+  methods:{
+    async getdata(id_=0){
+      var res = await jifen_store({id:id_});
+      this.data=res.data;
+      console.log(res.data)
+    },
+    async nav_(a,b){
+      this.index1=a+1
+      this.id_=b
+      var res = await jifen_store({id:b});
+      this.data=res.data
+      console.log(res.data)
+    },
+    async more(){
+      if(this.data.count!=this.data.goods_list.length){
+        // console.log(464646)
+        this.data.p+=1;
+        var res = await jifen_store({id:this.id_,p:this.data.p});
+        this.data.goods_list.push.apply(this.data.goods_list,res.data.goods_list)  //数组拼接
+      }
+    },
+    duihuan(index){
+      this.popup=true;
+      this.duihuan_=this.data.goods_list[index];
+      console.log(this.duihuan_);
+    },
+    duihuan_sub(){
+      if(this.data.pay_points>=this.duihuan_.intergral){
+        if(this.submit.mobile&&this.submit.consignee&&this.submit.address){
+          this.submit.intergral=this.duihuan_.intergral
+          this.submit.goods_id=this.duihuan_.goods_id
+          Dialog.confirm({
+            title: '提示',
+            message: '兑换会扣除相应积分,请再次确认是否兑换'
+          }).then((res) => {
+            shangpin_duihuan(this.submit).then((res)=>{
+              Toast(`兑换成功`)
+              this.data.pay_points-=this.duihuan_.intergral;
+              this.popup=false;
+              this.submit={}
+            })
+          })
+        }else{
+          Toast(`请仔细填写收货信息`)
+        }
+      }else{
+        Toast(`积分不足`)  //,兑换需要${this.duihuan_.intergral}积分,您的积分为${this.data.pay_points}
+      }
+    }
+  }
 }
 //   created() {
 //     this.getData()
@@ -175,6 +225,8 @@ export default {
         flex-direction: column;
         width:40%;
         margin-bottom: 30px;
+        overflow: hidden;
+        // border:1px solid #cccccc;
         .img{
           width:125pt;
           height:143pt;
@@ -210,7 +262,7 @@ export default {
           color:#f00;
         }
       }
-          .button {
+      .button {
         padding: 0 10px;
         margin-top: 50px;
         div {
@@ -251,5 +303,26 @@ export default {
       }
       }
     }
+    .button_more{
+      text-align: center;
+      margin:10pt;
+      .van-button{
+        background: linear-gradient(to right,#FE5900,#FF8500);
+        height:30pt;
+        color:#fff;
+        line-height:30pt;
+      }
+    }
   }
+.jinyong{
+  background: #ccc !important;
+}
+//    #box /deep/ .van-nav-bar {
+//   .van-icon{
+//   	color: #999 !important;
+//   }
+//   .van-nav-bar__text{
+//   	color: #999 !important;
+//   }
+// }
 </style>

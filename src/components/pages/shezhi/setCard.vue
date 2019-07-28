@@ -1,5 +1,6 @@
 <template>
   <div class="bindSettings">
+    <!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar> -->
     <div class="list">    
       <div class="item flex-center-y">
         <div class="title">选择银行：</div>
@@ -43,7 +44,7 @@
 </template>
 
 <script>
-import { Icon, Picker, Popup, Toast, Area } from 'vant';
+import { Icon, Picker, Popup, Toast, Area, NavBar } from 'vant';
 import util from '../../utils/utils.js'
 import { bankadd, delBank } from '@/axios/getData'
 export default {
@@ -51,7 +52,8 @@ export default {
     'van-icon': Icon,
     'van-picker': Picker,
     'van-popup': Popup,
-    "van-area": Area
+    "van-area": Area,
+    vanNavBar:NavBar
   },
   data() {
     return {
@@ -99,17 +101,6 @@ export default {
   },
   created(){
   },
-  // watch: {
-  //   data: {
-  //     bankname2(newName, oldName) {
-  //       if(data.banknum.call(this)==newName){
-  //         Toast("两次输入的卡号必须相同");
-  //       }
-  //   },
-  //   deep: true,
-  //   immediate: true
-  //   }
-  // },
   methods: {
     async submit() {
       var id=this.$route.query.id;
@@ -180,4 +171,13 @@ export default {
 input::-webkit-input-placeholder{
   color:#999999;
 }
+
+// #box /deep/ .van-nav-bar {
+// 	.van-icon{
+// 		color: #999 !important;
+// 	}
+// 	.van-nav-bar__text{
+// 		color: #999 !important;
+// 	}
+// }
 </style>

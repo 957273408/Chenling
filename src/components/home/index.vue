@@ -1,5 +1,7 @@
 <template>
   <div>
+    <div id="zuan"
+         @click="$router.push({path:'/addvip'})">赚</div>
     <header>
       <van-swipe :autoplay="3000"
                  indicator-color="#21A2E6">
@@ -16,7 +18,8 @@
       </router-link>
     </header>
     <main>
-      <nav class="flex-wrap">
+      <nav class="flex-wrap"
+           @click="toast_">
         <router-link v-for="(item, index) in yuyue"
                      :key="index"
                      to=""
@@ -43,62 +46,49 @@
       </section>
       <router-link class="banner"
                    tag="div"
-                   to="/pharmacy">
+                   :to="'/pharmacy?id='+img[0].ad_id">
         <img :src="img[0].ad_code"
              alt="">
       </router-link>
       <section class="happly-go">
+        <img class="img"
+             src="@/assets/images/正在乐拼.png"
+             alt="">
         <div class="top">
           <h2>正在乐拼</h2>
-          <span>查看全部</span>
+          <router-link tag="span"
+                       to="/nowhapply">查看全部</router-link>
         </div>
-        <van-swipe indicator-color="white">
-          <van-swipe-item>
-            <div class="item">
-              <img src="@/assets/icon/图层136拷贝@2x.png"
+        <van-swipe v-if="showhapply"
+                   indicator-color="white">
+          <van-swipe-item v-for="(items, index) in groupList.goodsinfo"
+                          :key="index">
+            <router-link :to="'/details?goods_id='+item.goods_id+'&prom_type=6&islq=true'"
+                         tag="div"
+                         v-for="(item, index) in items"
+                         :key="index"
+                         class="item">
+              <img :src="item.good_img"
                    alt="">
               <p>
-                鱼跃电子血压计医用家用全自动
-                高精准上臂式测量仪器
+                {{item.goods_name}}
               </p>
               <div class="pice">
-                <span>¥99</span>
-                <del>¥199</del>
+                <span>¥{{item.shop_price}}</span>
+                <del>¥{{item.market_price}}</del>
               </div>
-            </div>
-            <div class="item">
-              <img src="@/assets/icon/图层136拷贝@2x.png"
-                   alt="">
-              <p>
-                鱼跃电子血压计医用家用全自动
-                高精准上臂式测量仪器
-              </p>
-              <div class="pice">
-                <span>¥99</span>
-                <del>¥199</del>
-              </div>
-            </div>
-            <div class="item">
-              <img src="@/assets/icon/图层136拷贝@2x.png"
-                   alt="">
-              <p>
-                鱼跃电子血压计医用家用全自动
-                高精准上臂式测量仪器
-              </p>
-              <div class="pice">
-                <span>¥99</span>
-                <del>¥199</del>
-              </div>
-            </div>
+            </router-link>
 
           </van-swipe-item>
-          <van-swipe-item>2</van-swipe-item>
-          <van-swipe-item>3</van-swipe-item>
-          <van-swipe-item>4</van-swipe-item>
         </van-swipe>
+        <div class="gohapply"
+             v-else>
+          暂时没有商品快开始乐拼吧
+        </div>
       </section>
 
-      <section class="hserve">
+      <section class="hserve"
+               @click="toast_">
         <t-title title='医疗服务'>
           <router-link to=""
                        class="more"
@@ -114,7 +104,7 @@
         </div>
       </section>
       <section class="banner">
-        <router-link to="/pharmacy">
+        <router-link :to="'/pharmacy?id='+img[1].ad_id">
           <img :src="img[1].ad_code"
                alt="">
         </router-link>
@@ -141,62 +131,99 @@
       <section class="pharmacy">
         <div class="top">
           <p class="left"><span>亿长寿</span>大药房</p>
-          <router-link to=""
+          <router-link to="/nowhapply"
                        class="more"
                        slot="right">
             更多
           </router-link>
         </div>
-        <div class="content">
+        <div class="content"
+             v-if="category_seven.length">
           <div class="item">
-            <div>
-              <img src="../../assets/images/药房1.png"
-                   alt="">
+            <div class="imt">
+              <router-link :to="`/pharmacy?id=${category_seven[0].id}`"
+                           tag="div">
+                <img :src="category_seven[0].image"
+                     alt="">
+                <div class="title">{{category_seven[0].name}}</div>
+                <div class="tex">{{category_seven[0].sub_name}}</div>
+                <button class="btn">go</button>
+              </router-link>
             </div>
             <div>
-              <div>
-                <img src="../../assets/images/男性健康.png"
+              <router-link :to="`/pharmacy?id=${category_seven[1].id}`"
+                           class="imt2"
+                           tag="div">
+                <img :src="category_seven[1].image"
                      alt="">
-              </div>
-              <div><img src="../../assets/images/女性调养.png"
-                     alt=""></div>
+                <div class="title">{{category_seven[1].name}}</div>
+                <div class="tex">{{category_seven[1].sub_name}}</div>
+              </router-link>
+              <router-link :to="`/pharmacy?id=${category_seven[2].id}`"
+                           class="imt2"
+                           tag="div">
+                <img :src="category_seven[2].image"
+                     alt="">
+                <div class="title">{{category_seven[2].name}}</div>
+                <div class="tex">{{category_seven[2].sub_name}}</div>
+              </router-link>
+
             </div>
           </div>
           <div class="item">
-            <div>
-              <img src='../../assets/images/关爱长辈.png'
+            <router-link :to="`/pharmacy?id=${category_seven[3].id}`"
+                         class="imt3"
+                         tag="div">
+              <div class="title">{{category_seven[3].name}}</div>
+              <div class="tex">{{category_seven[3].sub_name}}</div>
+              <img :src="category_seven[3].image"
                    alt="">
-            </div>
-            <div>
-              <img src='../../assets/images/儿童用药.png'
+            </router-link>
+            <router-link :to="`/pharmacy?id=${category_seven[4].id}`"
+                         class="imt3"
+                         tag="div">
+              <div class="title">{{category_seven[4].name}}</div>
+              <div class="tex">{{category_seven[4].sub_name}}</div>
+              <img :src="category_seven[4].image"
                    alt="">
-            </div>
-            <div>
-              <img src='../../assets/images/肝胆专区.png'
+            </router-link>
+            <router-link :to="`/pharmacy?id=${category_seven[5].id}`"
+                         class="imt3"
+                         tag="div">
+              <div class="title">{{category_seven[5].name}}</div>
+              <div class="tex">{{category_seven[5].sub_name}}</div>
+              <img :src="category_seven[5].image"
                    alt="">
-            </div>
-            <div>
-              <img src='../../assets/images/心脑血管.png'
+            </router-link>
+            <router-link :to="`/pharmacy?id=${category_seven[6].id}`"
+                         class="imt3"
+                         tag="div">
+              <div class="title">{{category_seven[6].name}}</div>
+              <div class="tex">{{category_seven[6].sub_name}}</div>
+              <img :src="category_seven[6].image"
                    alt="">
-            </div>
+            </router-link>
 
           </div>
         </div>
       </section>
       <section class="banner">
-        <img :src="img[2].ad_code"
-             alt="">
+        <router-link to="/addvip">
+          <img :src="img[2].ad_code"
+               alt="">
+        </router-link>
       </section>
       <section class="banner">
-        <img :src="img[3].ad_code"
-             alt="">
+        <router-link to="/pharmacytype?id=52">
+          <img :src="img[3].ad_code"
+               alt="">
+        </router-link>
       </section>
-      <section class="hot_to">
+      <section class="hot_to"
+               @click="toast_">
         <div class="content">
           <div class="top">
-            <!-- <router-link to="" tag="li" v-for="(item, index) in category_eight.slice(0, 3)" :key="index">
 
-            </router-link> -->
             <li>
               <img src="@/assets/images/药丸.png"
                    alt="">
@@ -206,20 +233,20 @@
             <li>
               <img src="@/assets/images/药丸.png"
                    alt="">
-              <p>中西药品</p>
-              <span>下单<em>减120元</em></span>
+              <p>隐形眼镜</p>
+              <span>下单<em>立减158元</em></span>
             </li>
             <li>
               <img src="@/assets/images/药丸.png"
                    alt="">
-              <p>中西药品</p>
-              <span>下单<em>减120元</em></span>
+              <p>药妆个护</p>
+              <span>大牌<em>199减100元</em></span>
             </li>
             <li>
               <img src="@/assets/images/药丸.png"
                    alt="">
-              <p>中西药品</p>
-              <span>下单<em>减120元</em></span>
+              <p>医疗器械</p>
+              <span>低至<em>1.1元</em></span>
             </li>
 
           </div>
@@ -253,8 +280,10 @@
         </div>
       </section>
       <div class="banner">
-        <img :src="img[4].ad_code"
-             alt="">
+        <router-link to="/pharmacytype?id=52">
+          <img :src="img[4].ad_code"
+               alt="">
+        </router-link>
       </div>
       <div class="hot_buy">
         <t-title title="热卖好货"></t-title>
@@ -265,7 +294,7 @@
                        class="item">
             <img :src="item.good_img"
                  alt="">
-            <div class="t">汤臣倍健 褪黑素片 400mg/片*60</div>
+            <div class="t">{{item.goods_name}}</div>
             <div class="info">
               <div class="pice">{{item.shop_price}}</div>
               <div class="del">{{item.market_price}}</div>
@@ -280,7 +309,7 @@
 
 <script>
 import TTitle from './compontes/Ttitle'
-import { Swipe, SwipeItem, Search, } from 'vant';
+import { Swipe, SwipeItem, Search, Toast } from 'vant';
 import { gethome } from '@/axios/getData'
 export default {
   components: {
@@ -288,9 +317,11 @@ export default {
     'van-swipe-item': SwipeItem,
     'van-search': Search,
     TTitle,
+    Toast
   },
   data() {
     return {
+      showhapply: false,
       banner: [],
       category_eight: [],
       category_seven: [],
@@ -299,11 +330,13 @@ export default {
       hot_product: [],
       img: [{ ad_code: '' }, { ad_code: '' }, { ad_code: '' }, { ad_code: '' }, { ad_code: '' }],
       yuyue: [],
+      groupList: [],
     }
   },
   async created() {
+
     let res = await gethome()
-    console.log(res.data);
+    console.log(res);
     this.banner = res.data.banner
     this.category_eight = res.data.category_eight
     this.category_seven = res.data.category_seven
@@ -312,6 +345,16 @@ export default {
     this.hot_product = res.data.hot_product
     this.img = res.data.img
     this.yuyue = res.data.yuyue
+    this.groupList = res.data.groupList
+    if (this.groupList.goodsinfo) {
+      this.showhapply = true
+    }
+    this.$forceUpdate()
+  },
+  methods: {
+    toast_() {
+      Toast("该功能暂未开放")
+    }
   }
 }
 </script>
@@ -322,6 +365,20 @@ export default {
 <style>
 .van-tabbar-item__icon img {
   width: auto;
+}
+#zuan {
+  position: fixed;
+  left: 85%;
+  top: 80%;
+  background: #f51710;
+  border-radius: 50%;
+  width: 30pt;
+  line-height: 30pt;
+  text-align: center;
+  font-size: 16pt;
+  font-weight: 600;
+  color: #fff;
+  z-index: 1000;
 }
 </style>
 

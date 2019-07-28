@@ -157,14 +157,6 @@ export default new Router({
       }
     },
     {
-      path: '/nowhapply',
-      name: 'nowhapply',
-      component: () => import('../components/happygo/nowhapply.vue'),
-      meta: {
-        title: '正在乐拼'
-      }
-    },
-    {
       path: '/classify',
       name: 'classify',
       component: () => import('../components/pharmacy/classify.vue'),
@@ -181,16 +173,14 @@ export default new Router({
       }
     },
     {
-        path: '/tixian',
-        name: 'tixian',
-        component: () =>
-            import ('../components/pages/qianbao/tixian')
+      path: '/tixian',
+      name: 'tixian',
+      component: () => import('../components/pages/qianbao/tixian')
     },
     {
-        path: '/chongzhi',
-        name: 'chongzhi',
-        component: () =>
-            import ('../components/pages/qianbao/chongzhi')
+      path: '/chongzhi',
+      name: 'chongzhi',
+      component: () => import('../components/pages/qianbao/chongzhi')
     },
     {
       path: '/xiangmushu',
@@ -208,22 +198,19 @@ export default new Router({
       component: () => import('../components/pages/mymsg.vue')
     },
     {
-        path: '/shouhuodizhi',
-        name: 'shouhuodizhi',
-        component: () =>
-            import ('../components/pages/shezhi/shouhuodizhi.vue')
+      path: '/shouhuodizhi',
+      name: 'shouhuodizhi',
+      component: () => import('../components/pages/shezhi/shouhuodizhi.vue')
     },
     {
-        path: '/address',
-        name: 'address',
-        component: () =>
-            import ('../components/pages/shezhi/address.vue')
+      path: '/address',
+      name: 'address',
+      component: () => import('../components/pages/shezhi/address.vue')
     },
     {
-        path: '/jiangjin',
-        name: 'jiangjin',
-        component: () =>
-            import ('../components/pages/qianbao/jiangjin.vue')
+      path: '/jiangjin',
+      name: 'jiangjin',
+      component: () => import('../components/pages/qianbao/jiangjin.vue')
     },
     {
       path: '/mymsg',
@@ -231,16 +218,15 @@ export default new Router({
       component: () => import('../components/pages/mymsg.vue')
     },
     {
-        path: '/yongjin',
-        name: 'yongjin',
-        component: () =>
-            import ('../components/pages/qianbao/yongjin.vue')
+      path: '/yongjin',
+      name: 'yongjin',
+      component: () => import('../components/pages/qianbao/yongjin.vue')
     },
     {
       path: '/myfirends',
       name: 'myfirends',
       component: () => import('../components/pages/huodong/myfirends.vue'),
-      meta:{ title:"我的朋友" }
+      meta: { title: '我的朋友' }
     },
     {
       path: '/shoucang',
@@ -253,40 +239,34 @@ export default new Router({
       component: () => import('../components/pages/shouhou/myorder.vue')
     },
     {
-        path: '/myset',
-        name: 'myset',
-        component: () =>
-            import ('../components/pages/shezhi/myset.vue')
+      path: '/myset',
+      name: 'myset',
+      component: () => import('../components/pages/shezhi/myset.vue')
     },
     {
-        path: '/user_info',
-        name: 'user_info',
-        component: () =>
-            import ('../components/pages/shezhi/user_info.vue')
+      path: '/user_info',
+      name: 'user_info',
+      component: () => import('../components/pages/shezhi/user_info.vue')
     },
     {
-        path: '/bankCard',
-        name: 'bankCard',
-        component: () =>
-            import ('../components/pages/shezhi/bankCard.vue')
+      path: '/bankCard',
+      name: 'bankCard',
+      component: () => import('../components/pages/shezhi/bankCard.vue')
     },
     {
-        path: '/setCard',
-        name: 'setCard',
-        component: () =>
-            import ('../components/pages/shezhi/setCard.vue')
+      path: '/setCard',
+      name: 'setCard',
+      component: () => import('../components/pages/shezhi/setCard.vue')
     },
     {
-        path: '/setPhonePwd',
-        name: 'setPhonePwd',
-        component: () =>
-            import ('../components/pages/shezhi/setPhonePwd.vue')
+      path: '/setPhonePwd',
+      name: 'setPhonePwd',
+      component: () => import('../components/pages/shezhi/setPhonePwd.vue')
     },
     {
-        path: '/jiangYongJiFen',
-        name: 'jiangYongJiFen',
-        component: () =>
-            import ('../components/pages/qianbao/jiangYongJiFen.vue')
+      path: '/jiangYongJiFen',
+      name: 'jiangYongJiFen',
+      component: () => import('../components/pages/qianbao/jiangYongJiFen.vue')
     },
     {
       path: '/orderQuery',
@@ -316,10 +296,9 @@ export default new Router({
       component: () => import('../components/pages/shouhou/shenqinghuanhuo.vue')
     },
     {
-        path: '/shenqingshouhou',
-        name: 'shenqingshouhou',
-        component: () =>
-            import ('../components/pages/shouhou/shenqingshouhou.vue')
+      path: '/shenqingshouhou',
+      name: 'shenqingshouhou',
+      component: () => import('../components/pages/shouhou/shenqingshouhou.vue')
     },
     {
       path: '/wodedingdan',
@@ -356,7 +335,7 @@ export default new Router({
       path: '/mingpian',
       name: 'mingpian',
       component: () => import('../components/pages/huodong/mingpian.vue'),
-      meta:{ title:"名片" }
+      meta: { title: '名片' }
     },
     {
       path: '/jifenshangcheng',
@@ -367,14 +346,14 @@ export default new Router({
     {
       path: '/choujiang',
       name: 'choujiang',
-      component: () =>import ('../components/pages/choujiang.vue'),
-      meta:{ title:"抽奖" }
+      component: () => import('../components/pages/choujiang.vue'),
+      meta: { title: '抽奖' }
     },
     {
       path: '/hehuoren',
       name: 'hehuoren',
-      component: () =>import ('../components/pages/hehuoren/hehuoren.vue'),
-      meta:{ title:"申请合伙人" }
+      component: () => import('../components/pages/hehuoren/hehuoren.vue'),
+      meta: { title: '申请合伙人' }
     },
     {
       path: '/help_detali',
@@ -385,8 +364,7 @@ export default new Router({
     {
       path: '/test',
       name: 'test',
-      component: () =>
-          import ('../components/pages/test.vue')
-    },
+      component: () => import('../components/pages/test.vue')
+    }
   ]
 })

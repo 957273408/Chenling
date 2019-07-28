@@ -1,6 +1,7 @@
 <template>
-  <div class="evaluate">
-    <div class="header flex-center-y">
+  <div class="evaluate" id="box">
+    <!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar> -->
+    <div class="header flex-center-y" style="margin-top:40pt;">
       <img src="@/assets/images/图层111.png" alt="">
       <div class="rate flex_1">
         <p class="title">评分</p>
@@ -24,12 +25,13 @@
 </template>
 
 <script>
-import { Icon, Rate, Uploader, Toast } from 'vant';
+import { Icon, Rate, Uploader, Toast, NavBar } from 'vant';
 export default {
   components: {
     'van-icon': Icon,
     'van-uploader': Uploader,
-    'van-rate': Rate
+    'van-rate': Rate,
+    vanNavBar:NavBar
   },
   data() {
     return {
@@ -144,4 +146,12 @@ export default {
     box-shadow: 0 4px 16px #b3edf6;
   }
 }
+// #box /deep/ .van-nav-bar {
+//   .van-icon{
+//   	color: #999 !important;
+//   }
+//   .van-nav-bar__text{
+//   	color: #999 !important;
+//   }
+// }
 </style>

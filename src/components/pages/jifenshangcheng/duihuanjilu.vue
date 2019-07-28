@@ -1,28 +1,35 @@
-
-
-
 <!--兑换积分-->
 <template>
-  <div>
+  <div id="box">
+    
+<!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar> -->
     <van-list>
       <div class="list">
-        <div class="item flex">
+        <div class="item flex" v-for="(item,index) in data.goods_list" :key="index">
           <img src="@/assets/images/图层90拷贝@2x.png">
           <div class="info flex_1">
-            <p class="title">iPhone XS  256GB 金色</p>
-            <p class="price">50000积分</p>
-            <div class="button flex-center">查看详情</div>
+            <p class="title">{{item.goods_name}}</p>
+            <p class="price">{{item.intergral}}积分</p>
+            <div class="button flex-center" @click="detali(item.order_id)">查看详情</div>
           </div>
         </div>
-	    <div class="item flex">
+        <div class="button_more" v-if="data.goods_list.length>0">
+          <van-button round @click="more" :class="{jinyong:data.count==data.goods_list.length}">{{data.count==data.goods_list.length?"没有更多数据了":"加载更多"}}</van-button>
+        </div>
+      </div>
+	    <!-- <div class="item flex">
           <img src="@/assets/images/图层93拷贝@2x.png">
           <div class="info flex_1">
+
+
+
+
             <p class="title">DJI 大疆无人机 御Mavic 2</p>
             <p class="price">50000积分</p>
             <div class="button flex-center">查看详情</div>
           </div>
         </div>
-      </div>
+      </div> -->
     </van-list>
     <van-popup v-model="popup">
       <div class="popup">
@@ -30,27 +37,27 @@
         <div class="info">
           <div>
             <div class="item1">兑换商品:</div>
-            <div>iPhone XS  256GB 金色</div>
+            <div>{{duihuan_detali.goods_name}}</div>
           </div>
           <div>
             <div class="item1">花费积分:</div>
-            <div>50000积分</div>
+            <div>{{duihuan_detali.intergral}}积分</div>
           </div>
           <div>
             <div class="item1">收件人:</div>
-            <div>林小七</div>
+            <div>{{duihuan_detali.consignee}}</div>
           </div>
           <div>
             <div class="item1">联系方式:</div>
-            <div>18888888888</div>
+            <div>{{duihuan_detali.mobile}}</div>
           </div>
           <div>
             <div class="item3">收货地址:</div>
-            <div>街道牛栏前大厦B1215广东省深圳市龙华新区民治广东省深圳市龙华新区民治广东省深圳市龙华新区民治</div>
+            <div>{{duihuan_detali.address}}</div>
           </div>
           <div>
             <div class="item1">发货状态:</div>
-            <div>已发货<br><div>顺丰快递(8888888888888888888)</div></div>
+            <div>{{duihuan_detali.shipping_status==0?'未发货':'已发货'}}<br><div>{{duihuan_detali.shipping_status==0?'':duihuan_detali.shipping_code}}({{duihuan_detali.shipping_status==0?'':duihuan_detali.invoice_no}})</div></div>
           </div>
         </div>
         <div class="button">
@@ -62,16 +69,46 @@
 </template>
 
 <script>
-import { List,Popup} from 'vant'
+import { List, Popup, Button} from 'vant';
+import { duihuan_jilu, duihuan_xq } from '@/axios/getData';
 export default {
   data(){
     return{
-      popup:true
+      popup:false,
+      data:{
+        goods_list:[]
+      },
+      duihuan_detali:{}
     }
+  },
+  created(){
+    this.getdata();
+  },
+  methods:{
+    async getdata(){
+      var res = await duihuan_jilu();
+      this.data=res.data;
+      console.log(res.data)
+    },
+    async detali(order_){
+      var res = await duihuan_xq({order_id:order_});
+      this.duihuan_detali=res.data;
+      this.popup=true;
+      console.log(res.data);
+    },
+    async more(){
+      if(this.data.count!=this.data.goods_list.length){
+        // console.log(464646)
+        this.data.p+=1;
+        var res = await duihuan_jilu({id:this.id_,p:this.data.p});
+        this.data.goods_list.push.apply(this.data.goods_list,res.data.goods_list)  //数组拼接
+      }
+    },
   },
   components: {
     'van-list': List,
-    'van-popup':Popup
+    'van-popup':Popup,
+    'van-button':Button
   },
 }
 //   data() {
@@ -171,6 +208,12 @@ export default {
       width:100%;
       display: flex;
       margin-bottom: 10pt;
+      &>div:nth-child(1){
+        width:25%;
+      }
+      &>div:nth-child(2){
+        width:75%;
+      }
     }
     .item1{
       width:50pt;
@@ -224,4 +267,25 @@ export default {
     }
   }
 }
+.button_more{
+  text-align: center;
+  margin:10pt;
+  .van-button{
+    background: linear-gradient(to right,#FE5900,#FF8500);
+    height:30pt;
+    color:#fff;
+    line-height:30pt;
+  }
+}
+.jinyong{
+  background: #ccc !important;
+}
+//    #box /deep/ .van-nav-bar {
+//   .van-icon{
+//   	color: #999 !important;
+//   }
+//   .van-nav-bar__text{
+//   	color: #999 !important;
+//   }
+// }
 </style>

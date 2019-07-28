@@ -1,12 +1,14 @@
 <template>
   <div class="myGold">
+    
+<!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar> style="margin-top:40pt;"vanNavBar:NavBar -->
     <div class="info">
       <div class="flex-between">
         <div class="left">
           <p class="text">佣金余额</p>
           <p class="num">3840.00</p>
         </div>
-        <router-link to="/withdrawDeposit" class="button flex-center">提现</router-link>
+        <router-link to="/tixian" class="button flex-center">提现</router-link>
       </div>
       <div class="flex">
         <div class="item flex_1">
@@ -31,15 +33,15 @@
         </div>
       </div>
     </van-list>
-	<div class="more">查看更多</div>
+	<div class="more" @click="$router.push({path:'/jiangYongJiFen'})">查看更多</div>
   </div>
 </template>
-
 <script>
-import { List } from 'vant'
+import { List, NavBar } from 'vant'
 export default {
   components: {
-    'van-list': List
+    'van-list': List,
+    vanNavBar:NavBar
   },
   data() {
     return {
@@ -141,4 +143,14 @@ export default {
     }
   }
 }
+
+
+//    .myGold /deep/ .van-nav-bar {
+//   .van-icon{
+//   	color: #999 !important;
+//   }
+//   .van-nav-bar__text{
+//   	color: #999 !important;
+//   }
+// }
 </style>

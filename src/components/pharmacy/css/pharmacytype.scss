@@ -2,10 +2,11 @@
 header{
   img{
     height:435px;
-    background-color: red;
   }
 }
 .list{
+  &>div{
+  width:100%;
   display: flex;
   flex-wrap: wrap;
   .item{
@@ -43,4 +44,5 @@ header{
       }
     }
   }
+}
 }

@@ -25,9 +25,11 @@ menu{
     .menu-list{
       @include fj();
       flex-wrap: wrap;
+      justify-content: flex-start !important;
       height: 284px;
       .menu_item{
         @include wh(120px,124px);
+        width:25%;
         text-align: center;
         margin: 0 0 36px;
         img{
@@ -54,8 +56,10 @@ menu{
 
 .hot_buy{
   .content{
+    &>div{
     display: flex;
     flex-wrap: wrap;
+    width:100%;
     .item{
       width: 33.33%;
       box-sizing: border-box;
@@ -89,4 +93,5 @@ menu{
       }
     }
   }
+}
 }

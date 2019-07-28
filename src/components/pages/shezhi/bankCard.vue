@@ -1,5 +1,6 @@
 <template>
   <div class="backCrad">
+    <!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar> -->
     <div class="wrap" v-for="(item,index) in data" :key="index">
       <div class="con">
         <div class="flex-between">
@@ -30,13 +31,16 @@
 </template>
 
 <script>
-import { Dialog } from 'vant';
+import { Dialog, NavBar } from 'vant';
  import { bankList,bankedit, delBank } from '@/axios/getData';
 export default {
   data() {
     return {
       data: []
     }
+  },
+  components:{
+    vanNavBar:NavBar
   },
   created() {
     this.getData();
@@ -134,4 +138,13 @@ export default {
   width: 30px;
   top: -30px;
 }
+
+// .backCrad /deep/ .van-nav-bar {
+// 	.van-icon{
+// 		color: #999 !important;
+// 	}
+// 	.van-nav-bar__text{
+// 		color: #999 !important;
+// 	}
+// }
 </style>

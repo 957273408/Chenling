@@ -1,6 +1,9 @@
 <template>
   <div style="padding-bottom:50px;">
-    <div class="chat">
+    
+<van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar>
+    <!-- <van-button @click="more_" class="more">查看更多</van-button> -->
+    <div class="chat" style="margin-top:40pt;">
       <div class="item">
         <div class="info">
           <img :src="info.head_pic"
@@ -27,54 +30,96 @@
       <div class="tip">
         评论<span>({{info.count}})</span>
       </div>
-      <div class="item"
-           v-for="(item, index) in list"
-           :key="index">
-        <div class="info">
-          <img :src="item.head_pic"
-               alt="">
-          <p class="name">{{item.nickname}}</p>
-          <p class="time">{{item.add_time}}</p>
+
+      <van-list v-model="loading" :finished="finished" :offset="offset" @load="onLoad">
+        <div class="item"
+             v-for="(item, index) in list"
+             :key="index">
+          <div class="info">
+            <img :src="item.head_pic" alt="">
+            <p class="name">{{item.nickname}}</p>
+            <p class="time">{{item.add_time}}</p>
+          </div>
+          <div class="txt">{{item.content}}</div>
         </div>
-        <div class="txt">{{item.content}}</div>
-      </div>
+      </van-list>
+
     </div>
     <div class="commit">
-      <van-field v-model="value"
-                 placeholder="请输入用户名" />
+      <van-field v-model="value" placeholder="请输入评论内容" focus/>
       <button @click="sumbit">发表</button>
     </div>
   </div>
 </template>
 
 <script>
-import { Field, Toast } from 'vant';
+import { Field, Toast, List, Button, NavBar } from 'vant';
 import iszan from '@/assets/icon/AK-MN点赞_fill@2x.png'
 import zan from '@/assets/icon/AK-MN点赞@2x.png'
-import { messageInfo, clickzan, } from '@/axios/getData.js'
+import { messageInfo, clickzan, mefabiao} from '@/axios/getData.js'
 export default {
   components: {
     vanField: Field,
-
+    vanList: List,
+    vanButton: Button,
+    vanNavBar:NavBar 
   },
   data() {
     return {
       value: "",
-      info: {},
-      list: [],
+      info: {head_pic:""},
+      list: [
+        {
+          head_pic:""
+        }
+      ],
       iszan,
-      zan
+      zan,
+      finished:false,
+      loading:false,
+      offset:20,
+      p:1
     }
   },
   methods: {
     async sumbit() {
-
+      console.log(this.value);
+      console.log(this.$route.query.id,this.$route.query.comment_id)
+      if(!this.loading){
+        mefabiao({ id: this.$route.query.id, comment_id: this.$route.query.comment_id,content:this.value }).then(()=>{
+          this.getmsgInfo()
+          Toast("发表成功");
+        })
+      }
     },
     async getmsgInfo() {
       let res = await messageInfo({ id: this.$route.query.id, comment_id: this.$route.query.comment_id })
-      console.log(res);
+      console.log(res.data);
       this.info = res.data.info
       this.list = res.data.list
+    },
+
+    //上拉加载更多
+    async onLoad(){
+      if(this.loading){
+        this.p+=1;
+        messageInfo({ id: this.$route.query.id, comment_id: this.$route.query.comment_id,p:this.p }).then((res)=>{
+          this.list=this.list.concat(res.data.list)
+          this.loading=false;
+          if(this.list.length==res.data.count){
+            this.finished=true;
+            return;
+          }
+        })
+      }
+    },
+    async more_(){
+      // console.log(4574)
+      // this.p+=1;
+      // mefabiao({ id: this.$route.query.id, comment_id: this.$route.query.comment_id,p:this.p }).then((res)=>{
+      //   console.log(res.data)
+      //   this.list=this.list.concat(res.data.list)
+      // })
     },
     async clickZan() {
       let comment_id = this.$route.query.comment_id
@@ -227,5 +272,10 @@ export default {
     line-height: 25px;
     background-color: #fff;
   }
+}
+.more{
+  position: fixed;
+  left: 70%;
+  top:80%;
 }
 </style>

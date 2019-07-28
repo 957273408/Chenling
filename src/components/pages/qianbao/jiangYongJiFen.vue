@@ -1,7 +1,8 @@
 <template>
   <div id="box">
+<!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar> style="margin-top:40pt;"vanNavBar:NavBar -->
     <div class="collapse">
-      <van-cell title="2019年2月" is-link arrow-direction="down" />
+      <van-cell title="2019年2月" is-link arrow-direction="down" @click="timeShow = true"/>
       <van-cell title="全部类型" is-link arrow-direction="down" />
     </div>
     <div>
@@ -24,22 +25,37 @@
         </div>
       </van-list>
     </div>
+    <!-- 时间筛选 -->
+    <van-popup v-model="timeShow" position="bottom"  style="width:100%">
+      <van-datetime-picker v-model="currentDate" type="date" :min-date="new Date(1900, 1, 1)" :max-date="new Date()" @cancel="timeShow=false" @confirm="onConfirm"/>
+    </van-popup>
   </div>
 </template>
 
 <script>
-import {Cell,List} from 'vant';
+import {Cell,List, NavBar,DatetimePicker,Popup} from 'vant';
 import util from '../../utils/utils.js'
 export default {
   components: {
     "van-cell":Cell,
-    "van-list":List
+    "van-list":List,
+    vanNavBar:NavBar,
+    "van-datetime-picker":DatetimePicker,
+    "van-popup":Popup
   },
   data() {
     return {
-
+      timeShow:false,
+      currentDate:new Date()
     }
   },
+  methods:{
+    onConfirm(){
+      var date = new Date(e.getTime());
+      var dateTime = date.toLocaleString();
+      var time = dateTime.split(" ")[0].replace(/\//g,"-");     
+    }
+  }
 }
 //   created() {
 //     this.getData()

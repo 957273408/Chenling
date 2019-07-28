@@ -1,5 +1,6 @@
 <template>
 	<div id="box">
+		<!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar> -->
 		<van-steps direction="vertical" :active="0" active-color="red">
   			<van-step>
   			  <h3>已签收</h3>
@@ -25,7 +26,7 @@
 	</div>
 </template>
 <script>
-import {Steps,Step} from "vant";
+import {Steps,Step, NavBar} from "vant";
 import { express } from "@/axios/getData"
 export default {
 	data(){
@@ -34,15 +35,18 @@ export default {
 		}
 	},
 	created(){
-		this.getdata();
+		var id=this.$route.query.id_;
+		console.log(this.$route.query.id_)
+		this.getdata(id);
 	},
 	components:{
 		"van-steps":Steps,
 		"van-step":Step,
+		vanNavBar:NavBar
 	},
 	methods:{
-		async getdata(){
-			var res= await express();
+		async getdata(id){
+			var res= await express({order_id:id});
 			console.log(res.data);
 		}
 	}
@@ -69,4 +73,12 @@ export default {
 			color:red !important;
 		}
 	}
+// 	#box /deep/ .van-nav-bar {
+//   .van-icon{
+//   	color: #999 !important;
+//   }
+//   .van-nav-bar__text{
+//   	color: #999 !important;
+//   }
+// }
 </style>

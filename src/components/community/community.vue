@@ -73,6 +73,7 @@ export default {
       let user_id = this.$store.state.userInfo.user_id
       let res = await jiankangInfo({ id, p })
       this.info = res.data.info
+      console.log(this.info);
       this.list = res.data.list
       this.yes = res.data.yes
     },

@@ -1,18 +1,18 @@
 <template>
   <div class="container user">
+    <img src="@/assets/images/user_bg.png" alt="" style="position:absolute;z-index:-5;">
     <div class="head">
       <div class="info flex-center-y">
         <router-link to="user_info"
                      class="portrait flex-center">
-          <img :src="data.head_pic"
-               alt="">
+          <img :src="data.head_pic" alt="">
         </router-link>
         <div class="order">
-          <div class="flex-center-y">
+          <div class="flex12">
             <p class="name">{{data.nickname}}</p>
             <p class="identity">{{data.level_name}}</p>
           </div>
-          <p class="id">ID:{{data.user_no}}</p>
+          <!-- <p class="id">ID:{{data.user_no}}</p> -->
         </div>
         <div class="order myicon">
           <div class="flex-center-y"
@@ -26,18 +26,18 @@
           </div>
         </div>
         <div>
-
         </div>
       </div>
-
     </div>
-    <div class="jfqd flex22 " style="width:100%;padding:0 30pt;">   
-      <div id="hee" style="color:#5E402B;font-size:11pt"><img src="@/assets/icon/等级图标@2x.png" style="margin-right:5pt;" alt=""> 已为您赠送积分 <span style="margin-left:10pt;color:#E61F1F;font-weight:bold;font-size:11pt;">4862</span></div>
+    <div class="jfqd flex22 pd-5" style="width:100%;padding:0 30pt;">   
+      <div id="hee" class="fs-5" style="color:#5E402B;font-size:11pt"><img src="@/assets/icon/等级图标@2x.png" style="margin-right:5pt;" alt=""> 当前积分 
+      <span style="margin-left:10pt;color:#E61F1F;font-weight:bold;font-size:11pt;">{{data.pay_points?data.pay_points:"0"}}</span></div>
       <router-link to="/wodeqiandao" tag="button" style="width:70pt;line-height:18pt; border-radius:9pt;background:linear-gradient(to right,#FF462D,#FF9E3F);color:#fff;">
         马上签到
       </router-link>
     </div>
-    <div class="block flex column1"><!--跳转我的订单-->
+    <div class="block flex column1">
+      <!--跳转我的订单-->
       <router-link :to="{path: '/wodedingdan',query:{index:1}}"
                    class="item">
         <img src="@/assets/images/待付款.png"
@@ -70,7 +70,8 @@
       </router-link>
     </div>
     <div class="banner">
-      <router-link to="/news"><img src="@/assets/icon/海报1拷贝@2x.png" alt=""></router-link>
+      <router-link to="/news"><img src="@/assets/icon/海报1拷贝@2x.png"
+             alt=""></router-link>
     </div>
     <van-tabs v-model="active"
               title-active-color='#FF4C23'
@@ -92,8 +93,7 @@
                  alt="">
             <p>我的朋友</p>
           </router-link>
-          <router-link to="cellularState"
-                       class="item">
+          <router-link to="/mingpian" class="item">
             <img src="@/assets/images/邀请朋友.png"
                  alt="">
             <p>邀请朋友</p>
@@ -130,7 +130,8 @@
           </router-link>
         </div>
         <div class="banner">
-          <router-link to="/news"><img src="@/assets/icon/海报2拷贝@2x.png" alt=""></router-link>
+          <router-link to="/news"><img src="@/assets/icon/海报2拷贝@2x.png"
+                 alt=""></router-link>
         </div>
         <div class="block flex-wrap column2">
           <router-link to="/choujiang"
@@ -151,7 +152,7 @@
                  alt="">
             <p>修改资料</p>
           </router-link>
-          <router-link to="orderList"
+          <router-link to="/mykefu"
                        class="item">
             <img src="@/assets/images/联系客服.png"
                  alt="">
@@ -173,65 +174,69 @@
         </div>
       </van-tab>
       <van-tab title="合伙人中心">
-        <div slot="title">
+        <div slot="title" @click="hehuoren">
           <i class="iconfont icon-tianchongxing-"></i> 合伙人中心
         </div>
-        <div class="block flex-wrap column2" v-show="true">
-          <router-link to="orderList"
+        <div class="block flex-wrap column2" v-show="hehuoren_status[0]">
+          <router-link to="/nowhapply"
                        class="item">
             <img src="@/assets/images/乐拼.png"
                  alt="">
             <p>乐拼</p>
           </router-link>
-          <router-link to="cellularState"
+          <router-link to="/orderQuery"
                        class="item">
             <img src="@/assets/images/订单查询.png"
                  alt="">
             <p>乐拼订单查询</p>
           </router-link>
-          <router-link to="cellularState"
+          <router-link to="/myfirends"
                        class="item">
             <img src="@/assets/images/我的朋友.png"
                  alt="">
             <p>会员管理</p>
           </router-link>
-          <router-link to="cellularState"
+          <router-link to="/myfirends"
                        class="item">
             <img src="@/assets/images/合伙人.png"
                  alt="">
             <p>合伙人管理</p>
           </router-link>
-          <router-link to="cellularState"
+          <router-link to="/choujiang"
                        class="item">
             <img src="@/assets/images/抽奖.png"
                  alt="">
             <p>抽奖活动</p>
           </router-link>
-          <router-link to="cellularState"
+          <router-link to="/yongjin"
                        class="item">
             <img src="@/assets/images/佣金.png"
                  alt="">
             <p>我的佣金</p>
           </router-link>
-          <router-link to="cellularState"
+          <router-link to="/mingpian"
                        class="item">
             <img src="@/assets/images/名片.png"
                  alt="">
             <p>我的名片</p>
           </router-link>
         </div>
-		<div v-show="true" class="flex_1">
-          <img src="@/assets/images/哭.png" alt=""/>
-          <p class="p1">抱歉，您还不是代理商</p>
+        <div v-show="hehuoren_status[1]"
+             class="flex_1">
+          <img src="@/assets/images/哭.png"
+               alt="" />
+          <p class="p1">抱歉，您还不是合伙人</p>
           <p><span>3个月</span>内累计实际消费满<span>8000元</span>，才可</p>
-          <p class="p2">申请成为代理商</p>
+          <p class="p2">申请成为合伙人</p>
         </div>
-		<div v-show="true" class="flex_2">
-          <img src="@/assets/images/笑.png" alt=""/>
+        <div v-show="hehuoren_status[2]"
+             class="flex_2"  style="margin-top:20pt">
+          <img src="@/assets/images/笑.png"
+               alt="" />
           <p class="p1">恭喜，您已满足条件</p>
-          <p>您已满足申请代理商的条件，</p>
+          <p>您已满足申请合伙人的条件，</p>
           <p class="p2">赶快去申请吧！</p>
-		  <button @click="$router.push({path:'/hehuoren'})">马上申请</button>
+          <button @click="$router.push({path:'/hehuoren'})"  style="height:30pt">马上申请</button>
         </div>
       </van-tab>
     </van-tabs>
@@ -241,6 +246,7 @@
 
 <script>
 import { Icon, Tab, Tabs } from 'vant';
+import { userinfo, hehuoren_1 } from '@/axios/getData';
 export default {
   components: {
     'van-icon': Icon,
@@ -251,22 +257,42 @@ export default {
     return {
       data: {},
       active: 0,
+      hehuoren_status:[0,0,0]
     }
   },
   created() {
     this.getData()
   },
   methods: {
-    // async getData() {
-    //   var id = this.$route.query.id;
-    //   var res= await userinfo({id})
-    //   console.log(res.data)
-    //   this.data=res.data
-    //   }
+    async getData() {
+      var res= await userinfo()
+      console.log(res.data)
+      this.data=res.data
+    },
+    async hehuoren(){
+      var res = await hehuoren_1();
+      console.log(res.data)
+
+      if(res.data.userAgent.status==1&&res.data.userAgent.status==3){
+        this.$router.push({path:'/hehuoren',query:{status:res.data.userAgent.status,remark:res.data.userAgent.remark}});
+        return;
+      }
+      if(res.data.userType==0){
+        console.log(0)
+
+        this.$set(this.hehuoren_status,1,1);    //显示条件不足
+      }else if(res.data.userType==1){
+        console.log(1)
+
+        this.$set(this.hehuoren_status,2,1);    //显示可以申请或者申请了,在审核中 进一步判断
+      }else{
+        console.log(2)
+        this.$set(this.hehuoren_status,0,1);    //已经是合伙人显示菜单
+      }
+    }
   }
 }
 </script>
-
 <style scoped lang="scss">
 .jfqd {
   height: 104px;
@@ -289,7 +315,7 @@ export default {
   position: relative;
   .portrait {
     padding: 5px;
-    background: #64c6f7;
+    // background: #64c6f7;
     border-radius: 50%;
     img {
       width: 130px;
@@ -302,14 +328,17 @@ export default {
     margin-left: 25px;
     .name {
       font-size: 40px;
+      display: inline-block;
+      margin-bottom:10pt; 
     }
     .identity {
       font-size: 26px;
-      padding: 2px 14px;
-      background: #fff;
+      padding: 2px 20px;
+      background: rgba(0,0,0,.15);
       border-radius: 30px;
-      color: #2194e6;
-      margin-left: 14px;
+      color: #fff;
+      line-height: 20pt;
+
     }
     .id {
       margin-top: 10px;
@@ -415,7 +444,7 @@ p {
 }
 </style>
 
-<style lang="scss" >
+<style lang="scss" scoped >
 .myicon {
   position: absolute;
   right: 0px;
@@ -432,54 +461,54 @@ div /deep/ .van-tab--active {
   font-weight: 500;
   color: #ff4c23 !important;
 }
-.flex_1{  
+.flex_1 {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-weight: 600;
-  img{
-    width:50pt;
-    height:50pt;
+  img {
+    width: 50pt;
+    height: 50pt;
   }
-  p{
-	font-size: 13pt;
+  p {
+    font-size: 13pt;
   }
-  span{
-	  color:#f00;
+  span {
+    color: #f00;
   }
-  .p1{
-    margin:15pt 0;
+  .p1 {
+    margin: 15pt 0;
     font-size: 15pt;
   }
-  .p2{
-	margin:15pt 0;
+  .p2 {
+    margin: 15pt 0;
   }
 }
-.flex_2{  
+.flex_2 {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-weight: 600;
-  img{
-    width:50pt;
-    height:50pt;
+  img {
+    width: 50pt;
+    height: 50pt;
   }
-  p{
-	font-size: 13pt;
+  p {
+    font-size: 13pt;
   }
-  .p1{
-    margin:15pt 0;
+  .p1 {
+    margin: 15pt 0;
     font-size: 15pt;
   }
-  .p2{
-	margin:15pt 0;
+  .p2 {
+    margin: 15pt 0;
   }
-  button{
-	background:linear-gradient(to right,#FF462D,#FF9E3F);
-	display: inline-block;
-	width:50% !important;
-	height:50pt;
-	border-radius: 25pt !important;
+  button {
+    background: linear-gradient(to right, #ff462d, #ff9e3f);
+    display: inline-block;
+    width: 50% !important;
+    height: 50pt;
+    border-radius: 25pt !important;
   }
 }
 #hee{
@@ -490,5 +519,10 @@ div /deep/ .van-tab--active {
 .flex22{
   display: flex;
   justify-content: space-between
+}
+.flex12{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 </style>

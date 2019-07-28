@@ -1,5 +1,7 @@
 <template>
     <div id="top">
+        
+<!-- <van-nav-bar left-text="返 回" @click-left="$router.go(-1)" left-arrow style="background:#fff;height:40pt;border-bottom:1px solid #ccc;" fixed></van-nav-bar> style="margin-top:40pt;"vanNavBar:NavBar -->
         <div id="top1">
             <span>选择提现方式</span>
             <div @click="index=0" :class="{active:index==0}">
@@ -58,11 +60,15 @@
     </div>
 </template>
 <script>
+import { NavBar } from 'vant'
 export default {
     data(){
         return{
             index:2
         }
+    },
+    components:{
+        vanNavBar:NavBar
     }
 }
 </script>
@@ -175,7 +181,7 @@ export default {
        padding-bottom: 10pt;
        span{
            display: inline-block;
-           width:20%;
+           width:30%;
            text-align: right;
        }
        input{
@@ -189,4 +195,13 @@ export default {
 .height{
     margin:30pt 0 10px 0;
 }
+
+//    #top /deep/ .van-nav-bar {
+//   .van-icon{
+//   	color: #999 !important;
+//   }
+//   .van-nav-bar__text{
+//   	color: #999 !important;
+//   }
+// }
 </style>

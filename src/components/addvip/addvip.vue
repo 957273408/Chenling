@@ -1,19 +1,20 @@
 <template>
   <div class="vip">
-    <img src="@/assets/images/头图.png"
-         alt="">
-    <img src="@/assets/images/二.png"
-         alt="">
-    <img src="@/assets/images/三.png"
-         alt="">
+    <router-link v-for="item in banner"
+                 :key="item.ad_id"
+                 :to="item.ad_link">
+      <img :src="item.ad_code"
+           alt="">
+    </router-link>
     <div class="content">
       <div class="title">
         购买产品即可成为会员
       </div>
       <div class="l">
-        <router-link :to="'/details?id='+item.goods_id"
+        <router-link :to="'/details?goods_id='+item.goods_id"
                      tag="div"
-                     v-for="(item, index) in goods_list" :key="index"
+                     v-for="(item, index) in goods_list"
+                     :key="index"
                      class="item">
           <img :src="item.original_img"
                alt="">
@@ -117,17 +118,21 @@ import { addmember } from '@/axios/getData.js'
 export default {
   data() {
     return {
-      goods_list:[],
+      goods_list: [],
+      banner: []
     }
   },
   methods: {
     async getGoods(p = 1) {
-      let res = await addmember({p})
-      this.goods_list= res.data.goods_list
+      let res = await addmember({ p })
+      this.goods_list = res.data.goods_list
+      this.banner = res.data.banner
     }
   },
   created() {
-    this.getGoods(1)
+    this.getGoods(1);
+    document.documentElement.scrollTop = 0;   //页面高度过高时  滚动条位置置顶
+    document.body.scrollTop = 0;
   },
 }
 </script>
