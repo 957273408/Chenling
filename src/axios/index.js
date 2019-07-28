@@ -36,6 +36,8 @@ _axios.interceptors.response.use(
       return response.data
     } else if (response.data.code == 401) {
       Toast('请先登录')
+      // Toast(response.data.data.return_url)
+      // this.$router.push({ path: '/home' })  ||response.data.code == 303
       // alert(response.data.return_url)
       window.location.href = response.data.data.return_url
       // resolve(response.data)
@@ -77,16 +79,13 @@ Vue.use(Plugin)
 
 export const get = (url = '', data = {}) => {
   data.token =
-    store.state.userInfo.token ||
-    '22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm'
+    store.state.userInfo.token || ''
 
   return _axios.get(url, { params: data })
 }
 export const post = (url = '', data = {}) => {
-  // store.state.userInfo.token ||
-  data.token =
-    store.state.userInfo.token ||
-    '22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm'
+  // store.state.userInfo.token ||22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm
+  data.token = store.state.userInfo.token || ''
 
   return _axios.post(url, data)
 }
@@ -104,15 +103,13 @@ export const post = (url = '', data = {}) => {
 Vue.prototype.$toast = Toast
  function upImg (data = {}, headers = {}, loading = true) {
   return new Promise((resolve, reject) => {
-    data.token =
-    store.state.userInfo.token ||
-    '22_fhK1Xznuw_ZR-oLePd36XNDD-MFmG2UFQp_DtQKBLOPGUGrguD-DiD4S0AOMm'  
-    headers['Content-Type'] = 'multipart/form-data'
+    data.token = store.state.userInfo.token || ''
+    // data.append("token",store.state.userInfo.token||'')
     axios({
       url: 'http://ycs.rujiezhineng.net/api/upload/uploadImg',
       method: 'post',
       data: data,
-      headers: headers
+      headers:{'Content-Type': 'multipart/form-data'}
     }).then(response => {
       if (response.data.code == 200) {
         resolve(response.data)

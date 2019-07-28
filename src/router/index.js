@@ -175,52 +175,61 @@ export default new Router({
     {
       path: '/tixian',
       name: 'tixian',
-      component: () => import('../components/pages/qianbao/tixian')
+      component: () => import('../components/pages/qianbao/tixian'),
+      meta:{ title: "提现"}
     },
     {
       path: '/chongzhi',
       name: 'chongzhi',
-      component: () => import('../components/pages/qianbao/chongzhi')
+      component: () => import('../components/pages/qianbao/chongzhi'),
+      meta:{ title: "充值"}
     },
     {
       path: '/xiangmushu',
       name: 'xiangmushu',
-      component: () => import('../components/pages/huodong/xiangmushu')
+      component: () => import('../components/pages/huodong/xiangmushu'),
+      meta:{ title: "项目书"}
     },
     {
       path: '/youhuiquan',
       name: 'youhuiquan',
-      component: () => import('../components/pages/youhuiquan.vue')
+      component: () => import('../components/pages/youhuiquan.vue'),
+      meta:{ title: "我的优惠券"}
     },
-    {
-      path: '/mymsg',
-      name: 'mymsg',
-      component: () => import('../components/pages/mymsg.vue')
-    },
+    // {
+    //   path: '/mymsg',
+    //   name: 'mymsg',
+    //   component: () => import('../components/pages/mymsg.vue')
+    // },
     {
       path: '/shouhuodizhi',
       name: 'shouhuodizhi',
-      component: () => import('../components/pages/shezhi/shouhuodizhi.vue')
+      component: () => import('../components/pages/shezhi/shouhuodizhi.vue'),
+      meta:{ title: "收货地址"}
     },
     {
       path: '/address',
       name: 'address',
-      component: () => import('../components/pages/shezhi/address.vue')
+      component: () => import('../components/pages/shezhi/address.vue'),
+      meta:{ title: "添加地址"}
     },
     {
       path: '/jiangjin',
       name: 'jiangjin',
-      component: () => import('../components/pages/qianbao/jiangjin.vue')
+      component: () => import('../components/pages/qianbao/jiangjin.vue'),
+      meta:{ title: "我的奖金"}
     },
     {
       path: '/mymsg',
       name: 'mymsg',
-      component: () => import('../components/pages/mymsg.vue')
+      component: () => import('../components/pages/mymsg.vue'),
+      meta:{ title: "我的信息"}
     },
     {
       path: '/yongjin',
       name: 'yongjin',
-      component: () => import('../components/pages/qianbao/yongjin.vue')
+      component: () => import('../components/pages/qianbao/yongjin.vue'),
+      meta:{ title: "我的佣金"}
     },
     {
       path: '/myfirends',
@@ -231,7 +240,8 @@ export default new Router({
     {
       path: '/shoucang',
       name: 'shoucang',
-      component: () => import('../components/pages/shoucang.vue')
+      component: () => import('../components/pages/shoucang.vue'),
+      meta:{ title: "我的收藏"}
     },
     {
       path: '/myorder',
@@ -241,7 +251,8 @@ export default new Router({
     {
       path: '/myset',
       name: 'myset',
-      component: () => import('../components/pages/shezhi/myset.vue')
+      component: () => import('../components/pages/shezhi/myset.vue'),
+      meta:{ title: "我的设置"}
     },
     {
       path: '/user_info',
@@ -251,12 +262,14 @@ export default new Router({
     {
       path: '/bankCard',
       name: 'bankCard',
-      component: () => import('../components/pages/shezhi/bankCard.vue')
+      component: () => import('../components/pages/shezhi/bankCard.vue'),
+      meta:{ title: "我的银行卡"}
     },
     {
       path: '/setCard',
       name: 'setCard',
-      component: () => import('../components/pages/shezhi/setCard.vue')
+      component: () => import('../components/pages/shezhi/setCard.vue'),
+      meta:{ title: "添加银行卡"}
     },
     {
       path: '/setPhonePwd',
@@ -266,105 +279,139 @@ export default new Router({
     {
       path: '/jiangYongJiFen',
       name: 'jiangYongJiFen',
-      component: () => import('../components/pages/qianbao/jiangYongJiFen.vue')
+      component: () => import('../components/pages/qianbao/jiangYongJiFen.vue'),
+      meta:{ title: "详情"}
     },
     {
       path: '/orderQuery',
       name: 'orderQuery',
-      component: () => import('../components/pages/huodong/orderQuery.vue')
+      component: () => import('../components/pages/huodong/orderQuery.vue'),
+      meta: { title: '订单查询' }  //从个人中心(帮助中心) => 帮助中心
     },
     {
       path: '/duihuanjilu',
       name: 'duihuanjilu',
-      component: () =>
-        import('../components/pages/jifenshangcheng/duihuanjilu.vue')
+      component: () =>import('../components/pages/jifenshangcheng/duihuanjilu.vue'),
+      meta: { title: '兑换记录' }  //从个人中心(积分商城) => 积分商城(兑换记录) => 兑换记录
     },
     {
       path: '/help',
       name: 'help',
-      component: () => import('../components/pages/help.vue')
+      component: () => import('../components/pages/help.vue'),
+      meta: { title: '帮助中心' }  //从个人中心(帮助中心) => 帮助中心
+    },
+    {
+      path: '/kefu',
+      name: 'kefu',
+      component: () => import('../components/pages/kefu.vue'),
+      meta: { title: '客服' }  //从个人中心(帮助中心) => 帮助中心 => 客服
     },
     {
       path: '/shouhouxiangqing',
       name: 'shouhouxiangqing',
-      component: () =>
-        import('../components/pages/shouhou/shouhouxiangqing.vue')
+      component: () =>import('../components/pages/shouhou/shouhouxiangqing.vue'),
+      meta: { title: '售后详情' }  //从个人中心(我的订单) => 我的订单(订单详情) => 订单详情(申请售后) => 申请售后      
     },
     {
       path: '/shenqinghuanhuo',
       name: 'shenqinghuanhuo',
-      component: () => import('../components/pages/shouhou/shenqinghuanhuo.vue')
+      component: () => import('../components/pages/shouhou/shenqinghuanhuo.vue'),
+      meta:{ title: "申请换货"}
     },
     {
       path: '/shenqingshouhou',
       name: 'shenqingshouhou',
-      component: () => import('../components/pages/shouhou/shenqingshouhou.vue')
+      component: () => import('../components/pages/shouhou/shenqingshouhou.vue'),
+      meta:{ title: "申请售后"}
     },
     {
       path: '/wodedingdan',
       name: 'wodedingdan',
-      component: () => import('../components/pages/dingdan/wodedingdan.vue')
+      component: () => import('../components/pages/dingdan/wodedingdan.vue'),
+      meta:{ title: "我的订单"}
     },
     {
       path: '/dingdanxiangqing',
       name: 'dingdanxiangqing',
-      component: () =>
-        import('../components/pages/dingdan/dingdanxiangqing.vue')
+      component: () =>import('../components/pages/dingdan/dingdanxiangqing.vue'),
+      meta: { title: '马上签到' }  //从个人中心(马上签到) => 马上签到
     },
     {
       path: '/chakanwuliu',
       name: 'chakanwuliu',
-      component: () => import('../components/pages/dingdan/chakanwuliu.vue')
+      component: () => import('../components/pages/dingdan/chakanwuliu.vue'),
+      meta: { title: '查看物流' }  //从个人中心(我的订单) => 订单详情 => 查看物流
     },
     {
       path: '/pingjia',
       name: 'pingjia',
-      component: () => import('../components/pages/dingdan/pingjia.vue')
+      component: () => import('../components/pages/dingdan/pingjia.vue'),
+      meta: { title: '商品评价' }  // 
     },
     {
       path: '/wodeqiandao',
       name: 'wodeqiandao',
-      component: () => import('../components/pages/huodong/wodeqiandao.vue')
+      component: () => import('../components/pages/huodong/wodeqiandao.vue'),
+      meta: { title: '马上签到' }  //从个人中心(马上签到) => 马上签到
     },
     {
       path: '/shujuzhongxin',
       name: 'shujuzhongxin',
-      component: () => import('../components/pages/huodong/shujuzhongxin.vue')
+      component: () => import('../components/pages/huodong/shujuzhongxin.vue'),
+      meta: { title: '数据中心' }   //从个人中心(数据中心) => 数据中心
     },
     {
       path: '/mingpian',
       name: 'mingpian',
       component: () => import('../components/pages/huodong/mingpian.vue'),
-      meta: { title: '名片' }
+      meta: { title: '我的名片' } 
     },
     {
       path: '/jifenshangcheng',
       name: 'jifenshangcheng',
-      component: () =>
-        import('../components/pages/jifenshangcheng/jifenshangcheng.vue')
+      component: () =>import('../components/pages/jifenshangcheng/jifenshangcheng.vue'),
+      meta: { title: '积分商城' } // 个人中心(积分商城) => 积分商城
     },
     {
       path: '/choujiang',
       name: 'choujiang',
       component: () => import('../components/pages/choujiang.vue'),
-      meta: { title: '抽奖' }
+      meta: { title: '活动抽奖' } // 个人中心(抽奖活动) => 活动抽奖
     },
     {
       path: '/hehuoren',
       name: 'hehuoren',
       component: () => import('../components/pages/hehuoren/hehuoren.vue'),
-      meta: { title: '申请合伙人' }
+      meta: { title: '申请合伙人' } // 个人中心(合伙人中心) => (条件判断) 马上申请 => 申请合伙人
     },
     {
       path: '/help_detali',
       name: 'help_detali',
       component: () =>import ('../components/pages/help_detali.vue'),
-      meta:{ title:"帮助中心详情" }
+      meta:{ title:"帮助中心详情" }  // 个人中心(帮助中心) => 帮助中心详情
     },
     {
-      path: '/test',
-      name: 'test',
-      component: () => import('../components/pages/test.vue')
-    }
+      path: '/search_list',
+      name: 'search_list',
+      component: () =>import ('../components/search/search_list.vue'),
+      meta:{ title:"搜索列表" }
+    },
+    {/* 从我的订单中 提交订单  跳转到提交订单页面*/
+      path: '/myorder_uporder',
+      name: 'myorder_uporder',
+      component: () =>import ('../components/uporder/myorder_uporder.vue'),
+      meta:{ title:"提交订单" }
+    },
+    {/* 我的客服*/
+      path: '/mykefu',
+      name: 'mykefu',
+      component: () =>import ('../components/pages/kefu.vue'),
+      meta:{ title:"我的客服" }
+    },
+    // {
+    //   path: '/test',
+    //   name: 'test',
+    //   component: () => import('../components/pages/test.vue')
+    // }
   ]
 })

@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    <van-loading type="spinner"
-                 color="white"
-                 v-show="$store.state.loading" />
+    <van-loading type="spinner" color="white" v-show="$store.state.loading"/>
   </div>
 </template>
 
@@ -19,10 +17,9 @@ export default {
   }
 }
 </script>
-
 <style>
-
 #app {
+  width:100% !important;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -71,5 +68,25 @@ export default {
 .wallet .van-tab {
   background: #394b6d;
   color: #fff;
+}
+/*适配iphone5 320px */
+@media screen and (max-width: 320px) {
+    .fs-5{font-size: 8pt !important;}
+    .pd-5{padding:0 20pt !important;}
+    .flex-5{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      /* justify-content: space-between */
+    }
+    .p-5{
+      display: inline-block;
+      margin: 3pt 0;
+    }
+    .mt-5{margin-top:-260px !important;}
+}
+@keyframes myfirst{
+	0% {transform: rotate(0deg);}
+	100% {transform: rotate(360deg);}
 }
 </style>
